@@ -9,7 +9,7 @@ import { brands } from "@/data/brands";
 const featuredBrands = brands.slice(0, 8);
 
 const flagMap: Record<string, string> = {
-  Italy: "/flags/italy.png",
+  Italy: "/flags/italy-latest.png",
   India: "/flags/india.png",
   Switzerland: "/flags/switzerland.png",
 };

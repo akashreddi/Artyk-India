@@ -20,7 +20,6 @@ export function Footer() {
             <li><Link href="/about" className="underline-sweep">About</Link></li>
             <li><Link href="/brands" className="underline-sweep">Brands</Link></li>
             <li><Link href="/consulting" className="underline-sweep">Consulting</Link></li>
-            <li><Link href="/collaborations" className="underline-sweep">Collaborations</Link></li>
             <li><Link href="/contact" className="underline-sweep">Contact</Link></li>
           </ul>
         </div>

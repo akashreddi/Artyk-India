@@ -31,15 +31,15 @@ export default function SourcingPage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex items-end justify-between border-t border-cognac/25 pt-8">
             <h2 className="font-display text-[clamp(1.6rem,3vw,2.4rem)] font-light text-onyx">Partner houses</h2>
-            <Link href="/collaborations" className="font-sans text-[11px] uppercase tracking-[0.24em] text-forest underline-sweep">
-              All collaborations →
+            <Link href="/brands" className="font-sans text-[11px] uppercase tracking-[0.24em] text-forest underline-sweep">
+              All brands →
             </Link>
           </div>
           <div className="mt-6">
             {brands.map((b) => (
               <Link
                 key={b.slug}
-                href={`/collaborations/${b.slug}`}
+                href={`/brands/${b.slug}`}
                 className="group flex items-center justify-between gap-6 border-b border-cognac/15 py-6"
               >
                 <span className="font-display text-[clamp(1.4rem,3vw,2.2rem)] font-light text-onyx transition-colors group-hover:text-forest">

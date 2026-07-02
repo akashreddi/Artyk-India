@@ -116,13 +116,21 @@ export default async function BrandPage({
           </div>
 
           {/* CTA */}
-          <div className="mt-12">
+          <div className="mt-12 flex flex-wrap gap-5">
             <Link
               href="/contact"
               className="inline-block rounded-full bg-onyx px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory transition hover:bg-forest"
             >
               Discover {b.name} at Artyk, Hyderabad
             </Link>
+            <a
+              href={`https://instagram.com/${b.instagram}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full border border-cognac/40 px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:border-forest hover:text-forest"
+            >
+              @{b.instagram}
+            </a>
           </div>
         </Reveal>
       </section>

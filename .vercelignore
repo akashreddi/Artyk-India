@@ -1,0 +1,10 @@
+.git
+node_modules
+.next
+out
+build
+*.tsbuildinfo
+.DS_Store
+
+# 960MB master video that the site does not use (hero plays the -desktop/-mobile cuts)
+public/videos/artyk-intro.mp4

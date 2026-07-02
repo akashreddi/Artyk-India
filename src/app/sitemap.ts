@@ -5,7 +5,7 @@ import { org } from "@/data/org";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const staticPaths = ["", "/about", "/brands", "/consulting", "/collaborations", "/contact"];
+  const staticPaths = ["", "/about", "/brands", "/consulting", "/contact"];
   const staticRoutes: MetadataRoute.Sitemap = staticPaths.map((path) => ({
     url: `${org.url}${path}`,
     lastModified: now,

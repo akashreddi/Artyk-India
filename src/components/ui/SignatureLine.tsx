@@ -17,7 +17,7 @@ export default function SignatureLine() {
   const container = {
     hidden: {},
     visible: {
-      transition: { staggerChildren: reduce ? 0 : 0.45, delayChildren: reduce ? 0 : 0.2 },
+      transition: { staggerChildren: reduce ? 0 : 1.0, delayChildren: reduce ? 0 : 0.3 },
     },
   };
 
@@ -26,7 +26,7 @@ export default function SignatureLine() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: reduce ? 0.3 : 1.1, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: reduce ? 0.3 : 2.2, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 

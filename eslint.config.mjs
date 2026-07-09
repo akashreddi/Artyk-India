@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Sanity Studio is a separate sub-project with its own config/lint
+    // (npm --prefix sanity run ...); its build output and deps are huge
+    // generated bundles that crash ESLint with an OOM if linted here.
+    "sanity/**",
   ]),
 ]);
 

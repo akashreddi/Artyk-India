@@ -13,8 +13,8 @@ import { useEffect, useRef, useState } from "react";
  * Ported from Downloads/ArtykValuesRail.jsx and adapted to the project:
  *  • Palette mapped to the site tokens — forest (#2E4033) panel, corten
  *    (#A85838) accent — instead of the reference's brass gold.
- *  • Typography reuses the loaded next/font variables (Fraunces / Newsreader)
- *    rather than injecting Cormorant + Inter.
+ *  • Typography reuses the bundled local font variables (Palatino Linotype /
+ *    Creato Display Regular) rather than injecting external web fonts.
  *  • The demo page-bands were dropped; only the embeddable rail remains.
  *  • CSS scoped under `.artyk-values-rail` so the generic `.rail`/`.panel`
  *    selectors don't leak site-wide.
@@ -214,7 +214,7 @@ export default function ArtykValuesRail({ values = VALUES }: { values?: Value[] 
 
 const CSS = `
 .artyk-values-rail{
-  --forest:#2E4033;
+  --forest:#B59B87;
   --ivory:#F4F1E9;
   --accent:#A85838;
   color:var(--ivory);

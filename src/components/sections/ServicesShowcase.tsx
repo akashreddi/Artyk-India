@@ -16,7 +16,7 @@ import { useState } from "react";
  *    chapter shown with its image, number, title, description and list.
  *
  * Bespoke choreography CSS is scoped under `.artyk-services` so the reference's
- * generic selectors don't leak site-wide. Fonts reuse the project's next/font
+ * generic selectors don't leak site-wide. Fonts reuse the bundled local font
  * variables and the palette matches the Tailwind tokens.
  */
 

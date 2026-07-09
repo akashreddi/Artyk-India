@@ -9,10 +9,8 @@ export function CustomCursor() {
   const [active, setActive] = useState(false);
   const [enabled, setEnabled] = useState(false);
 
-  const dotX = useSpring(cursorX, { stiffness: 700, damping: 40, mass: 0.2 });
-  const dotY = useSpring(cursorY, { stiffness: 700, damping: 40, mass: 0.2 });
-  const ringX = useSpring(cursorX, { stiffness: 280, damping: 30, mass: 0.8 });
-  const ringY = useSpring(cursorY, { stiffness: 280, damping: 30, mass: 0.8 });
+  const cursorFollowX = useSpring(cursorX, { stiffness: 500, damping: 36, mass: 0.3 });
+  const cursorFollowY = useSpring(cursorY, { stiffness: 500, damping: 36, mass: 0.3 });
 
   useEffect(() => {
     const media = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -55,24 +53,17 @@ export function CustomCursor() {
   if (!enabled) return null;
 
   return (
-    <>
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9999] h-3 w-3 rounded-full bg-[#f8e4d3]"
-        style={{ x: dotX, y: dotY, translateX: "-50%", translateY: "-50%" }}
-        animate={{ scale: active ? 1.15 : 1 }}
-        transition={{ duration: 0.2 }}
-      />
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[9998] rounded-full border border-[#6d4b39]/65"
-        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
-        animate={{
-          width: active ? 40 : 28,
-          height: active ? 40 : 28,
-          opacity: active ? 0.92 : 0.8,
-          backgroundColor: active ? "rgba(195, 143, 112, 0.12)" : "rgba(255, 255, 255, 0.03)",
-        }}
-        transition={{ type: "spring", stiffness: 240, damping: 24 }}
-      />
-    </>
+    <motion.img
+      src="/images/about/Artyk Logo 04.png"
+      alt=""
+      draggable={false}
+      className="pointer-events-none fixed left-0 top-0 z-[9999] select-none"
+      style={{ x: cursorFollowX, y: cursorFollowY, translateX: "-50%", translateY: "-50%" }}
+      animate={{
+        width: active ? 92 : 72,
+        opacity: active ? 1 : 0.88,
+      }}
+      transition={{ type: "spring", stiffness: 280, damping: 30, mass: 0.8 }}
+    />
   );
 }

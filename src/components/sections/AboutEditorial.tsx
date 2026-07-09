@@ -7,8 +7,9 @@ import { useEffect, useRef } from "react";
  * design in ARTYK-ABOUT-US-PAGE-HTML.html. All bespoke CSS is scoped under
  * `.artyk-about` so the reference's bare `*`, `section`, `img` and `body`
  * selectors don't leak into the rest of the site. Fonts reuse the project's
- * loaded next/font variables (--font-display = Fraunces, --font-sans =
- * Newsreader) and the palette matches the Tailwind tokens.
+ * bundled local font variables (--font-display = Palatino Linotype,
+ * --font-sans = Creato Display Regular) and the palette matches the Tailwind
+ * tokens.
  *
  * The reference's vanilla-JS behaviours (word-mask headline reveal, scroll-scrub
  * quote, parallax spreads, count-up) are ported into the effect below, scoped to

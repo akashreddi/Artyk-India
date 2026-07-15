@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
 const links = [
   { href: "/about", label: "About" },
   { href: "/brands", label: "Brands" },
-  { href: "/consulting", label: "Consulting" },
+  { href: "/consulting", label: "Services" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -21,9 +22,16 @@ export function Header() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:px-8"
     >
-      <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between rounded-full px-6 py-3.5 text-onyx md:px-8">
-        <Link href="/" aria-label="ARTYK home" className="font-display text-xl uppercase leading-none tracking-[0.34em]">
-          ARTYK
+      <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-6 py-3.5 text-onyx md:px-8">
+        <Link href="/" aria-label="ARTYK home" className="shrink-0">
+          <Image
+            src="/images/about/artyk-logo-cropped.png"
+            alt="ARTYK"
+            width={599}
+            height={193}
+            priority
+            className="h-6 w-auto md:h-8"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -31,7 +39,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="underline-sweep text-[11px] font-medium uppercase tracking-[0.22em] text-cognac transition hover:text-forest"
+              className="underline-sweep text-[11px] font-medium uppercase tracking-[0.22em] text-[#212121] transition hover:text-[#212121]"
             >
               {item.label}
             </Link>
@@ -40,7 +48,7 @@ export function Header() {
 
         <Link
           href="/contact"
-          className="hidden rounded-full border border-forest/40 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-forest transition hover:bg-forest hover:text-ivory md:inline-block"
+          className="hidden rounded-full border border-[#212121]/40 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#212121] transition hover:bg-[#212121] hover:text-ivory md:inline-block"
         >
           By Appointment
         </Link>

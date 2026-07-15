@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { brands } from "@/data/brands";
 
 export function Footer() {
@@ -6,8 +7,13 @@ export function Footer() {
     <footer className="border-t border-cognac/20 bg-oat text-onyx">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-12 md:py-20">
         <div className="md:col-span-5">
-          <p className="font-display text-5xl uppercase leading-none tracking-[0.18em] md:text-6xl">ARTYK</p>
-          <p className="mt-3 font-display text-sm italic tracking-[0.25em] text-cognac">Curated Living</p>
+          <Image
+            src="/images/about/artyk-logo-cropped.png"
+            alt="ARTYK — Curated Living"
+            width={599}
+            height={193}
+            className="h-16 w-auto md:h-20"
+          />
           <p className="mt-5 max-w-md text-sm leading-relaxed text-cognac">
             A private gallery of collectible European furniture and lighting in Jubilee Hills —
             where sourcing, consulting, and craftsmanship meet. By appointment.
@@ -19,7 +25,7 @@ export function Footer() {
           <ul className="space-y-2.5">
             <li><Link href="/about" className="underline-sweep">About</Link></li>
             <li><Link href="/brands" className="underline-sweep">Brands</Link></li>
-            <li><Link href="/consulting" className="underline-sweep">Consulting</Link></li>
+            <li><Link href="/consulting" className="underline-sweep">Services</Link></li>
             <li><Link href="/contact" className="underline-sweep">Contact</Link></li>
           </ul>
         </div>

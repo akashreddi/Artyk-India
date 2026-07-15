@@ -3,8 +3,7 @@ import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import SignatureLine from "@/components/ui/SignatureLine";
 import BrandsTeaser from "@/components/sections/BrandsTeaser";
-import ServicesShowcase from "@/components/sections/ServicesShowcase";
-import ArtykValuesRail from "@/components/sections/ArtykValuesRail";
+import ArtykDifference from "@/components/sections/ArtykDifference";
 import MobileHomeScrollReset from "@/components/ui/MobileHomeScrollReset";
 
 export default function HomePage() {
@@ -32,12 +31,9 @@ export default function HomePage() {
       <section className="px-6 py-28 md:px-16 md:py-44">
         <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-9">
-            <h2 className="font-display text-[clamp(2.1rem,4.8vw,4.1rem)] font-light leading-[1.12] tracking-[-0.01em] text-onyx">
-              Artyk — Where{" "}
-              <span className="not-italic text-corten">Art</span>{" "}
-              <span className="italic">Meets Living</span>, &{" "}
-              <span className="not-italic text-corten">Design</span>{" "}
-              <span className="italic">Meets Distinction</span>.
+            <h2 className="font-display text-[32px] font-light leading-[1.12] tracking-[-0.01em] text-onyx md:text-[60px]">
+              Artyk — Experience{" "}
+              <span className="not-italic text-corten">Curated Luxury</span>.
             </h2>
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-cognac md:text-lg">
               Artyk brings you sprawling galleries of designer furniture by top-tier international
@@ -55,61 +51,56 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ───────────────── Values (horizontal rail) ───────────────── */}
-      <section className="pt-28 md:pt-40">
-        <div className="mx-auto mb-12 max-w-7xl px-6 md:mb-16 md:px-16">
-          <Reveal>
-            <h2 className="font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
-              What we believe.
-            </h2>
-          </Reveal>
-        </div>
-        <ArtykValuesRail />
-      </section>
-
-      {/* ───────────────── Services (from vision to installation) ───────────────── */}
-      <section className="px-6 py-28 md:px-16 md:py-40">
-        <div className="mx-auto max-w-[1440px]">
-          <div className="mb-14 flex items-baseline gap-4 md:mb-20">
+      {/* ───────────────── The Artyk Difference ───────────────── */}
+      <section className="px-6 py-16 md:px-16 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-10 flex items-baseline gap-4 md:mb-14">
             <div className="hidden h-px w-6 shrink-0 translate-y-[-0.4rem] bg-corten sm:block" />
             <Reveal>
-              <p className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-corten">
-                Our Services
-              </p>
-              <h2 className="mt-3 max-w-3xl font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
-                From first vision to final detail.
+              <h2 className="font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[60px]">
+                The Artyk Difference.
               </h2>
             </Reveal>
           </div>
-          <ServicesShowcase />
+          <ArtykDifference />
         </div>
       </section>
 
       {/* ───────────────── Brands (teaser) ───────────────── */}
-      <section className="px-6 py-28 md:px-16 md:py-40">
+      <section className="px-6 pt-16 pb-10 md:px-16 md:pt-24 md:pb-14">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <Reveal>
-              <h2 className="font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
-                Brands we curate.
-              </h2>
-            </Reveal>
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-baseline gap-4">
+              <div className="hidden h-px w-6 shrink-0 translate-y-[-0.4rem] bg-corten sm:block" />
+              <Reveal>
+                <p className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-corten">
+                  Our Collection
+                </p>
+                <h2 className="mt-3 max-w-3xl font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[60px]">
+                  A World of Exceptional Design
+                </h2>
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-cognac md:text-lg">
+                  From iconic Italian craftmanship to contemporary Indian design, our portfolio
+                  represents brands celebrated for innovation, quality, and timeless aesthetics.
+                </p>
+              </Reveal>
+            </div>
             <Link href="/brands" className="underline-sweep font-sans text-[11px] uppercase tracking-[0.24em] text-forest">
               View all brands
             </Link>
           </div>
-          <div className="mt-12 md:mt-16">
+          <div className="mt-6 md:mt-8">
             <BrandsTeaser />
           </div>
         </div>
       </section>
 
       {/* ───────────────── Showroom (asymmetric mosaic) ───────────────── */}
-      <section className="px-6 py-28 md:px-16 md:py-40">
+      <section className="px-6 pt-10 pb-28 md:px-16 md:pt-14 md:pb-40">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <h2 className="max-w-2xl font-display text-[clamp(2rem,4.2vw,3.6rem)] font-light leading-[1.08] tracking-[-0.01em] text-onyx">
-              Twenty-five thousand square feet, composed like a gallery.
+            <h2 className="max-w-2xl font-display text-[32px] font-light leading-[1.08] tracking-[-0.01em] text-onyx md:text-[60px]">
+              An Immersive Design Experience
             </h2>
           </div>
 
@@ -150,7 +141,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="mt-9 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-forest hover:text-ivory"
+            className="mt-9 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-[#212121] hover:text-ivory"
           >
             Request a Visit
           </Link>

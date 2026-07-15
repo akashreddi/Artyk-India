@@ -460,52 +460,58 @@ export default function AboutEditorial() {
         </div>
       </section>
 
-      {/* ================= VALUES ================= */}
+      {/* ================= TESTIMONIALS ================= */}
       <section className="values">
         <div className="wrap">
           <div className="kicker rv">
-            <span className="micro k">What We Hold True</span>
+            <span className="micro k">Testimonials</span>
             <span className="l" />
-            <span className="r">The Artyk values</span>
+            <span className="r">In their own words</span>
           </div>
-          <ul className="vlist">
-            <li className="rv">
-              <span className="vt">Design with Purpose</span>
-              <span className="vd">Good design should be both beautiful and meaningful.</span>
+          <ul className="tlist">
+            <li className="tcard rv">
+              <div className="tphoto">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" loading="lazy" />
+              </div>
+              <div className="ttext">
+                <p className="tquote">
+                  “Working with Artyk transformed our home into something we never imagined
+                  possible. Every detail was considered, every piece perfectly chosen.”
+                </p>
+                <span className="tname">Client Name</span>
+                <span className="trole">Homeowner, Jubilee Hills</span>
+              </div>
             </li>
-            <li className="rv d1">
-              <span className="vt">Craftsmanship Matters</span>
-              <span className="vd">Authenticity, quality, and the skill behind every detail.</span>
+            <li className="tcard tcard--rev rv d1">
+              <div className="tphoto">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" loading="lazy" />
+              </div>
+              <div className="ttext">
+                <p className="tquote">
+                  “Their eye for craftsmanship and design is unmatched. Artyk didn&apos;t just
+                  furnish our space — they elevated it.”
+                </p>
+                <span className="tname">Client Name</span>
+                <span className="trole">Interior Project, Hyderabad</span>
+              </div>
             </li>
-            <li className="rv d2">
-              <span className="vt">Timeless Over Temporary</span>
-              <span className="vd">Enduring design that transcends trends.</span>
-            </li>
-            <li className="rv d3">
-              <span className="vt">Relationships First</span>
-              <span className="vd">
-                The best projects are built on trust, collaboration, and shared vision.
-              </span>
+            <li className="tcard rv d2">
+              <div className="tphoto">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="" loading="lazy" />
+              </div>
+              <div className="ttext">
+                <p className="tquote">
+                  “From consultation to installation, the experience was seamless. Artyk brought a
+                  level of sophistication we didn&apos;t know we needed.”
+                </p>
+                <span className="tname">Client Name</span>
+                <span className="trole">Design Consultation Client</span>
+              </div>
             </li>
           </ul>
-          <div className="vm">
-            <div className="rv d1">
-              <hr />
-              <span className="micro">Our Vision</span>
-              <p>
-                To be India&apos;s leading destination for ultra-luxurious furniture — setting the
-                standard for excellence in design, quality, and customer service.
-              </p>
-            </div>
-            <div className="rv d2">
-              <hr />
-              <span className="micro">Our Mission</span>
-              <p>
-                To connect discerning clients with the world&apos;s finest design brands through
-                thoughtful curation, expert guidance, and end-to-end project solutions.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -699,22 +705,25 @@ const CSS = `
 @media(hover:hover){.artyk-about .index-row:hover{background:var(--ivory)}.artyk-about .index-row:hover .no{color:var(--corten)}}
 @media(max-width:800px){.artyk-about .index-row .no{grid-column:1/13}.artyk-about .index-row .t{grid-column:1/13;margin:4px 0 8px}.artyk-about .index-row .d{grid-column:1/13}}
 
-/* ================= VALUES (forest spread) ================= */
-.artyk-about .values{background:var(--forest);color:var(--ivory)}
-.artyk-about .values .micro{color:rgba(244,241,233,.52)}
-.artyk-about .values .kicker .l{background:rgba(244,241,233,.22)}
-.artyk-about .values .kicker .r{color:rgba(244,241,233,.5)}
-.artyk-about .vlist{list-style:none}
-.artyk-about .vlist li{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2.6vw,44px);align-items:baseline;padding:clamp(18px,2.6vw,30px) 0;border-top:1px solid rgba(244,241,233,.2)}
-.artyk-about .vlist li:last-child{border-bottom:1px solid rgba(244,241,233,.2)}
-.artyk-about .vlist .vt{grid-column:1/7;font-family:var(--font-display),serif;font-weight:300;font-size:clamp(1.6rem,3.6vw,2.9rem);line-height:1.1}
-.artyk-about .vlist .vd{grid-column:7/13;font-style:italic;color:rgba(244,241,233,.62)}
-@media(max-width:800px){.artyk-about .vlist .vt{grid-column:1/13}.artyk-about .vlist .vd{grid-column:1/13;margin-top:4px}}
-.artyk-about .vm{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);margin-top:clamp(56px,7vw,96px)}
-.artyk-about .vm p{color:rgba(244,241,233,.72);font-size:15.5px;margin-top:12px}
-.artyk-about .vm hr{border:none;border-top:1px solid rgba(244,241,233,.22);margin-bottom:14px}
-.artyk-about .vm .micro{color:rgba(244,241,233,.55)}
-@media(max-width:760px){.artyk-about .vm{grid-template-columns:1fr}}
+/* ================= TESTIMONIALS (camel spread) ================= */
+.artyk-about .values{background:#B69B87;color:var(--onyx)}
+.artyk-about .values .micro{color:rgba(31,36,32,.55)}
+.artyk-about .values .kicker .l{background:rgba(31,36,32,.22)}
+.artyk-about .values .kicker .r{color:rgba(31,36,32,.55)}
+.artyk-about .tlist{list-style:none;display:flex;flex-direction:column;gap:clamp(48px,8vw,88px);margin-top:clamp(40px,6vw,64px)}
+.artyk-about .tcard{display:flex;align-items:center;gap:clamp(32px,6vw,72px)}
+.artyk-about .tcard--rev{flex-direction:row-reverse}
+.artyk-about .tphoto{flex:none;width:clamp(140px,18vw,220px);height:clamp(140px,18vw,220px);border-radius:50%;overflow:hidden;background:rgba(31,36,32,.08)}
+.artyk-about .tphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.artyk-about .ttext{max-width:46ch}
+.artyk-about .tquote{font-style:italic;font-size:clamp(1.05rem,1.6vw,1.4rem);line-height:1.6;color:rgba(31,36,32,.8)}
+.artyk-about .tname{display:block;margin-top:20px;font-family:var(--font-display),serif;font-weight:400;font-size:1.1rem;color:var(--onyx)}
+.artyk-about .trole{display:block;margin-top:2px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(31,36,32,.55)}
+@media(max-width:800px){
+  .artyk-about .tcard,.artyk-about .tcard--rev{flex-direction:column;align-items:flex-start;text-align:left;gap:24px}
+  .artyk-about .tphoto{width:150px;height:150px}
+  .artyk-about .ttext{max-width:none}
+}
 
 /* ================= CLOSING ================= */
 .artyk-about .close{padding-bottom:clamp(150px,17vw,210px)}

@@ -48,7 +48,7 @@ export function ProductPageClient({ product, relatedProducts }: { product: Produ
         </div>
       </div>
       <div className="mx-auto mt-14 max-w-7xl md:mt-20">
-        <h2 className="mb-6 font-display text-3xl italic md:mb-8 md:text-4xl">Related Products</h2>
+        <h2 className="mb-6 font-display text-[30px] italic md:mb-8 md:text-[60px]">Related Products</h2>
         <div className="flex gap-6 overflow-x-auto">
           {relatedProducts.map((item) => (
             <article key={item._id} className="min-w-[220px] md:min-w-72">

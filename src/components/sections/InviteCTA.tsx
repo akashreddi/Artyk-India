@@ -13,7 +13,7 @@ export default function InviteCTA() {
         </h2>
         <Link
           href="/contact"
-          className="mt-8 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-forest hover:text-ivory"
+          className="mt-8 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-[#212121] hover:text-ivory"
         >
           Request a Visit
         </Link>

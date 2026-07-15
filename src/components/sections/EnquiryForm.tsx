@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const TYPES = ["Showroom Visit", "Consulting", "Sourcing", "General"];
+const TYPES = ["Showroom Visit", "Services", "Sourcing", "General"];
 
 const fieldCls =
   "w-full border-b border-cognac/30 bg-transparent py-3 text-onyx placeholder-cognac/50 outline-none transition focus:border-forest";
@@ -85,7 +85,7 @@ export default function EnquiryForm() {
         <button
           type="submit"
           disabled={status === "sending"}
-          className="rounded-full bg-onyx px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory transition hover:bg-forest disabled:opacity-60"
+          className="rounded-full bg-onyx px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory transition hover:bg-[#212121] disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : "Send Enquiry"}
         </button>

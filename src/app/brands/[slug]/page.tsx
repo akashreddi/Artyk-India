@@ -119,7 +119,7 @@ export default async function BrandPage({
           <div className="mt-12 flex flex-wrap gap-5">
             <Link
               href="/contact"
-              className="inline-block rounded-full bg-onyx px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory transition hover:bg-forest"
+              className="inline-block rounded-full bg-onyx px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-ivory transition hover:bg-[#212121]"
             >
               Discover {b.name} at Artyk, Hyderabad
             </Link>
@@ -127,7 +127,7 @@ export default async function BrandPage({
               href={`https://instagram.com/${b.instagram}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded-full border border-cognac/40 px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:border-forest hover:text-forest"
+              className="inline-block rounded-full border border-cognac/40 px-8 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:border-[#212121] hover:text-[#212121]"
             >
               @{b.instagram}
             </a>

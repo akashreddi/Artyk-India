@@ -60,7 +60,7 @@ function DifferenceCard({ item }: { item: DifferenceItem }) {
   return (
     <div className="flex gap-6 md:flex-col md:gap-0">
       {/* image */}
-      <div className="relative w-24 shrink-0 overflow-hidden rounded-md shadow-lg shadow-onyx/10 md:w-full">
+      <div className="relative w-24 shrink-0 overflow-hidden shadow-lg shadow-onyx/10 md:w-full">
         <div className="relative aspect-square w-full md:aspect-[4/5]">
           <Image
             src={item.image}

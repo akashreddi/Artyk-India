@@ -1,0 +1,828 @@
+<title>Artyk India — Website Changes, Summary &amp; Changelog</title>
+
+<style>
+  :root {
+    --ink: #1F2420;
+    --ink-soft: #3A403A;
+    --muted: #6B6E63;
+    --faint: #9A9B90;
+    --corten: #A85838;
+    --forest: #2E4033;
+    --paper: #EFEBE3;
+    --sheet: #F2EEE7;
+    --card-before: #FFFFFF;
+    --card-after: #E3DFD5;
+    --rule: rgba(31, 36, 32, 0.13);
+    --rule-strong: rgba(31, 36, 32, 0.22);
+    --backdrop: #DAD5CA;
+    --display: "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  /* The document is a printed artefact — the sheets stay paper in both
+     themes, exactly as a PDF would. Only the surrounding desk dims. */
+  @media (prefers-color-scheme: dark) { :root { --backdrop: #14170F; } }
+  :root[data-theme="dark"] { --backdrop: #14170F; }
+  :root[data-theme="light"] { --backdrop: #DAD5CA; }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--backdrop);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: clamp(16px, 4vw, 56px) clamp(12px, 3vw, 40px);
+  }
+
+  .doc { max-width: 940px; margin: 0 auto; display: flex; flex-direction: column; gap: clamp(16px, 3vw, 34px); }
+
+  .sheet {
+    background: var(--sheet);
+    padding: clamp(30px, 6vw, 76px) clamp(24px, 5.5vw, 72px);
+    box-shadow: 0 20px 60px rgba(20, 23, 15, 0.16);
+  }
+
+  /* ── cover ─────────────────────────────────────────────── */
+  .cover {
+    position: relative;
+    overflow: hidden;
+    background: #23271F;
+    color: #F4F1E9;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(40px, 7vw, 90px);
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(70% 55% at 78% 22%, rgba(168, 88, 56, 0.30), rgba(168, 88, 56, 0) 68%),
+      radial-gradient(90% 70% at 12% 88%, rgba(46, 64, 51, 0.55), rgba(46, 64, 51, 0) 70%);
+    pointer-events: none;
+  }
+  .cover > * { position: relative; }
+  .eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(244, 241, 233, 0.6);
+    margin: 0 0 clamp(20px, 3vw, 30px);
+  }
+  .cover h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.3rem, 6vw, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: -0.012em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .cover h1 .it { display: block; font-style: italic; color: #C4714E; }
+  .cover .lede {
+    max-width: 46ch;
+    margin: clamp(20px, 3vw, 28px) 0 0;
+    color: rgba(244, 241, 233, 0.74);
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+  .cover-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(26px, 6vw, 64px);
+    margin-top: clamp(34px, 6vw, 58px);
+    padding-top: clamp(20px, 3vw, 26px);
+    border-top: 1px solid rgba(244, 241, 233, 0.18);
+  }
+  .cover-meta dt {
+    font-size: 9.5px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 233, 0.5);
+    margin: 0 0 8px;
+  }
+  .cover-meta dd {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 1.28rem;
+    color: #F4F1E9;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── shared type ───────────────────────────────────────── */
+  h2.sheet-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .title-rule { width: 54px; height: 2px; background: var(--corten); margin: 14px 0 clamp(26px, 4vw, 38px); }
+
+  /* ── contents ──────────────────────────────────────────── */
+  .toc { list-style: none; margin: 0; padding: 0; }
+  .toc li {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    gap: 12px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .toc li:last-child { border-bottom: 1px solid var(--rule); }
+  .toc .n { font-family: var(--display); font-style: italic; color: var(--corten); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .toc .t { font-weight: 600; font-size: 14px; }
+  .toc .d { font-size: 12.5px; color: var(--muted); text-align: right; }
+  @media (max-width: 640px) {
+    .toc li { grid-template-columns: 34px 1fr; }
+    .toc .d { grid-column: 2; text-align: left; margin-top: 2px; }
+  }
+
+  /* ── change entries ────────────────────────────────────── */
+  .entry + .entry { margin-top: clamp(40px, 7vw, 76px); padding-top: clamp(34px, 6vw, 58px); border-top: 1px solid var(--rule); }
+  .entry-head { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+  .entry-num { font-family: var(--display); font-style: italic; color: var(--corten); font-size: 1.4rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
+  .entry-head h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.35rem, 2.7vw, 1.85rem);
+    line-height: 1.2;
+    margin: 0;
+    flex: 1 1 260px;
+    letter-spacing: -0.005em;
+  }
+  .tag {
+    align-self: center;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .entry > p.desc { color: var(--muted); margin: 12px 0 0; max-width: 68ch; font-size: 14px; }
+
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+  @media (max-width: 700px) { .pair { grid-template-columns: 1fr; } }
+
+  .card { padding: 20px 22px; }
+  .card.before { background: var(--card-before); border: 1px solid var(--rule); }
+  .card.after { background: var(--card-after); }
+  .card.full { grid-column: 1 / -1; }
+  .card-label {
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .before .card-label { color: #9E4A3C; }
+  .after .card-label { color: var(--forest); }
+  .card p { margin: 0 0 9px; font-size: 13.5px; line-height: 1.62; }
+  .card p:last-child { margin-bottom: 0; }
+  .card .quote { font-family: var(--display); font-size: 15.5px; line-height: 1.45; }
+  .card .quote.it { font-style: italic; }
+  .card ul { margin: 0; padding-left: 17px; font-size: 13.5px; line-height: 1.6; }
+  .card ul li + li { margin-top: 5px; }
+  .card strong { font-weight: 600; }
+  .corten { color: var(--corten); }
+
+  code, .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: rgba(31, 36, 32, 0.06);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .card.after code, .card.after .chip { background: rgba(31, 36, 32, 0.075); }
+  pre {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .note {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: rgba(168, 88, 56, 0.07);
+    border-left: 3px solid var(--corten);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .note strong { font-weight: 600; }
+
+  .swatches { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+  .sw { display: flex; align-items: center; gap: 10px; }
+  .sw i { width: 38px; height: 38px; display: block; border: 1px solid var(--rule); }
+  .sw span { font-size: 11.5px; line-height: 1.4; }
+  .sw b { display: block; font-weight: 600; font-size: 12.5px; }
+  .sw code { background: none; padding: 0; font-size: 11px; color: var(--muted); }
+  .arrow { color: var(--faint); font-size: 15px; }
+
+  table.spec { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+  table.spec th, table.spec td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  table.spec th {
+    font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--rule-strong);
+  }
+  table.spec td.brand { font-family: var(--display); font-size: 14.5px; white-space: nowrap; }
+  table.spec td.was { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(158,74,60,.5); }
+  table.spec td.now { font-weight: 600; }
+  .table-wrap { overflow-x: auto; }
+
+  .colophon {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    padding: 6px 0 0;
+  }
+  .colophon .mark { width: 46px; height: 2px; background: var(--corten); margin: 0 auto 16px; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .doc { gap: 0; max-width: none; }
+    .sheet { box-shadow: none; page-break-after: always; }
+    .entry { page-break-inside: avoid; }
+  }
+</style>
+
+<div class="doc">
+
+  <!-- ══ COVER ══ -->
+  <section class="sheet cover">
+    <p class="eyebrow">Artyk India — Site Development</p>
+    <h1>Website Changes<span class="it">Summary &amp; Changelog</span></h1>
+    <p class="lede">
+      A complete before-and-after record of every change made to the Artyk India website
+      during this working session — navigation, editorial copy, two rebuilt pages,
+      brand data, interaction design, and a full responsiveness pass.
+    </p>
+    <dl class="cover-meta">
+      <div><dt>Date</dt><dd>20 July 2026</dd></div>
+      <div><dt>Pages touched</dt><dd>5</dd></div>
+      <div><dt>Changes logged</dt><dd>20</dd></div>
+    </dl>
+  </section>
+
+  <!-- ══ CONTENTS ══ -->
+  <section class="sheet">
+    <h2 class="sheet-title">Contents</h2>
+    <div class="title-rule"></div>
+    <ol class="toc">
+      <li><span class="n">01</span><span class="t">Navbar — Squared Geometry</span><span class="d">Rounded → sharp box</span></li>
+      <li><span class="n">02</span><span class="t">Navbar — Logo Replacement</span><span class="d">New brand mark</span></li>
+      <li><span class="n">03</span><span class="t">Footer — Logo Scale</span><span class="d">Reduced ~30%</span></li>
+      <li><span class="n">04</span><span class="t">"The Artyk Difference" — Imagery</span><span class="d">Squared corners</span></li>
+      <li><span class="n">05</span><span class="t">"A World of Exceptional Design"</span><span class="d">Squared brand cards</span></li>
+      <li><span class="n">06</span><span class="t">About — "The House" Copy</span><span class="d">Rewritten, client-supplied</span></li>
+      <li><span class="n">07</span><span class="t">About — Founders Quote &amp; Story</span><span class="d">Rewritten, client-supplied</span></li>
+      <li><span class="n">08</span><span class="t">About — Testimonials → Our Philosophy</span><span class="d">Replaced with 3D plaque</span></li>
+      <li><span class="n">09</span><span class="t">About — Five New Chapters</span><span class="d">Vision → Finale</span></li>
+      <li><span class="n">10</span><span class="t">About — Vision Frame Collision</span><span class="d">Layout fix</span></li>
+      <li><span class="n">11</span><span class="t">Sticky Positioning Fix</span><span class="d">overflow-x: hidden → clip</span></li>
+      <li><span class="n">12</span><span class="t">Services Page — Complete Rebuild</span><span class="d">Six-movement experience</span></li>
+      <li><span class="n">13</span><span class="t">Services — "What We Offer"</span><span class="d">Interaction redesigned</span></li>
+      <li><span class="n">14</span><span class="t">Services — Hero Scroll Fade</span><span class="d">Removed</span></li>
+      <li><span class="n">15</span><span class="t">Custom Cursor — Presence</span><span class="d">Larger, halo added</span></li>
+      <li><span class="n">16</span><span class="t">Brands — Origin Tags</span><span class="d">All ten rewritten</span></li>
+      <li><span class="n">17</span><span class="t">Brands — Detail Page Copy</span><span class="d">Restored to client wording</span></li>
+      <li><span class="n">18</span><span class="t">Brands — Flag Correction</span><span class="d">Wrong country removed</span></li>
+      <li><span class="n">19</span><span class="t">Brands Index — Mobile Tags</span><span class="d">Stacked layout</span></li>
+      <li><span class="n">20</span><span class="t">Responsiveness Pass</span><span class="d">Mobile &amp; tablet audit</span></li>
+    </ol>
+  </section>
+
+  <!-- ══ 01–05 ══ -->
+  <section class="sheet">
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">01</span>
+        <h3>Navbar — Squared Geometry</h3>
+        <span class="tag">Sitewide</span>
+      </div>
+      <p class="desc">All curvature removed from the floating navigation bar — the outer container and both of its buttons now read as sharp rectangles. Glass blur, shadow and background finish untouched.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>Container: <code>rounded-2xl</code></p>
+          <p>"By Appointment" button: <code>rounded-full</code></p>
+          <p>Mobile "Menu" button: <code>rounded-full</code></p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>Container: <strong>no radius</strong> — square corners</p>
+          <p>"By Appointment" button: <strong>square</strong></p>
+          <p>Mobile "Menu" button: <strong>square</strong></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">02</span>
+        <h3>Navbar — Logo Replacement</h3>
+        <span class="tag">Sitewide</span>
+      </div>
+      <p class="desc">The navbar mark was swapped for the newly supplied logo file, with its intrinsic dimensions updated so the aspect ratio is exact and no distortion occurs.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p><code>artyk-logo-cropped.png</code></p>
+          <p>Declared size: 599 × 193</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p><code>artyk-logo-2.png</code></p>
+          <p>Declared size: <strong>953 × 262</strong> (true native)</p>
+        </div>
+      </div>
+      <div class="note">Rendered height is unchanged (<code>h-6</code> mobile → <code>h-8</code> desktop); only the source file and its declared proportions changed.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">03</span>
+        <h3>Footer — Logo Scale</h3>
+        <span class="tag">Sitewide</span>
+      </div>
+      <p class="desc">The footer mark was reduced so it sits more quietly against the address and navigation columns beside it. Applies to every page, as the footer is a single shared component.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p><code>h-16 md:h-20</code></p>
+          <p>64px mobile → 80px desktop</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p><code>h-12 md:h-14</code></p>
+          <p><strong>48px mobile → 56px desktop</strong> (≈30% smaller)</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">04</span>
+        <h3>"The Artyk Difference" — Imagery</h3>
+        <span class="tag">Homepage</span>
+      </div>
+      <p class="desc">The four editorial images in this block were squared off to match the navbar's new geometry.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>Image wrapper carried <code>rounded-md</code> — soft 6px corners.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>Radius removed — <strong>sharp, square crops</strong>. Drop shadow and hover behaviour retained.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">05</span>
+        <h3>"A World of Exceptional Design" — Brand Cards</h3>
+        <span class="tag">Homepage &amp; Brands</span>
+      </div>
+      <p class="desc">The horizontally scrolling partner-house cards were squared off, completing the sitewide shift away from rounded geometry.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p><code>rounded-[1.5rem]</code> — heavily rounded 24px corners.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>Radius removed — <strong>sharp-cornered cards</strong>. Hairline border, gradient scrim and lift-on-hover unchanged.</p>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ══ 06–08 ══ -->
+  <section class="sheet">
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">06</span>
+        <h3>About — "The House" Copy</h3>
+        <span class="tag">About</span>
+      </div>
+      <p class="desc">Both the display lead and the supporting column were replaced with client-supplied copy.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before — Lead</p>
+          <p class="quote">"Artyk was born from a passion for exceptional design — and a belief that the spaces we inhabit should <em>inspire</em> the way we live."</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — Lead</p>
+          <p class="quote">"Artyk was created with a singular vision — to curate the world's finest design and <em class="corten">transform</em> the way people experience their spaces."</p>
+        </div>
+        <div class="card before">
+          <p class="card-label">✕ Before — Aside</p>
+          <p>"More than a destination for luxury furniture and interiors, Artyk is a curated gallery of international design — the world's most respected furniture, kitchen, wardrobe, lighting, rug and art collections, under one roof…"</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — Aside</p>
+          <p>"We believe that exceptional interiors are not defined by individual pieces, but by the harmony between craftsmanship, materiality, proportion, and purpose…"</p>
+          <p>"At Artyk, every brand is selected with intention. We bring together globally celebrated names in furniture, kitchens, wardrobes, lighting, rugs, and art…"</p>
+        </div>
+      </div>
+      <div class="note">The corten italic emphasis was carried across from "inspire" to <strong>"transform"</strong>, preserving the original typographic treatment.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">07</span>
+        <h3>About — Founders Quote &amp; Story</h3>
+        <span class="tag">About</span>
+      </div>
+      <p class="desc">The scroll-scrubbed pull quote and the founders' narrative below it were both replaced.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before — Quote</p>
+          <p class="quote it">"Design is not a luxury — it is a way of enhancing how we live, work, and experience the world around us."</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — Quote</p>
+          <p class="quote it">"Every remarkable interior begins with a conversation, not a catalogue."</p>
+        </div>
+        <div class="card before">
+          <p class="card-label">✕ Before — Story</p>
+          <p><strong>Three paragraphs</strong> covering the shared vision, Prachi's complementary expertise, and a closing line on Artyk as "a gallery of design".</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — Story</p>
+          <p><strong>Four paragraphs</strong>: the founding vision, the two founders' distinct expertise, the destination they envisioned, and today's portfolio across furniture, kitchens, lighting, wardrobes, rugs, art and bespoke solutions.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">08</span>
+        <h3>About — Testimonials → "Our Philosophy"</h3>
+        <span class="tag">About</span>
+      </div>
+      <p class="desc">The placeholder testimonials block was removed entirely and rebuilt as a dimensional centrepiece — the visual highlight of the page.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before — "Testimonials"</p>
+          <p>Three sample client quotes with circular stock headshots alternating left/right. Placeholder names and roles throughout.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — "Our Philosophy"</p>
+          <p><strong>"Thoughtfully Chosen. Beautifully Experienced."</strong> set on a floating plaque in true CSS 3D perspective, with the client's three paragraphs beneath.</p>
+        </div>
+      </div>
+      <div class="card full after" style="margin-top:16px">
+        <p class="card-label">✓ The interaction</p>
+        <ul>
+          <li><strong>Pointer-tracked tilt</strong> — the plaque leans toward the cursor with sprung inertia and settles back level.</li>
+          <li><strong>Layered depth</strong> — heading floats 54px above the surface, copy at 30px, frame hairlines at their own depths, producing real parallax on tilt.</li>
+          <li><strong>Travelling specular sheen</strong> that follows the pointer across the face.</li>
+          <li><strong>Letterpress heading</strong>, a slowly rotating jewel ornament, and a double hairline frame.</li>
+          <li>Background is exactly <code>#B69B87</code>, as specified.</li>
+        </ul>
+      </div>
+      <div class="note">On touch devices the plaque turns gently on its own; with <code>prefers-reduced-motion</code> every effect resolves to a static state.</div>
+    </article>
+
+  </section>
+
+  <!-- ══ 09–11 ══ -->
+  <section class="sheet">
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">09</span>
+        <h3>About — Five New Editorial Chapters</h3>
+        <span class="tag">About</span>
+      </div>
+      <p class="desc">Everything after "Our Philosophy" was rebuilt as a sequence of storytelling chapters. The previous plain index rows and closing block were retired, their content superseded.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p><strong>"What Sets Us Apart"</strong> — four flat text rows in a bordered list.</p>
+          <p><strong>Closing</strong> — a single two-column block with one image and a paragraph.</p>
+          <p>No Vision, Mission or Values content on the page.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — five chapters</p>
+          <ul>
+            <li><strong>Our Vision</strong> — asymmetric spread; photograph floats above an offset hairline frame on opposing parallax vectors.</li>
+            <li><strong>Our Mission</strong> — mirrored ivory spread with an overlapping matted print.</li>
+            <li><strong>What Sets Us Apart</strong> — full onyx "private exhibition": a sticky image plane crossfades through four exhibits with a rising 01–04 numeral.</li>
+            <li><strong>Our Values</strong> — museum wall; alternating labels resolve blur-to-focus, hairlines draw open.</li>
+            <li><strong>An Address for Design</strong> — full-viewport finale, backdrop settling from overscale.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Bug found &amp; fixed during build:</strong> Chrome computes <code>IntersectionObserver</code> geometry <em>after</em> <code>clip-path</code>, so a fully-clipped image never reports as visible and its reveal never fires. Reveals now observe the unclipped wrapper and drive the clip from there.
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">10</span>
+        <h3>About — Vision Frame Collision</h3>
+        <span class="tag">About</span>
+      </div>
+      <p class="desc">On the Vision chapter, the decorative offset frame was enclosing the caption text, causing a visible collision. Reported from review and corrected.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>The frame was positioned against the <strong>whole figure</strong> — image <em>and</em> caption — so its offset trapped the caption inside the frame's lower area, crossing its borders.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>The frame is scoped to a new plate wrapping <strong>only the image</strong>, and the caption clears the frame's downward offset plus its parallax swing.</p>
+        </div>
+      </div>
+      <div class="note">The same fix resolved an identical latent collision on the Mission chapter's caption. The frame itself was kept — only its scope changed.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">11</span>
+        <h3>Sticky Positioning Fix</h3>
+        <span class="tag">Sitewide · Technical</span>
+      </div>
+      <p class="desc">A long-standing CSS rule was silently disabling every sticky element on the site. Found while building the exhibition and finale, which both depend on sticky.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <pre>html, body { overflow-x: hidden; }</pre>
+          <p style="margin-top:9px">Makes <code>body</code> its own scroll container, which disables <code>position: sticky</code> for all descendants.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <pre>html, body { overflow-x: clip; }</pre>
+          <p style="margin-top:9px">Identical clipping behaviour, <strong>without</strong> creating a scroll container — sticky works again.</p>
+        </div>
+      </div>
+      <div class="note">Homepage regression-checked afterwards: the brands marquee (its own scroll container) is unaffected, and no page scrolls sideways.</div>
+    </article>
+
+  </section>
+
+  <!-- ══ 12–15 ══ -->
+  <section class="sheet">
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">12</span>
+        <h3>Services Page — Complete Rebuild</h3>
+        <span class="tag">Services</span>
+      </div>
+      <p class="desc">The Services page was rebuilt from three thin sections into a six-movement editorial experience carrying all client-supplied copy.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <ul>
+            <li>Static image banner with the word "Services"</li>
+            <li>One centred paragraph of generic prose</li>
+            <li>The enquiry form</li>
+          </ul>
+          <p style="margin-top:9px">No Vision, Mission, offerings or process content.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — six movements</p>
+          <ul>
+            <li><strong>Hero</strong> — "Design Solutions, Thoughtfully Delivered." rising through masks over a settling image.</li>
+            <li><strong>Standfirst</strong> — intro with the three audiences as a numeraled list.</li>
+            <li><strong>The Practice</strong> — three pillars as 3D plaques that tilt toward the cursor with layered depth and a specular sheen.</li>
+            <li><strong>What We Offer</strong> — dark editorial index of the six categories.</li>
+            <li><strong>Our Process</strong> — five cards stacking like a deck, "Experience" landing in camel.</li>
+            <li><strong>The Invitation</strong> — "Let's Create Something Exceptional" over a full-bleed banner.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">The existing <strong>"Begin a consultation — Tell us about your space"</strong> block and its enquiry form were deliberately preserved and now close the page, exactly as the brief required.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">13</span>
+        <h3>Services — "What We Offer" Interaction</h3>
+        <span class="tag">Services</span>
+      </div>
+      <p class="desc">The first version of this block used an image that chased the cursor. It rendered with visible distortion, so the interaction was replaced rather than patched.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>A tilted image plane followed the pointer with spring lag while simultaneously scaling in — forcing constant re-rasterisation, which read as <strong>warping and blur</strong>.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>A <strong>stationary sticky viewing plate</strong> beside the index. Hovering a row crossfades the plate in place — pure opacity, no movement or rotation, so every frame renders at full quality.</p>
+        </div>
+      </div>
+      <div class="note">A small serif caption glides between category names beneath the plate, and the active row stays lit after the cursor leaves, so there is no pop-in / pop-out. Mobile keeps inline framed images per row.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">14</span>
+        <h3>Services — Hero Scroll Fade Removed</h3>
+        <span class="tag">Services</span>
+      </div>
+      <p class="desc">The hero headline was dimming and re-brightening while scrolling. The scroll-linked opacity was removed so the type holds full strength.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <pre>opacity: 1 → 0   (scroll-linked)
+y:       0 → 34% (scroll-linked)</pre>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <pre>opacity: 1  (constant)
+transform: none</pre>
+          <p style="margin-top:9px">Verified at scroll 0 / 300 / 600px — <strong>opacity holds at 1 throughout</strong>.</p>
+        </div>
+      </div>
+      <div class="note">The paired downward drift was removed alongside it: without the fade to mask it, that drift would have pushed the headline into the section's clip edge and sliced it mid-glyph. The image parallax is retained, so the hero keeps its depth.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">15</span>
+        <h3>Custom Cursor — Presence</h3>
+        <span class="tag">Sitewide</span>
+      </div>
+      <p class="desc">The branded cursor was easy to lose. Two causes: the logo file carries heavy transparent padding, and the mark is near-black so it vanished on dark photography.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>Width <code>72px</code> (92px over links) — but the mark occupies only ~40% of the file, so the visible circle was ≈28px of hairline stroke.</p>
+          <p>Opacity <code>0.88</code>, no contrast treatment.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>Width <strong>96px</strong> (116px over links) — visible mark ≈38px.</p>
+          <p>Opacity <strong>1</strong>, plus a dual halo: an ivory glow tracing the strokes for dark grounds, and a soft dark shadow for weight on light ones.</p>
+        </div>
+      </div>
+      <div class="note">Verified on both extremes — clearly legible on the onyx "What We Offer" section where it previously disappeared, and crisp on the light Practice cards without reading as a glow.</div>
+    </article>
+
+  </section>
+
+  <!-- ══ 16–20 ══ -->
+  <section class="sheet">
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">16</span>
+        <h3>Brands — Origin Tags</h3>
+        <span class="tag">Brands</span>
+      </div>
+      <p class="desc">The tag to the right of each partner house in the index was rewritten. All ten replaced with client-supplied descriptors.</p>
+      <div class="table-wrap">
+        <table class="spec">
+          <thead><tr><th>Brand</th><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td class="brand">Poltrona Frau</td><td class="was">Italy · Leather</td><td class="now">Italy · Luxury Furniture</td></tr>
+            <tr><td class="brand">Lema</td><td class="was">Italy · Systems</td><td class="now">Italy · Modular Storage &amp; Furniture</td></tr>
+            <tr><td class="brand">Meridiani</td><td class="was">Italy · Living</td><td class="now">Italy · Contemporary Furniture</td></tr>
+            <tr><td class="brand">de Sede</td><td class="was">Switzerland · Leather</td><td class="now">Swiss · Premium Leather Furniture</td></tr>
+            <tr><td class="brand">SCIC</td><td class="was">Italy · Kitchens</td><td class="now">Italy · Luxury Kitchens</td></tr>
+            <tr><td class="brand">Madheke by Loco Design</td><td class="was">India · Furniture</td><td class="now">India · Bespoke Furniture</td></tr>
+            <tr><td class="brand">Pintark by Loco Design</td><td class="was">India · Surfaces</td><td class="now">India · Crafted Surfaces</td></tr>
+            <tr><td class="brand">Gandia Blasco</td><td class="was">Spain · Outdoor</td><td class="now">Spain · Outdoor Furniture</td></tr>
+            <tr><td class="brand">Neytt</td><td class="was">India · Rugs</td><td class="now">India · Handwoven Carpets</td></tr>
+            <tr><td class="brand">Paarkhi Stoneware</td><td class="was">India · Stone</td><td class="now">India · Stoneware &amp; Objects</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">17</span>
+        <h3>Brands — Detail Page Copy</h3>
+        <span class="tag">Brand detail</span>
+      </div>
+      <p class="desc">The copy shown after clicking into a brand was restored to the client's exact wording. Several entries had previously been condensed, losing clauses.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before — examples</p>
+          <p class="quote it">"Swiss craftsmanship, iconic leather, extraordinary comfort."</p>
+          <p style="margin-top:10px">Gandia Blasco: "…transforming outdoor spaces into oases of style and comfort… offering <em>a blend</em> of sophistication…"</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After — examples</p>
+          <p class="quote it">"Swiss craftsmanship. Iconic leather. Extraordinary comfort."</p>
+          <p style="margin-top:10px">Gandia Blasco: "…into <strong>veritable</strong> oases of style and comfort… offering <strong>discerning clientele</strong> a blend of sophistication…"</p>
+        </div>
+      </div>
+      <div class="note">
+        Taglines and body paragraphs updated for <strong>all ten brands</strong>. Restorations included dropped clauses in SCIC, Madheke ("resulting in collections that are as timeless as they are expressive") and Neytt.
+        <br><br>
+        <strong>Three editorial calls, flagged for confirmation:</strong> British spellings were kept to match the rest of the site (<code>epitomises</code>, not <code>epitomizes</code>); <strong>de Sede</strong> retains its lowercase brand styling; and two apparent typos in the source document — "Medheke" and "Crafted Material Solution" — were <em>not</em> propagated.
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">18</span>
+        <h3>Brands — Flag Correction</h3>
+        <span class="tag">Brands</span>
+      </div>
+      <p class="desc">A factual error found while updating the brand data: a Spanish house was displaying an Italian flag.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <pre>flagMap[origin] || "/flags/italy.png"</pre>
+          <p style="margin-top:9px">No Spain asset exists, so <strong>Gandia Blasco fell through to the Italian flag</strong>.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <pre>flagMap[origin]   // no fallback</pre>
+          <p style="margin-top:9px">Where no matching flag exists, <strong>none is shown</strong> rather than another country's.</p>
+        </div>
+      </div>
+      <div class="note"><strong>Action required:</strong> supply a <code>spain.png</code> for <code>public/flags/</code> and the Gandia Blasco card will display correctly.</div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">19</span>
+        <h3>Brands Index — Mobile Tag Layout</h3>
+        <span class="tag">Brands</span>
+      </div>
+      <p class="desc">Caught during the responsiveness pass: the new, longer origin tags clipped at the right edge on phones.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Before</p>
+          <p>Name and tag shared one row at every width. With the tag set <code>shrink-0</code> beside a wrapping name, <strong>"India · Stoneware &amp; Obje…"</strong> ran off-screen.</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ After</p>
+          <p>The tag <strong>stacks beneath the name on mobile</strong> and returns to the same row from tablet up. Names now fit on one line, and every tag reads in full.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <span class="entry-num">20</span>
+        <h3>Responsiveness Pass</h3>
+        <span class="tag">Sitewide</span>
+      </div>
+      <p class="desc">Every change above was audited at phone (390px) and tablet (768px) widths, measuring real layout geometry rather than eyeballing.</p>
+      <div class="pair">
+        <div class="card before">
+          <p class="card-label">✕ Issue found</p>
+          <p>One genuine defect: the Brands index tags overflowing the viewport on mobile (see 19).</p>
+        </div>
+        <div class="card after">
+          <p class="card-label">✓ Result</p>
+          <p>Fixed and re-verified. <strong>Horizontal page overflow measured at 0px</strong> on Home, About, Services, Brands and Brand-detail — at both widths.</p>
+        </div>
+      </div>
+      <div class="card full after" style="margin-top:16px">
+        <p class="card-label">✓ Confirmed responsive</p>
+        <ul>
+          <li><strong>Navbar &amp; footer</strong> — squared geometry and resized marks hold at every width.</li>
+          <li><strong>About</strong> — the Philosophy plaque, all five chapters, and the finale reflow cleanly; the exhibition swaps its sticky plane for framed inline images.</li>
+          <li><strong>Services</strong> — practice plaques stack, the offerings index switches to inline imagery, the process deck stacks with card edges peeking.</li>
+          <li><strong>Brands</strong> — index tags stack, brand cards and detail pages clean.</li>
+        </ul>
+      </div>
+      <div class="note">Elements that extend beyond the viewport by design — the brands marquee, the About ticker, the Ken&nbsp;Burns backdrop scale, and the form honeypot — were confirmed as intentional and correctly clipped.</div>
+    </article>
+
+  </section>
+
+  <section class="sheet">
+    <p class="colophon">
+      <span class="mark"></span>
+      Artyk India — internal changelog · generated for review purposes<br>
+      20 July 2026 · 20 changes across 5 pages
+    </p>
+  </section>
+
+</div>

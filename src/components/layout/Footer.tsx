@@ -12,7 +12,7 @@ export function Footer() {
             alt="ARTYK — Curated Living"
             width={599}
             height={193}
-            className="h-16 w-auto md:h-20"
+            className="h-12 w-auto md:h-14"
           />
           <p className="mt-5 max-w-md text-sm leading-relaxed text-cognac">
             A private gallery of collectible European furniture and lighting in Jubilee Hills —

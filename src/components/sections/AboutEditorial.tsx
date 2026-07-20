@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import AboutChapters from "@/components/sections/AboutChapters";
 
 /**
  * Editorial "The Design Issue" About page — a faithful port of the standalone
@@ -173,6 +174,59 @@ export default function AboutEditorial() {
       }
     }
 
+    /* philosophy plaque: subtle 3D tilt with inertia + a pointer-lit sheen */
+    if (!reduce) {
+      const scene = root.querySelector<HTMLElement>(".js-tilt");
+      const card = root.querySelector<HTMLElement>(".js-tilt-card");
+      if (scene && card) {
+        const MAX_TILT = 2.4;
+        let tRx = 0, tRy = 0, tMx = 50, tMy = 40;
+        let rx = 0, ry = 0, mx = 50, my = 40;
+        let raf = 0;
+        const step = () => {
+          rx += (tRx - rx) * 0.065;
+          ry += (tRy - ry) * 0.065;
+          mx += (tMx - mx) * 0.065;
+          my += (tMy - my) * 0.065;
+          card.style.setProperty("--rx", rx.toFixed(3) + "deg");
+          card.style.setProperty("--ry", ry.toFixed(3) + "deg");
+          card.style.setProperty("--mx", mx.toFixed(2) + "%");
+          card.style.setProperty("--my", my.toFixed(2) + "%");
+          const settled =
+            Math.abs(tRx - rx) + Math.abs(tRy - ry) < 0.002 &&
+            Math.abs(tMx - mx) + Math.abs(tMy - my) < 0.05;
+          raf = settled ? 0 : requestAnimationFrame(step);
+        };
+        const kick = () => {
+          if (!raf) raf = requestAnimationFrame(step);
+        };
+        const move = (e: PointerEvent) => {
+          const r = scene.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          tRy = nx * MAX_TILT;
+          tRx = -ny * MAX_TILT;
+          tMx = nx * 100 + 50;
+          tMy = ny * 100 + 50;
+          kick();
+        };
+        const leave = () => {
+          tRx = 0;
+          tRy = 0;
+          tMx = 50;
+          tMy = 40;
+          kick();
+        };
+        scene.addEventListener("pointermove", move);
+        scene.addEventListener("pointerleave", leave);
+        cleanups.push(() => {
+          scene.removeEventListener("pointermove", move);
+          scene.removeEventListener("pointerleave", leave);
+          if (raf) cancelAnimationFrame(raf);
+        });
+      }
+    }
+
     return () => cleanups.forEach((fn) => fn());
   }, []);
 
@@ -218,16 +272,21 @@ export default function AboutEditorial() {
           </div>
           <div className="grid">
             <p className="display lead split">
-              Artyk was born from a passion for exceptional design — and a belief that the spaces we
-              inhabit should <span className="accent">inspire</span> the way we live.
+              Artyk was created with a singular vision — to curate the world&apos;s finest design and{" "}
+              <span className="accent">transform</span> the way people experience their spaces.
             </p>
             <div className="aside">
               <hr className="rule rv" />
               <p className="rv d1">
-                More than a destination for luxury furniture and interiors, Artyk is a curated
-                gallery of international design — the world&apos;s most respected furniture, kitchen,
-                wardrobe, lighting, rug and art collections, under one roof. Each is selected for its
-                craftsmanship, innovation, and enduring relevance.
+                We believe that exceptional interiors are not defined by individual pieces, but by
+                the harmony between craftsmanship, materiality, proportion, and purpose. Every
+                collection we present is chosen to inspire spaces that reflect the aspirations and
+                lifestyles of those who inhabit them.
+                <br />
+                <br />
+                At Artyk, every brand is selected with intention. We bring together globally
+                celebrated names in furniture, kitchens, wardrobes, lighting, rugs, and art — united
+                by a shared commitment to quality, innovation, and enduring design.
               </p>
               <ul className="clients rv d2">
                 <li>Homeowners</li>
@@ -277,8 +336,7 @@ export default function AboutEditorial() {
               </p>
               <hr className="rule txtrule rv d1" />
               <blockquote className="scrub js-scrub">
-                &ldquo;Design is not a luxury — it is a way of enhancing how we live, work, and
-                experience the world around us.&rdquo;
+                &ldquo;Every remarkable interior begins with a conversation, not a catalogue.&rdquo;
               </blockquote>
               <div className="stats rv d2">
                 <div className="rv d1">
@@ -310,22 +368,26 @@ export default function AboutEditorial() {
             <div className="story rv">
               <div className="cols">
                 <p>
-                  Artyk was founded by Prachi and Avinash Agarwal with a shared vision: to bring
-                  exceptional contemporary design and world-class craftsmanship to Hyderabad. With
-                  over two decades of experience in luxury interior project management, Avinash has
-                  led numerous residential and commercial projects — developing a deep understanding
-                  of design, quality, and execution.
+                  Artyk was founded by Prachi and Avinash Agarwal with a shared vision: to create
+                  Hyderabad&apos;s destination for exceptional contemporary design.
                 </p>
                 <p>
-                  His expertise is complemented by Prachi&apos;s passion for design, her keen eye for
-                  detail, and an appreciation for timeless aesthetics. Recognising a growing
-                  appreciation for global design and artistry, together they envisioned a destination
-                  where discerning clients could discover exceptional brands, experience materials
-                  firsthand, and access expert guidance throughout their design journey.
+                  With over two decades of experience in luxury interior projects, Avinash brings
+                  extensive expertise in design execution, project management, and global sourcing.
+                  Complementing this is Prachi&apos;s intuitive understanding of aesthetics,
+                  meticulous attention to detail, and passion for creating meaningful spaces.
                 </p>
                 <p>
-                  Today, Artyk stands as a gallery of design — dedicated to creating spaces defined
-                  by beauty, purpose, and enduring elegance.
+                  Together, they envisioned more than a furniture gallery. They created a destination
+                  where homeowners, architects, designers, and developers can experience
+                  internationally acclaimed brands through thoughtfully curated environments rather
+                  than catalogues.
+                </p>
+                <p>
+                  Today, Artyk represents a carefully selected portfolio of furniture, kitchens,
+                  lighting, wardrobes, rugs, art, and bespoke interior solutions—united by one
+                  philosophy: timeless design, exceptional craftsmanship, and spaces that enrich the
+                  way we live.
                 </p>
               </div>
             </div>
@@ -417,144 +479,62 @@ export default function AboutEditorial() {
         </div>
       </section>
 
-      {/* ================= INDEX ================= */}
-      <section>
+      {/* ================= PHILOSOPHY ================= */}
+      <section className="philosophy">
         <div className="wrap">
           <div className="kicker rv">
-            <span className="micro k">What Sets Us Apart</span>
+            <span className="micro k">Our Philosophy</span>
             <span className="l" />
-            <span className="r">An index</span>
+            <span className="r">A quiet conviction</span>
           </div>
-          <div className="index-row rv">
-            <span className="no">i.</span>
-            <h3 className="t">Curated, Not Collected</h3>
-            <p className="d">
-              Every brand within the Artyk portfolio is selected with purpose. We believe meaningful
-              choices create better spaces.
-            </p>
-          </div>
-          <div className="index-row rv d1">
-            <span className="no">ii.</span>
-            <h3 className="t">Expertise Beyond Retail</h3>
-            <p className="d">
-              Our team collaborates with homeowners, architects, designers and developers —
-              supporting projects from concept through execution.
-            </p>
-          </div>
-          <div className="index-row rv d2">
-            <span className="no">iii.</span>
-            <h3 className="t">A Complete Design Journey</h3>
-            <p className="d">
-              From furniture and kitchens to wardrobes, finishes, and bespoke solutions — a seamless
-              experience tailored to each project.
-            </p>
-          </div>
-          <div className="index-row rv d3">
-            <span className="no">iv.</span>
-            <h3 className="t">An Immersive Gallery Experience</h3>
-            <p className="d">
-              Thoughtfully curated displays, material exploration, and personalised consultations —
-              design beyond traditional retail.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* ================= TESTIMONIALS ================= */}
-      <section className="values">
-        <div className="wrap">
-          <div className="kicker rv">
-            <span className="micro k">Testimonials</span>
-            <span className="l" />
-            <span className="r">In their own words</span>
-          </div>
-          <ul className="tlist">
-            <li className="tcard rv">
-              <div className="tphoto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" loading="lazy" />
-              </div>
-              <div className="ttext">
-                <p className="tquote">
-                  “Working with Artyk transformed our home into something we never imagined
-                  possible. Every detail was considered, every piece perfectly chosen.”
-                </p>
-                <span className="tname">Client Name</span>
-                <span className="trole">Homeowner, Jubilee Hills</span>
-              </div>
-            </li>
-            <li className="tcard tcard--rev rv d1">
-              <div className="tphoto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" loading="lazy" />
-              </div>
-              <div className="ttext">
-                <p className="tquote">
-                  “Their eye for craftsmanship and design is unmatched. Artyk didn&apos;t just
-                  furnish our space — they elevated it.”
-                </p>
-                <span className="tname">Client Name</span>
-                <span className="trole">Interior Project, Hyderabad</span>
-              </div>
-            </li>
-            <li className="tcard rv d2">
-              <div className="tphoto">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="" loading="lazy" />
-              </div>
-              <div className="ttext">
-                <p className="tquote">
-                  “From consultation to installation, the experience was seamless. Artyk brought a
-                  level of sophistication we didn&apos;t know we needed.”
-                </p>
-                <span className="tname">Client Name</span>
-                <span className="trole">Design Consultation Client</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <div className="philo-scene js-tilt">
+            <div className="philo-float">
+              <div className="philo-card js-tilt-card">
+                <span className="philo-frame" aria-hidden="true" />
+                <span className="philo-frame philo-frame--inner" aria-hidden="true" />
+                <span className="philo-sheen" aria-hidden="true" />
 
-      {/* ================= CLOSING ================= */}
-      <section className="close">
-        <div className="wrap">
-          <div className="kicker rv">
-            <span className="micro k">Visit</span>
-            <span className="l" />
-            <span className="r">By appointment</span>
-          </div>
-          <div className="close-grid">
-            <figure className="photo rv">
-              <div className="f">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/about/image-5.jpg"
-                  alt="Close detail of the Artyk signage — white lettering on black steel against cedar slats"
-                  loading="lazy"
-                />
+                <span className="micro philo-eyebrow rv">Artyk · Curated Living</span>
+
+                <h2 className="display philo-head split">
+                  Thoughtfully Chosen.
+                  <br />
+                  Beautifully Experienced.
+                </h2>
+
+                <div className="philo-orn rv d1" aria-hidden="true">
+                  <span className="ln" />
+                  <span className="gem">
+                    <i />
+                  </span>
+                  <span className="ln" />
+                </div>
+
+                <div className="philo-copy">
+                  <p className="rv d1">
+                    At Artyk, we believe that exceptional interiors are shaped by thoughtful
+                    decisions, not overwhelming choices.
+                  </p>
+                  <p className="rv d2">
+                    Every brand we represent is selected for its distinct design philosophy,
+                    uncompromising craftsmanship, and enduring relevance. Together, they form a
+                    cohesive collection that celebrates authenticity, innovation, and timeless
+                    living.
+                  </p>
+                  <p className="rv d3">
+                    Our role is not simply to present beautiful products, but to help create spaces
+                    where every element feels considered, connected, and uniquely personal.
+                  </p>
+                </div>
               </div>
-            </figure>
-            <div className="txt">
-              <span className="micro rv">Artyk, Hyderabad</span>
-              <h2 className="display split">Where global design meets local understanding.</h2>
-              <p className="rv d2">
-                A place where craftsmanship is celebrated, ideas are explored, and exceptional spaces
-                begin. Whether furnishing a private residence, designing a workplace, or creating a
-                hospitality destination — we partner with our clients to bring thoughtful design to
-                life.
-              </p>
-              <a className="sweep rv d3" href="/contact">
-                Visit the Gallery — By Appointment
-              </a>
             </div>
           </div>
-          <div className="colophon rv">
-            <span className="micro">Artyk</span>
-            <span className="it">Hyderabad</span>
-            <span className="micro">© Artyk</span>
-          </div>
         </div>
       </section>
+
+      {/* ================= THE CHAPTERS ================= */}
+      <AboutChapters />
     </div>
   );
 }
@@ -568,7 +548,10 @@ const CSS = `
   background:var(--stone); color:var(--onyx);
   font-family:var(--font-sans),serif; font-weight:300;
   font-size:17px; line-height:1.7;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  /* clip, not hidden: overflow-x:hidden would make this a scroll container
+     and silently break every position:sticky descendant (the exhibition
+     plane and the finale backdrop) */
+  -webkit-font-smoothing:antialiased; overflow-x:clip;
 }
 .artyk-about *{margin:0;padding:0;box-sizing:border-box}
 .artyk-about .display{font-family:var(--font-display),serif;font-weight:300;line-height:1.02;letter-spacing:-0.012em}
@@ -696,43 +679,86 @@ const CSS = `
 .artyk-about .gallery .philoB{grid-column:6/11;margin-top:26px;color:rgba(31,36,32,.8)}
 @media(max-width:920px){.artyk-about .gallery .capL{grid-column:1/13}.artyk-about .gallery .philoT,.artyk-about .gallery .philoB{grid-column:1/13}}
 
-/* ================= INDEX ================= */
-.artyk-about .index-row{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(16px,3vw,48px);align-items:baseline;padding:clamp(26px,3.4vw,44px) clamp(8px,1.4vw,20px);border-top:1px solid var(--line);transition:background .3s var(--ease)}
-.artyk-about .index-row:last-of-type{border-bottom:1px solid var(--line)}
-.artyk-about .index-row .no{grid-column:1/3;font-family:var(--font-display),serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,1.8vw,1.5rem);color:rgba(168,88,56,.5);transition:color .3s var(--ease)}
-.artyk-about .index-row .t{grid-column:3/8;font-family:var(--font-display),serif;font-weight:300;font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.15}
-.artyk-about .index-row .d{grid-column:8/13;color:rgba(31,36,32,.7);font-size:15.5px}
-@media(hover:hover){.artyk-about .index-row:hover{background:var(--ivory)}.artyk-about .index-row:hover .no{color:var(--corten)}}
-@media(max-width:800px){.artyk-about .index-row .no{grid-column:1/13}.artyk-about .index-row .t{grid-column:1/13;margin:4px 0 8px}.artyk-about .index-row .d{grid-column:1/13}}
+/* ================= PHILOSOPHY (the sweet spot) ================= */
+.artyk-about .philosophy{
+  background:#B69B87;color:var(--onyx);position:relative;overflow:hidden;
+  padding:clamp(96px,13vw,170px) 0;
+}
+/* quiet depth: light falls from above, the floor recedes below */
+.artyk-about .philosophy::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(110% 80% at 50% 0%, rgba(244,241,233,.20), rgba(244,241,233,0) 55%),
+    radial-gradient(130% 100% at 50% 118%, rgba(31,36,32,.16), rgba(31,36,32,0) 58%);
+}
+.artyk-about .philosophy .micro{color:rgba(31,36,32,.55)}
+.artyk-about .philosophy .kicker .l{background:rgba(31,36,32,.22)}
+.artyk-about .philosophy .kicker .r{color:rgba(31,36,32,.55)}
 
-/* ================= TESTIMONIALS (camel spread) ================= */
-.artyk-about .values{background:#B69B87;color:var(--onyx)}
-.artyk-about .values .micro{color:rgba(31,36,32,.55)}
-.artyk-about .values .kicker .l{background:rgba(31,36,32,.22)}
-.artyk-about .values .kicker .r{color:rgba(31,36,32,.55)}
-.artyk-about .tlist{list-style:none;display:flex;flex-direction:column;gap:clamp(48px,8vw,88px);margin-top:clamp(40px,6vw,64px)}
-.artyk-about .tcard{display:flex;align-items:center;gap:clamp(32px,6vw,72px)}
-.artyk-about .tcard--rev{flex-direction:row-reverse}
-.artyk-about .tphoto{flex:none;width:clamp(140px,18vw,220px);height:clamp(140px,18vw,220px);border-radius:50%;overflow:hidden;background:rgba(31,36,32,.08)}
-.artyk-about .tphoto img{width:100%;height:100%;object-fit:cover;display:block}
-.artyk-about .ttext{max-width:46ch}
-.artyk-about .tquote{font-style:italic;font-size:clamp(1.05rem,1.6vw,1.4rem);line-height:1.6;color:rgba(31,36,32,.8)}
-.artyk-about .tname{display:block;margin-top:20px;font-family:var(--font-display),serif;font-weight:400;font-size:1.1rem;color:var(--onyx)}
-.artyk-about .trole{display:block;margin-top:2px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(31,36,32,.55)}
-@media(max-width:800px){
-  .artyk-about .tcard,.artyk-about .tcard--rev{flex-direction:column;align-items:flex-start;text-align:left;gap:24px}
-  .artyk-about .tphoto{width:150px;height:150px}
-  .artyk-about .ttext{max-width:none}
+/* the stage: true perspective; the plaque floats and leans toward the cursor */
+.artyk-about .philo-scene{position:relative;perspective:1500px;margin-top:clamp(8px,1.6vw,20px)}
+.artyk-about .philo-float{animation:philoFloat 12s ease-in-out infinite;will-change:transform}
+@keyframes philoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+.artyk-about .philo-card{
+  position:relative;max-width:980px;margin:0 auto;text-align:center;
+  padding:clamp(52px,7vw,100px) clamp(26px,6vw,92px);
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  will-change:transform;
 }
 
-/* ================= CLOSING ================= */
-.artyk-about .close{padding-bottom:clamp(150px,17vw,210px)}
-.artyk-about .close-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,4vw,64px);align-items:center}
-.artyk-about .close-grid .photo{grid-column:1/5}
-.artyk-about .close-grid .txt{grid-column:6/13}
-.artyk-about .close-grid .f{aspect-ratio:3/4;overflow:hidden}
-.artyk-about .close h2{font-size:clamp(2.3rem,4.8vw,4.2rem);margin:16px 0 22px}
-.artyk-about .close p{color:rgba(31,36,32,.8);max-width:560px;margin-bottom:36px}
+/* double hairline frame — a gallery plaque in relief, each line at its own depth */
+.artyk-about .philo-frame{position:absolute;inset:0;border:1px solid rgba(244,241,233,.55);pointer-events:none;transform:translateZ(10px)}
+.artyk-about .philo-frame--inner{inset:12px;border-color:rgba(31,36,32,.22);transform:translateZ(18px)}
+
+/* specular light that travels across the plaque with the pointer */
+.artyk-about .philo-sheen{
+  position:absolute;inset:0;pointer-events:none;transform:translateZ(4px);
+  background:radial-gradient(58% 46% at var(--mx,50%) var(--my,40%), rgba(255,252,244,.4), rgba(255,252,244,0) 68%);
+  mix-blend-mode:soft-light;
+}
+
+.artyk-about .philo-eyebrow{display:block;transform:translateZ(32px);letter-spacing:.34em}
+
+/* letterpress heading, floating highest above the plaque */
+.artyk-about .philo-head{
+  position:relative;margin-top:clamp(20px,2.6vw,30px);
+  font-size:clamp(2rem,5vw,4.15rem);
+  transform:translateZ(54px);
+  text-shadow:0 -1px 1px rgba(31,36,32,.15),0 1px 1px rgba(244,241,233,.3);
+}
+
+/* lozenge ornament — a slowly turning jewel between headline and copy */
+.artyk-about .philo-orn{display:flex;align-items:center;justify-content:center;gap:16px;margin:clamp(28px,3.6vw,44px) auto;transform:translateZ(40px)}
+.artyk-about .philo-orn .ln{width:64px;height:1px;background:linear-gradient(to right,rgba(31,36,32,0),rgba(31,36,32,.4))}
+.artyk-about .philo-orn .ln:last-child{background:linear-gradient(to right,rgba(31,36,32,.4),rgba(31,36,32,0))}
+.artyk-about .philo-orn .gem{position:relative;width:11px;height:11px;perspective:220px}
+.artyk-about .philo-orn .gem i{position:absolute;inset:0;border:1px solid rgba(244,241,233,.9);background:rgba(244,241,233,.14);animation:philoGem 9s linear infinite}
+@keyframes philoGem{from{transform:rotateY(0deg) rotate(45deg)}to{transform:rotateY(360deg) rotate(45deg)}}
+
+.artyk-about .philo-copy{position:relative;max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:1.35em;transform:translateZ(30px)}
+.artyk-about .philo-copy p{font-size:15.5px;line-height:1.9;color:rgba(31,36,32,.84)}
+.artyk-about .philo-copy p:first-child{
+  font-family:var(--font-display),serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.08rem,1.8vw,1.35rem);line-height:1.65;color:rgba(31,36,32,.95);
+}
+
+/* touch devices have no cursor — let the plaque turn on its own, very slowly */
+@keyframes philoIdle{
+  0%,100%{transform:rotateX(0deg) rotateY(0deg)}
+  25%{transform:rotateX(1.1deg) rotateY(-1.5deg)}
+  60%{transform:rotateX(-1deg) rotateY(1.4deg)}
+}
+@media(hover:none){.artyk-about .philo-card{animation:philoIdle 18s ease-in-out infinite}}
+
+@media(max-width:640px){
+  .artyk-about .philo-card{padding:56px 22px 60px}
+  .artyk-about .philo-frame--inner{inset:8px}
+  .artyk-about .philo-orn .ln{width:40px}
+}
+
+/* ================= SWEEP LINK + COLOPHON (shared with the chapters) ================= */
 .artyk-about .sweep{
   font-family:var(--font-sans),serif;font-weight:500;font-size:12px;letter-spacing:.26em;text-transform:uppercase;
   color:var(--corten);text-decoration:none;position:relative;padding-bottom:8px;
@@ -741,7 +767,6 @@ const CSS = `
 @media(hover:hover){.artyk-about .sweep:hover::after{transform:scaleX(0);transform-origin:left}}
 .artyk-about .colophon{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--onyx);margin-top:clamp(72px,9vw,120px);padding-top:14px;flex-wrap:wrap;gap:8px}
 .artyk-about .colophon .it{font-size:14px;color:rgba(31,36,32,.55)}
-@media(max-width:900px){.artyk-about .close-grid .photo{grid-column:1/9}.artyk-about .close-grid .txt{grid-column:1/13}}
 
 .artyk-about :focus-visible{outline:2px solid var(--corten);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){
@@ -756,5 +781,9 @@ const CSS = `
   .artyk-about .track{animation:none}
   .artyk-about .spreadimg .par{top:0;height:100%}
   .artyk-about .scrub .w{opacity:1}
+  .artyk-about .philo-float{animation:none}
+  .artyk-about .philo-card{animation:none;transform:none}
+  .artyk-about .philo-orn .gem i{animation:none;transform:rotate(45deg)}
+  .artyk-about .philo-sheen{display:none}
 }
 `;

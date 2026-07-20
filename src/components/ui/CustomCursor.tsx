@@ -58,10 +58,20 @@ export function CustomCursor() {
       alt=""
       draggable={false}
       className="pointer-events-none fixed left-0 top-0 z-[9999] select-none"
-      style={{ x: cursorFollowX, y: cursorFollowY, translateX: "-50%", translateY: "-50%" }}
+      style={{
+        x: cursorFollowX,
+        y: cursorFollowY,
+        translateX: "-50%",
+        translateY: "-50%",
+        /* the mark is near-black and sits in heavy transparent padding, so on
+           dark photography it disappears. The ivory halo traces its strokes on
+           dark grounds; the soft dark shadow gives it weight on light ones. */
+        filter:
+          "drop-shadow(0 0 4px rgba(244,241,233,.95)) drop-shadow(0 0 10px rgba(244,241,233,.5)) drop-shadow(0 2px 5px rgba(31,36,32,.35))",
+      }}
       animate={{
-        width: active ? 92 : 72,
-        opacity: active ? 1 : 0.88,
+        width: active ? 116 : 96,
+        opacity: 1,
       }}
       transition={{ type: "spring", stiffness: 280, damping: 30, mass: 0.8 }}
     />

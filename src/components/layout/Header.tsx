@@ -22,13 +22,13 @@ export function Header() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:px-8"
     >
-      <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between rounded-2xl px-6 py-3.5 text-onyx md:px-8">
+      <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 text-onyx md:px-8">
         <Link href="/" aria-label="ARTYK home" className="shrink-0">
           <Image
-            src="/images/about/artyk-logo-cropped.png"
+            src="/images/about/artyk-logo-2.png"
             alt="ARTYK"
-            width={599}
-            height={193}
+            width={953}
+            height={262}
             priority
             className="h-6 w-auto md:h-8"
           />
@@ -48,14 +48,14 @@ export function Header() {
 
         <Link
           href="/contact"
-          className="hidden rounded-full border border-[#212121]/40 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#212121] transition hover:bg-[#212121] hover:text-ivory md:inline-block"
+          className="hidden border border-[#212121]/40 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#212121] transition hover:bg-[#212121] hover:text-ivory md:inline-block"
         >
           By Appointment
         </Link>
 
         <button
           onClick={() => setOpen(true)}
-          className="rounded-full border border-cognac/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-onyx md:hidden"
+          className="border border-cognac/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-onyx md:hidden"
         >
           Menu
         </button>

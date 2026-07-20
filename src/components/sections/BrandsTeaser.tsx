@@ -56,13 +56,15 @@ export default function BrandsTeaser() {
         <div ref={marqueeRef} className="overflow-x-auto overflow-y-hidden pb-2 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <motion.div className="flex w-max gap-3 md:gap-4" initial={false}>
             {marqueeItems.map((b, i) => {
-              const flagSrc = flagMap[b.origin.split(" · ")[0]] || "/flags/italy.png";
+              // No flag asset for this origin (e.g. Spain) → show none rather
+              // than falling back to another country's flag.
+              const flagSrc = flagMap[b.origin.split(" · ")[0]];
 
               return (
                 <motion.div
                   key={`${b.slug}-${i}`}
                   whileHover={reduce ? undefined : { y: -6, scale: 1.03, transition: { duration: 0.3 } }}
-                  className="group relative h-[420px] w-[250px] shrink-0 snap-start overflow-hidden rounded-[1.5rem] border border-cognac/20 bg-[#ece7de] sm:h-[520px] sm:w-[300px]"
+                  className="group relative h-[420px] w-[250px] shrink-0 snap-start overflow-hidden border border-cognac/20 bg-[#ece7de] sm:h-[520px] sm:w-[300px]"
                 >
                   <Link href={`/brands/${b.slug}`} aria-label={`View brand: ${b.name}`} className="block h-full w-full">
                     <div className="relative h-full w-full">
@@ -83,9 +85,11 @@ export default function BrandsTeaser() {
                             {b.name}
                           </p>
                         </div>
-                        <div className="relative h-7 w-7 overflow-hidden rounded-full border border-white/40 bg-white/90 shadow-sm">
-                          <Image src={flagSrc} alt="" fill sizes="28px" className="object-cover" />
-                        </div>
+                        {flagSrc ? (
+                          <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-white/40 bg-white/90 shadow-sm">
+                            <Image src={flagSrc} alt="" fill sizes="28px" className="object-cover" />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </Link>

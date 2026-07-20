@@ -21,7 +21,9 @@ body {
   background: var(--bg);
   color: var(--ink);
   min-height: 100%;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes body its own (non-scrolling) scroll
+     container, which silently disables position:sticky everywhere */
+  overflow-x: clip;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

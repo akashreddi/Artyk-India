@@ -9,9 +9,11 @@ export default function CollaborationsList() {
       <ul>
         {brands.map((b) => (
           <li key={b.slug} className="border-b border-cognac/20 first:border-t">
+            {/* stacked on mobile so the longer origin tags never clip against
+                the wrapping brand name; side-by-side from tablet up */}
             <Link
               href={`/brands/${b.slug}`}
-              className="group flex items-baseline justify-between gap-6 py-7 md:py-10"
+              className="group flex flex-col items-start gap-2.5 py-7 md:flex-row md:items-baseline md:justify-between md:gap-6 md:py-10"
             >
               <span className="font-display text-3xl font-light leading-none tracking-[-0.01em] text-onyx transition-colors duration-300 group-hover:text-forest md:text-[60px]">
                 {b.name}

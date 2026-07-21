@@ -15,7 +15,7 @@ export default function CollaborationsList() {
               href={`/brands/${b.slug}`}
               className="group flex flex-col items-start gap-2.5 py-7 md:flex-row md:items-baseline md:justify-between md:gap-6 md:py-10"
             >
-              <span className="font-display text-3xl font-light leading-none tracking-[-0.01em] text-onyx transition-colors duration-300 group-hover:text-forest md:text-[60px]">
+              <span className="font-display text-3xl font-light leading-none tracking-[-0.01em] text-onyx transition-colors duration-300 group-hover:text-forest md:text-[50px]">
                 {b.name}
               </span>
               <span className="shrink-0 font-sans text-[11px] uppercase tracking-[0.24em] text-cognac">

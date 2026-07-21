@@ -36,7 +36,7 @@ export function ProductPageClient({ product, relatedProducts }: { product: Produ
         </div>
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-brass">{product.brand?.name}</p>
-          <h1 className="mt-3 font-display text-4xl italic leading-none text-onyx md:text-6xl">{product.title}</h1>
+          <h1 className="mt-3 font-display text-4xl italic leading-none text-onyx md:text-[50px]">{product.title}</h1>
           <p className="mt-6 text-sm font-light text-cognac">Materials: {product.materials ?? "Available on request"}</p>
           <p className="mt-2 text-sm font-light text-cognac">Finishes: {product.finishes ?? "Available on request"}</p>
           <div className="mt-6">
@@ -48,7 +48,7 @@ export function ProductPageClient({ product, relatedProducts }: { product: Produ
         </div>
       </div>
       <div className="mx-auto mt-14 max-w-7xl md:mt-20">
-        <h2 className="mb-6 font-display text-[30px] italic md:mb-8 md:text-[60px]">Related Products</h2>
+        <h2 className="mb-6 font-display text-[30px] italic md:mb-8 md:text-[50px]">Related Products</h2>
         <div className="flex gap-6 overflow-x-auto">
           {relatedProducts.map((item) => (
             <article key={item._id} className="min-w-[220px] md:min-w-72">

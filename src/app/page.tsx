@@ -31,7 +31,7 @@ export default function HomePage() {
       <section className="px-6 py-28 md:px-16 md:py-44">
         <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-9">
-            <h2 className="font-display text-[32px] font-light leading-[1.12] tracking-[-0.01em] text-onyx md:text-[60px]">
+            <h2 className="font-display text-[32px] font-light leading-[1.12] tracking-[-0.01em] text-onyx md:text-[50px]">
               Artyk — Experience{" "}
               <span className="not-italic text-corten">Curated Luxury</span>.
             </h2>
@@ -57,7 +57,7 @@ export default function HomePage() {
           <div className="mb-10 flex items-baseline gap-4 md:mb-14">
             <div className="hidden h-px w-6 shrink-0 translate-y-[-0.4rem] bg-corten sm:block" />
             <Reveal>
-              <h2 className="font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[60px]">
+              <h2 className="font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[50px]">
                 The Artyk Difference.
               </h2>
             </Reveal>
@@ -76,7 +76,7 @@ export default function HomePage() {
                 <p className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-corten">
                   Our Collection
                 </p>
-                <h2 className="mt-3 max-w-3xl font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[60px]">
+                <h2 className="mt-3 max-w-3xl font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[50px]">
                   A World of Exceptional Design
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-cognac md:text-lg">
@@ -99,7 +99,7 @@ export default function HomePage() {
       <section className="px-6 pt-10 pb-28 md:px-16 md:pt-14 md:pb-40">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <h2 className="max-w-2xl font-display text-[32px] font-light leading-[1.08] tracking-[-0.01em] text-onyx md:text-[60px]">
+            <h2 className="max-w-2xl font-display text-[32px] font-light leading-[1.08] tracking-[-0.01em] text-onyx md:text-[50px]">
               An Immersive Design Experience
             </h2>
           </div>

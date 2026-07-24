@@ -64,13 +64,14 @@ export function CustomCursor() {
         translateX: "-50%",
         translateY: "-50%",
         /* the mark is near-black and sits in heavy transparent padding, so on
-           dark photography it disappears. The ivory halo traces its strokes on
-           dark grounds; the soft dark shadow gives it weight on light ones. */
+           dark photography it disappears. The tight dark shadows thicken its
+           thin strokes so it reads bolder; the ivory halo traces it on dark
+           grounds; the soft dark shadow gives it weight on light ones. */
         filter:
-          "drop-shadow(0 0 4px rgba(244,241,233,.95)) drop-shadow(0 0 10px rgba(244,241,233,.5)) drop-shadow(0 2px 5px rgba(31,36,32,.35))",
+          "drop-shadow(0 0 0.5px rgba(31,36,32,.9)) drop-shadow(0 0 0.5px rgba(31,36,32,.9)) drop-shadow(0 0 3px rgba(244,241,233,1)) drop-shadow(0 0 6px rgba(244,241,233,.9)) drop-shadow(0 0 16px rgba(244,241,233,.75)) drop-shadow(0 2px 4px rgba(31,36,32,.35))",
       }}
       animate={{
-        width: active ? 116 : 96,
+        width: active ? 84 : 72,
         opacity: 1,
       }}
       transition={{ type: "spring", stiffness: 280, damping: 30, mass: 0.8 }}

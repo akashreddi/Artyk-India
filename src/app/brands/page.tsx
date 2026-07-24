@@ -8,10 +8,10 @@ export default function BrandsPage() {
   return (
     <>
       {/* intro */}
-      <section className="px-6 pt-36 pb-6 md:px-16 md:pt-44">
+      <section className="px-6 pt-12 pb-6 md:px-16 md:pt-16">
         <div className="mx-auto max-w-7xl">
           <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-forest">Partner Houses</p>
-          <h1 className="mt-4 max-w-3xl font-display text-[clamp(2.6rem,7vw,5.5rem)] font-light leading-[1.02] tracking-[-0.01em] text-onyx">
+          <h1 className="mt-4 max-w-3xl font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[50px]">
             Brands we curate
           </h1>
           <p className="mt-6 max-w-xl leading-relaxed text-cognac">

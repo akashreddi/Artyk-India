@@ -14,7 +14,7 @@ export default function SourcingPage() {
         <div className="absolute inset-0 bg-onyx/50" />
         <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-16 md:pb-24">
           <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/80">International</p>
-          <h1 className="mt-4 font-display text-[clamp(3rem,9vw,7rem)] font-light leading-none text-ivory">Sourcing</h1>
+          <h1 className="mt-4 font-display text-[32px] font-light leading-[1.1] text-ivory md:text-[50px]">Sourcing</h1>
         </div>
       </section>
 
@@ -30,7 +30,7 @@ export default function SourcingPage() {
       <section className="px-6 pb-24 md:px-16">
         <div className="mx-auto max-w-7xl">
           <div className="flex items-end justify-between border-t border-cognac/25 pt-8">
-            <h2 className="font-display text-[26px] font-light text-onyx md:text-[50px]">Partner houses</h2>
+            <h2 className="font-display text-[32px] font-light text-onyx md:text-[50px]">Partner houses</h2>
             <Link href="/brands" className="font-sans text-[11px] uppercase tracking-[0.24em] text-forest underline-sweep">
               All brands →
             </Link>

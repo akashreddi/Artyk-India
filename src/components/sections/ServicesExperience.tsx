@@ -313,7 +313,7 @@ function Hero() {
         >
           Our Services
         </motion.p>
-        <h1 className="mt-5 font-display text-[clamp(2.6rem,6.8vw,5.8rem)] font-light leading-[1.04] text-ivory">
+        <h1 className="mt-5 font-display text-[clamp(2.5rem,4.5vw,4rem)] font-light leading-[1.08] text-ivory">
           {lines.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
               <motion.span
@@ -586,7 +586,7 @@ function Invitation() {
           </p>
         </Reveal>
         <Reveal delay={0.1}>
-          <h2 className="mt-6 font-display text-[clamp(2.2rem,5.4vw,4.4rem)] font-light leading-[1.08] text-ivory">
+          <h2 className="mt-6 font-display text-[32px] font-light leading-[1.1] text-ivory md:text-[50px]">
             Let&rsquo;s Create Something Exceptional
           </h2>
         </Reveal>

@@ -596,12 +596,12 @@ const CSS = `
 .artyk-about .hero-top .micro{color:rgba(244,241,233,.8)}
 .artyk-about .hero-top .wm{font-size:13px;letter-spacing:.42em}
 .artyk-about .hero-inner{position:absolute;left:0;right:0;bottom:0;padding:clamp(28px,5vw,72px) clamp(20px,5vw,72px)}
-.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(3rem,8.6vw,7.6rem)}
+.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08}
 .artyk-about .hero-sub{color:rgba(244,241,233,.78);font-style:italic;font-size:clamp(.98rem,1.4vw,1.15rem);max-width:34em;margin-top:20px}
 
 /* ================= STANDFIRST ================= */
 .artyk-about .standfirst .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,3vw,52px)}
-.artyk-about .standfirst .lead{grid-column:1/9;font-size:clamp(1.9rem,4vw,3.6rem)}
+.artyk-about .standfirst .lead{grid-column:1/9;font-size:clamp(1.9rem,3.7vw,3.125rem)}
 .artyk-about .standfirst .lead .accent{font-style:italic;color:var(--corten)}
 .artyk-about .standfirst .aside{grid-column:10/13;align-self:end}
 .artyk-about .standfirst .aside p{font-size:15.5px;color:rgba(31,36,32,.75)}
@@ -627,7 +627,7 @@ const CSS = `
 .artyk-about figcaption .cap{font-family:var(--font-display),serif;font-style:italic;font-weight:300;font-size:15px;color:rgba(31,36,32,.75)}
 .artyk-about figcaption .micro{display:block;margin-top:6px}
 .artyk-about .feature .txt{grid-column:7/13;grid-row:1;position:relative;z-index:2}
-.artyk-about .names{font-size:clamp(2.6rem,5.6vw,5rem);margin:14px 0 16px}
+.artyk-about .names{font-size:clamp(2rem,4vw,3.125rem);margin:14px 0 16px}
 .artyk-about .names .amp{font-style:normal;font-weight:300;color:var(--corten);font-size:.68em}
 @media(max-width:920px){
   .artyk-about .feature .photo{grid-column:1/13;grid-row:auto;max-width:520px}
@@ -662,9 +662,9 @@ const CSS = `
 @media(max-width:920px){.artyk-about .well .story{grid-column:1/13}.artyk-about .well .insetfig{grid-column:1/13;max-width:380px}}
 
 /* ================= MARQUEE ================= */
-.artyk-about .marquee{padding:clamp(18px,2.4vw,30px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--stone)}
+.artyk-about .marquee{padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--stone)}
 .artyk-about .track{display:flex;width:max-content;animation:aboutMq 36s linear infinite;gap:0}
-.artyk-about .track span{font-family:var(--font-display),serif;font-weight:300;font-size:clamp(1.3rem,2.6vw,2rem);white-space:nowrap;padding-right:.6em}
+.artyk-about .track span{font-family:var(--font-display),serif;font-weight:300;font-size:clamp(1.35rem,2.1vw,1.75rem);line-height:1.25;white-space:nowrap;padding-right:.6em}
 .artyk-about .track .dot{color:var(--corten);padding:0 .6em}
 .artyk-about .track i{font-style:italic}
 @keyframes aboutMq{to{transform:translateX(-50%)}}
@@ -675,7 +675,7 @@ const CSS = `
 .artyk-about .spreadimg .par{position:absolute;left:0;right:0;top:-7%;height:114%;will-change:transform}
 .artyk-about .gallery .below{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,52px);margin-top:clamp(26px,3vw,44px)}
 .artyk-about .gallery .capL{grid-column:1/5}
-.artyk-about .gallery .philoT{grid-column:6/13;font-size:clamp(1.7rem,3.4vw,3rem)}
+.artyk-about .gallery .philoT{grid-column:6/13;font-size:clamp(1.7rem,3.7vw,3.125rem)}
 .artyk-about .gallery .philoB{grid-column:6/11;margin-top:26px;color:rgba(31,36,32,.8)}
 @media(max-width:920px){.artyk-about .gallery .capL{grid-column:1/13}.artyk-about .gallery .philoT,.artyk-about .gallery .philoB{grid-column:1/13}}
 
@@ -724,7 +724,7 @@ const CSS = `
 /* letterpress heading, floating highest above the plaque */
 .artyk-about .philo-head{
   position:relative;margin-top:clamp(20px,2.6vw,30px);
-  font-size:clamp(2rem,5vw,4.15rem);
+  font-size:clamp(2rem,4vw,3.125rem);
   transform:translateZ(54px);
   text-shadow:0 -1px 1px rgba(31,36,32,.15),0 1px 1px rgba(244,241,233,.3);
 }

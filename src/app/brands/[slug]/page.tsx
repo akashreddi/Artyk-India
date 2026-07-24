@@ -84,7 +84,7 @@ export default async function BrandPage({
         <div className="absolute inset-0 bg-onyx/50" />
         <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-16 md:pb-24">
           <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/80">{b.origin}</p>
-          <h1 className="mt-4 font-display text-[clamp(2.6rem,8vw,6rem)] font-light leading-none text-ivory">
+          <h1 className="mt-4 font-display text-[32px] font-light leading-[1.1] text-ivory md:text-[50px]">
             {b.name}
           </h1>
           <p className="mt-4 max-w-xl font-display text-[clamp(1.2rem,2.4vw,1.8rem)] font-light italic leading-snug text-ivory/85">

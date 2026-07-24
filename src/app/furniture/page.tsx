@@ -18,7 +18,7 @@ export default function FurniturePage() {
         <Image src="/images/services/service-furniture.jpg" alt="ARTYK showroom" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-onyx/45" />
         <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-16 md:pb-24">
-          <h1 className="font-display text-[clamp(3rem,9vw,7rem)] font-light leading-none text-ivory">Furniture</h1>
+          <h1 className="font-display text-[32px] font-light leading-[1.1] text-ivory md:text-[50px]">Furniture</h1>
         </div>
       </section>
 

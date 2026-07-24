@@ -8,7 +8,7 @@ export default function ContactPage() {
       <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-forest">By appointment</p>
-          <h1 className="mt-4 font-display text-[clamp(2.6rem,6vw,4.5rem)] font-light leading-[1.02] text-onyx">
+          <h1 className="mt-4 font-display text-[32px] font-light leading-[1.1] text-onyx md:text-[50px]">
             Visit ARTYK.
           </h1>
           <p className="mt-6 max-w-sm leading-relaxed text-cognac">

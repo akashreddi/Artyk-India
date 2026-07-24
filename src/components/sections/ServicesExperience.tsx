@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
+import ProcessTimeline from "@/components/sections/ProcessTimeline";
 import {
   AnimatePresence,
   motion,
@@ -18,9 +19,10 @@ import {
 /**
  * The Services page experience: hero, standfirst, the three practice
  * plaques (pointer-tilt 3D), the What We Offer index with its
- * cursor-chasing image plane, the sticky Process deck, and the closing
- * CTA banner. The existing "Begin a consultation" form block follows
- * this component on the page, untouched.
+ * cursor-chasing image plane, the Our Process journey line (the
+ * scroll-drawn serpentine in ProcessTimeline), and the closing CTA
+ * banner. The existing "Begin a consultation" form block follows this
+ * component on the page, untouched.
  */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -102,39 +104,6 @@ const OFFERINGS = [
     body: "Thoughtfully selected objects that complete a space.",
     image: "/images/services/showcase-2.jpg",
     alt: "Objects and books styled on a lacquered table",
-  },
-];
-
-const STEPS = [
-  {
-    no: "01",
-    title: "Discover",
-    body: "Understanding your project, aspirations, and functional requirements.",
-    tone: "bg-ivory",
-  },
-  {
-    no: "02",
-    title: "Design",
-    body: "Developing layouts, product specifications, and tailored solutions.",
-    tone: "bg-oat",
-  },
-  {
-    no: "03",
-    title: "Curate",
-    body: "Selecting the right brands, collections, materials, and finishes.",
-    tone: "bg-mist",
-  },
-  {
-    no: "04",
-    title: "Deliver",
-    body: "Managing procurement, logistics, installation, and final execution with meticulous attention to detail.",
-    tone: "bg-ivory",
-  },
-  {
-    no: "05",
-    title: "Experience",
-    body: "A space that reflects your vision, celebrates design, and enhances the way you live.",
-    tone: "bg-camel",
   },
 ];
 
@@ -513,49 +482,12 @@ function Offerings() {
 }
 
 function Process() {
-  const reduce = useReducedMotion() ?? false;
   return (
     <section className="px-6 py-24 md:px-16 md:py-36">
       <div className="mx-auto max-w-7xl">
-        <Kicker label="Our Process" note="From first meeting to final reveal" />
-        <div className="relative [perspective:1400px]">
-          {STEPS.map((s, i) => (
-            <div key={s.no} className="sticky" style={{ top: `calc(76px + ${i * 18}px)` }}>
-              <motion.article
-                className={`${s.tone} mb-8 border border-cognac/20 px-7 py-12 shadow-[0_-24px_70px_rgba(31,36,32,.1)] md:px-14 md:py-16`}
-                style={{ transformOrigin: "top center" }}
-                initial={reduce ? false : { opacity: 0, y: 70, rotateX: 9 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1.05, ease: EASE }}
-              >
-                <div className="grid items-baseline gap-4 md:grid-cols-12 md:gap-8">
-                  <span
-                    className={`font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light italic leading-none md:col-span-2 ${
-                      s.tone === "bg-camel" ? "text-ivory/85" : "text-corten/45"
-                    }`}
-                  >
-                    {s.no}
-                  </span>
-                  <h3
-                    className={`font-display text-[clamp(1.9rem,3.6vw,3.1rem)] font-light leading-[1.05] md:col-span-4 ${
-                      s.tone === "bg-camel" ? "text-onyx" : "text-onyx"
-                    }`}
-                  >
-                    {s.title}
-                  </h3>
-                  <p
-                    className={`max-w-[46ch] text-[15px] leading-relaxed md:col-span-6 ${
-                      s.tone === "bg-camel" ? "text-onyx/80" : "text-cognac"
-                    }`}
-                  >
-                    {s.body}
-                  </p>
-                </div>
-              </motion.article>
-            </div>
-          ))}
-        </div>
+        <h2 className="sr-only">Our Process</h2>
+        <Kicker label="Our Process" note="Five steps, one continuous line" />
+        <ProcessTimeline />
       </div>
     </section>
   );

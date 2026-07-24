@@ -84,7 +84,7 @@ export function Header() {
                 variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
                 className="mb-5 border-b border-cognac/15 pb-3"
               >
-                <Link href={item.href} className="font-display text-5xl leading-none" onClick={() => setOpen(false)}>
+                <Link href={item.href} className="font-display text-[42px] leading-none" onClick={() => setOpen(false)}>
                   {item.label}
                 </Link>
               </motion.div>

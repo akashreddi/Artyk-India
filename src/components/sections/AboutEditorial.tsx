@@ -70,7 +70,7 @@ export default function AboutEditorial() {
       },
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
     );
-    root.querySelectorAll(".rv, .split, .js-clip").forEach((el) => io.observe(el));
+    root.querySelectorAll(".rv, .split, .js-clip, .draw").forEach((el) => io.observe(el));
     cleanups.push(() => io.disconnect());
 
     /* scroll-scrub quote: words brighten as it moves through the viewport */
@@ -174,24 +174,34 @@ export default function AboutEditorial() {
       }
     }
 
-    /* philosophy plaque: subtle 3D tilt with inertia + a pointer-lit sheen */
-    if (!reduce) {
-      const scene = root.querySelector<HTMLElement>(".js-tilt");
-      const card = root.querySelector<HTMLElement>(".js-tilt-card");
-      if (scene && card) {
-        const MAX_TILT = 2.4;
-        let tRx = 0, tRy = 0, tMx = 50, tMy = 40;
-        let rx = 0, ry = 0, mx = 50, my = 40;
+    /* philosophy: the image plane leans toward the pointer with inertia and a
+       travelling sheen; the text drifts a touch for parallax depth. On touch
+       devices (no pointer) a slow auto-lean keyframe carries the 3D instead. */
+    const finePointer =
+      typeof window !== "undefined" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!reduce && finePointer) {
+      const scene = root.querySelector<HTMLElement>(".philo2");
+      const plane = root.querySelector<HTMLElement>(".philo2-inner");
+      const text = root.querySelector<HTMLElement>(".philo2-text");
+      if (scene && plane) {
+        const MAX = 2.6;
+        let tRx = 0, tRy = 0, tMx = 50, tMy = 38;
+        let rx = 0, ry = 0, mx = 50, my = 38;
         let raf = 0;
         const step = () => {
-          rx += (tRx - rx) * 0.065;
-          ry += (tRy - ry) * 0.065;
-          mx += (tMx - mx) * 0.065;
-          my += (tMy - my) * 0.065;
-          card.style.setProperty("--rx", rx.toFixed(3) + "deg");
-          card.style.setProperty("--ry", ry.toFixed(3) + "deg");
-          card.style.setProperty("--mx", mx.toFixed(2) + "%");
-          card.style.setProperty("--my", my.toFixed(2) + "%");
+          rx += (tRx - rx) * 0.07;
+          ry += (tRy - ry) * 0.07;
+          mx += (tMx - mx) * 0.07;
+          my += (tMy - my) * 0.07;
+          plane.style.setProperty("--rx", rx.toFixed(3) + "deg");
+          plane.style.setProperty("--ry", ry.toFixed(3) + "deg");
+          plane.style.setProperty("--mx", mx.toFixed(2) + "%");
+          plane.style.setProperty("--my", my.toFixed(2) + "%");
+          if (text) {
+            text.style.transform =
+              "translate3d(" + (ry * -1.5).toFixed(2) + "px," + (rx * 1.5).toFixed(2) + "px,0)";
+          }
           const settled =
             Math.abs(tRx - rx) + Math.abs(tRy - ry) < 0.002 &&
             Math.abs(tMx - mx) + Math.abs(tMy - my) < 0.05;
@@ -204,8 +214,8 @@ export default function AboutEditorial() {
           const r = scene.getBoundingClientRect();
           const nx = (e.clientX - r.left) / r.width - 0.5;
           const ny = (e.clientY - r.top) / r.height - 0.5;
-          tRy = nx * MAX_TILT;
-          tRx = -ny * MAX_TILT;
+          tRy = nx * MAX;
+          tRx = -ny * MAX;
           tMx = nx * 100 + 50;
           tMy = ny * 100 + 50;
           kick();
@@ -214,7 +224,7 @@ export default function AboutEditorial() {
           tRx = 0;
           tRy = 0;
           tMx = 50;
-          tMy = 40;
+          tMy = 38;
           kick();
         };
         scene.addEventListener("pointermove", move);
@@ -275,25 +285,37 @@ export default function AboutEditorial() {
               Artyk was created with a singular vision — to curate the world&apos;s finest design and{" "}
               <span className="accent">transform</span> the way people experience their spaces.
             </p>
-            <div className="aside">
-              <hr className="rule rv" />
-              <p className="rv d1">
-                We believe that exceptional interiors are not defined by individual pieces, but by
-                the harmony between craftsmanship, materiality, proportion, and purpose. Every
-                collection we present is chosen to inspire spaces that reflect the aspirations and
-                lifestyles of those who inhabit them.
-                <br />
-                <br />
-                At Artyk, every brand is selected with intention. We bring together globally
-                celebrated names in furniture, kitchens, wardrobes, lighting, rugs, and art — united
-                by a shared commitment to quality, innovation, and enduring design.
-              </p>
-              <ul className="clients rv d2">
-                <li>Homeowners</li>
-                <li>Architects &amp; Designers</li>
-                <li>Developers</li>
-                <li>Hospitality Partners</li>
-              </ul>
+
+            <div className="support">
+              <span className="rule-draw draw" aria-hidden="true" />
+              <div className="support-grid">
+                <div className="belief">
+                  <span className="micro col-label rv">Our belief</span>
+                  <div className="belief-cols">
+                    <p className="rv d1">
+                      We believe that exceptional interiors are not defined by individual pieces, but
+                      by the harmony between craftsmanship, materiality, proportion, and purpose. Every
+                      collection we present is chosen to inspire spaces that reflect the aspirations and
+                      lifestyles of those who inhabit them.
+                    </p>
+                    <p className="rv d2">
+                      At Artyk, every brand is selected with intention. We bring together globally
+                      celebrated names in furniture, kitchens, wardrobes, lighting, rugs, and art —
+                      united by a shared commitment to quality, innovation, and enduring design.
+                    </p>
+                  </div>
+                </div>
+
+                <aside className="serve rv d2">
+                  <span className="micro col-label">Who we serve</span>
+                  <ul className="clients">
+                    <li><span>Homeowners</span></li>
+                    <li><span>Architects &amp; Designers</span></li>
+                    <li><span>Developers</span></li>
+                    <li><span>Hospitality Partners</span></li>
+                  </ul>
+                </aside>
+              </div>
             </div>
           </div>
         </div>
@@ -467,14 +489,16 @@ export default function AboutEditorial() {
               </span>
               <span className="micro">The Gallery, Hyderabad</span>
             </figcaption>
-            <h2 className="display philoT split">Exceptional design begins with discernment.</h2>
-            <p className="philoB rv d1">
-              Our approach is guided by a deep appreciation for detail, proportion, material, and
-              craftsmanship. Rather than offering endless choices, we focus on a carefully selected
-              portfolio of brands and collections representing the highest standards of contemporary
-              design — a balance of style, comfort, and quality. The result is a design experience
-              that is personal, purposeful, and enduring.
-            </p>
+            <div className="philoGroup">
+              <h2 className="display philoT split">Exceptional design begins with discernment.</h2>
+              <p className="philoB rv d1">
+                Our approach is guided by a deep appreciation for detail, proportion, material, and
+                craftsmanship. Rather than offering endless choices, we focus on a carefully selected
+                portfolio of brands and collections representing the highest standards of contemporary
+                design — a balance of style, comfort, and quality. The result is a design experience
+                that is personal, purposeful, and enduring.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -487,47 +511,46 @@ export default function AboutEditorial() {
             <span className="l" />
             <span className="r">A quiet conviction</span>
           </div>
+        </div>
 
-          <div className="philo-scene js-tilt">
-            <div className="philo-float">
-              <div className="philo-card js-tilt-card">
-                <span className="philo-frame" aria-hidden="true" />
-                <span className="philo-frame philo-frame--inner" aria-hidden="true" />
-                <span className="philo-sheen" aria-hidden="true" />
-
-                <span className="micro philo-eyebrow rv">Artyk · Curated Living</span>
-
-                <h2 className="display philo-head split">
-                  Thoughtfully Chosen.
-                  <br />
-                  Beautifully Experienced.
-                </h2>
-
-                <div className="philo-orn rv d1" aria-hidden="true">
-                  <span className="ln" />
-                  <span className="gem">
-                    <i />
-                  </span>
-                  <span className="ln" />
-                </div>
-
-                <div className="philo-copy">
-                  <p className="rv d1">
-                    At Artyk, we believe that exceptional interiors are shaped by thoughtful
-                    decisions, not overwhelming choices.
-                  </p>
-                  <p className="rv d2">
-                    Every brand we represent is selected for its distinct design philosophy,
-                    uncompromising craftsmanship, and enduring relevance. Together, they form a
-                    cohesive collection that celebrates authenticity, innovation, and timeless
-                    living.
-                  </p>
-                  <p className="rv d3">
-                    Our role is not simply to present beautiful products, but to help create spaces
-                    where every element feels considered, connected, and uniquely personal.
-                  </p>
-                </div>
+        <div className="philo2">
+          <figure className="philo2-media js-clip">
+            <div className="philo2-inner">
+              <div className="philo2-clip">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/about/image-4.jpg"
+                  alt="Inside the Artyk gallery — a curated living arrangement framed by floor-to-ceiling greenery"
+                  loading="lazy"
+                />
               </div>
+              <span className="philo2-sheen" aria-hidden="true" />
+              <span className="philo2-edge" aria-hidden="true" />
+            </div>
+            <span className="philo2-tag micro">The Gallery — Hyderabad</span>
+          </figure>
+
+          <div className="philo2-text">
+            <span className="micro philo2-eyebrow rv">Artyk · Curated Living</span>
+            <h2 className="display philo2-head split">
+              Thoughtfully chosen,
+              <br />
+              beautifully <span className="accent">experienced</span>.
+            </h2>
+            <div className="philo2-copy">
+              <p className="rv d1">
+                At Artyk, we believe that exceptional interiors are shaped by thoughtful decisions,
+                not overwhelming choices.
+              </p>
+              <p className="rv d2">
+                Every brand we represent is selected for its distinct design philosophy,
+                uncompromising craftsmanship, and enduring relevance — together forming a cohesive
+                collection that celebrates authenticity, innovation, and timeless living.
+              </p>
+              <p className="rv d3">
+                Our role is not simply to present beautiful products, but to help create spaces where
+                every element feels considered, connected, and uniquely personal.
+              </p>
             </div>
           </div>
         </div>
@@ -596,20 +619,40 @@ const CSS = `
 .artyk-about .hero-top .micro{color:rgba(244,241,233,.8)}
 .artyk-about .hero-top .wm{font-size:13px;letter-spacing:.42em}
 .artyk-about .hero-inner{position:absolute;left:0;right:0;bottom:0;padding:clamp(28px,5vw,72px) clamp(20px,5vw,72px)}
-.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08}
+.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
 .artyk-about .hero-sub{color:rgba(244,241,233,.78);font-style:italic;font-size:clamp(.98rem,1.4vw,1.15rem);max-width:34em;margin-top:20px}
 
 /* ================= STANDFIRST ================= */
-.artyk-about .standfirst .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,3vw,52px)}
-.artyk-about .standfirst .lead{grid-column:1/9;font-size:clamp(1.9rem,3.7vw,3.125rem)}
+.artyk-about .standfirst .grid{display:block}
+.artyk-about .standfirst .lead{max-width:62rem;font-size:clamp(1.5rem,2.9vw,2.5rem)}
 .artyk-about .standfirst .lead .accent{font-style:italic;color:var(--corten)}
-.artyk-about .standfirst .aside{grid-column:10/13;align-self:end}
-.artyk-about .standfirst .aside p{font-size:15.5px;color:rgba(31,36,32,.75)}
-.artyk-about .standfirst .aside .rule{margin-bottom:16px}
-.artyk-about .clients{list-style:none;margin-top:22px}
-.artyk-about .clients li{padding:11px 2px;border-top:1px solid var(--line);font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:rgba(31,36,32,.62)}
-.artyk-about .clients li:last-child{border-bottom:1px solid var(--line)}
-@media(max-width:920px){.artyk-about .standfirst .lead{grid-column:1/13}.artyk-about .standfirst .aside{grid-column:1/13;max-width:520px;margin-top:28px}}
+
+/* supporting block flows beneath the lead, filling the width */
+.artyk-about .standfirst .support{margin-top:clamp(44px,6vw,96px)}
+.artyk-about .standfirst .rule-draw{display:block;height:1px;width:100%;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--ease)}
+.artyk-about .standfirst .rule-draw.in{transform:scaleX(1)}
+
+.artyk-about .standfirst .support-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(30px,4vw,72px);margin-top:clamp(30px,3.4vw,50px)}
+.artyk-about .standfirst .col-label{display:block;margin-bottom:clamp(18px,2vw,26px);position:relative;padding-left:20px}
+.artyk-about .standfirst .col-label::before{content:"";position:absolute;left:0;top:.34em;width:9px;height:9px;border-radius:50%;background:var(--corten);opacity:.85}
+
+.artyk-about .standfirst .belief{grid-column:1/9}
+.artyk-about .standfirst .belief-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,2.6vw,46px)}
+.artyk-about .standfirst .belief p{font-size:15.5px;line-height:1.78;color:rgba(31,36,32,.78)}
+
+.artyk-about .standfirst .serve{grid-column:10/13}
+.artyk-about .standfirst .clients{list-style:none}
+.artyk-about .standfirst .clients li{border-top:1px solid var(--line);overflow:hidden}
+.artyk-about .standfirst .clients li:last-child{border-bottom:1px solid var(--line)}
+.artyk-about .standfirst .clients li span{display:block;padding:13px 2px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:rgba(31,36,32,.62);transition:transform .55s var(--ease),color .55s var(--ease)}
+.artyk-about .standfirst .clients li:hover span{transform:translateX(9px);color:var(--corten)}
+
+@media(max-width:920px){
+  .artyk-about .standfirst .belief{grid-column:1/13}
+  .artyk-about .standfirst .belief-cols{grid-template-columns:1fr;gap:0}
+  .artyk-about .standfirst .belief p + p{margin-top:18px}
+  .artyk-about .standfirst .serve{grid-column:1/13;margin-top:10px}
+}
 
 /* ================= FOUNDERS FEATURE ================= */
 .artyk-about .founders{background:var(--ivory);position:relative}
@@ -627,7 +670,7 @@ const CSS = `
 .artyk-about figcaption .cap{font-family:var(--font-display),serif;font-style:italic;font-weight:300;font-size:15px;color:rgba(31,36,32,.75)}
 .artyk-about figcaption .micro{display:block;margin-top:6px}
 .artyk-about .feature .txt{grid-column:7/13;grid-row:1;position:relative;z-index:2}
-.artyk-about .names{font-size:clamp(2rem,4vw,3.125rem);margin:14px 0 16px}
+.artyk-about .names{font-size:clamp(1.7rem,3.1vw,2.8rem);margin:14px 0 16px}
 .artyk-about .names .amp{font-style:normal;font-weight:300;color:var(--corten);font-size:.68em}
 @media(max-width:920px){
   .artyk-about .feature .photo{grid-column:1/13;grid-row:auto;max-width:520px}
@@ -673,89 +716,72 @@ const CSS = `
 .artyk-about .gallery{padding-top:0}
 .artyk-about .spreadimg{height:min(92vh,880px);min-height:420px;overflow:hidden;position:relative}
 .artyk-about .spreadimg .par{position:absolute;left:0;right:0;top:-7%;height:114%;will-change:transform}
-.artyk-about .gallery .below{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,52px);margin-top:clamp(26px,3vw,44px)}
+.artyk-about .gallery .below{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(20px,3vw,52px);margin-top:clamp(26px,3vw,44px);align-items:start}
 .artyk-about .gallery .capL{grid-column:1/5}
-.artyk-about .gallery .philoT{grid-column:6/13;font-size:clamp(1.7rem,3.7vw,3.125rem)}
-.artyk-about .gallery .philoB{grid-column:6/11;margin-top:26px;color:rgba(31,36,32,.8)}
-@media(max-width:920px){.artyk-about .gallery .capL{grid-column:1/13}.artyk-about .gallery .philoT,.artyk-about .gallery .philoB{grid-column:1/13}}
+.artyk-about .gallery .philoGroup{grid-column:6/13}
+.artyk-about .gallery .philoT{font-size:clamp(1.5rem,2.9vw,2.5rem)}
+.artyk-about .gallery .philoB{max-width:30rem;margin-top:clamp(18px,1.6vw,26px);color:rgba(31,36,32,.8)}
+@media(max-width:920px){.artyk-about .gallery .capL{grid-column:1/13}.artyk-about .gallery .philoGroup{grid-column:1/13}}
 
-/* ================= PHILOSOPHY (the sweet spot) ================= */
-.artyk-about .philosophy{
-  background:#B69B87;color:var(--onyx);position:relative;overflow:hidden;
-  padding:clamp(96px,13vw,170px) 0;
+/* ================= PHILOSOPHY — the dark editorial portrait ================= */
+.artyk-about .philosophy{background:var(--onyx);color:var(--ivory);position:relative;padding:0}
+/* a whisper of forest light from above, so the deep ink reads as green */
+.artyk-about .philosophy::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 70% at 78% -6%, rgba(126,154,110,.14), rgba(126,154,110,0) 52%)}
+.artyk-about .philosophy .wrap{position:relative;z-index:1;padding-top:clamp(64px,8vw,120px);padding-bottom:clamp(26px,3vw,44px)}
+.artyk-about .philosophy .micro{color:rgba(244,241,233,.55)}
+.artyk-about .philosophy .kicker .l{background:rgba(244,241,233,.16)}
+.artyk-about .philosophy .kicker .r{color:rgba(244,241,233,.5)}
+
+/* the split: a full-height plate flush to the edge, a statement alongside */
+.artyk-about .philo2{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);align-items:stretch}
+.artyk-about .philo2-media{position:relative;min-height:clamp(480px,74vh,780px);overflow:hidden;perspective:1600px}
+/* the plane that leans toward the pointer, in 3D */
+.artyk-about .philo2-inner{position:absolute;inset:0;transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--ease);will-change:transform}
+/* the reveal rides on the UNCLIPPED figure (a fully clipped element never
+   reports as intersecting, so the inner plane is what actually clips).
+   Slightly overscaled inset so the 3D tilt never bares an edge. */
+.artyk-about .philo2-clip{position:absolute;inset:-3%;overflow:hidden;
+  clip-path:inset(103% 0 0 0);transition:clip-path 1.7s var(--ease)}
+.artyk-about .philo2-media.in .philo2-clip{clip-path:inset(0 0 0 0)}
+.artyk-about .philo2-clip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.14);transition:transform 2.6s var(--ease);will-change:transform}
+.artyk-about .philo2-media.in .philo2-clip img{transform:scale(1.05)}
+/* specular light that travels with the pointer, floating above the plane */
+.artyk-about .philo2-sheen{position:absolute;inset:0;pointer-events:none;transform:translateZ(28px);
+  background:radial-gradient(54% 42% at var(--mx,50%) var(--my,38%), rgba(255,252,244,.30), rgba(255,252,244,0) 68%);
+  mix-blend-mode:soft-light}
+/* a hairline frame lifted off the surface — quiet gallery-plaque depth */
+.artyk-about .philo2-edge{position:absolute;inset:clamp(16px,1.6vw,26px);pointer-events:none;
+  border:1px solid rgba(244,241,233,.28);transform:translateZ(46px)}
+.artyk-about .philo2-tag{position:absolute;left:clamp(18px,2vw,30px);bottom:clamp(16px,2vw,28px);z-index:2;
+  color:rgba(244,241,233,.92);letter-spacing:.28em;text-shadow:0 1px 12px rgba(0,0,0,.5)}
+
+.artyk-about .philo2-text{display:flex;flex-direction:column;justify-content:center;will-change:transform;
+  padding:clamp(48px,7vw,112px) clamp(24px,6vw,110px)}
+.artyk-about .philo2-eyebrow{display:block;letter-spacing:.32em;margin-bottom:clamp(18px,2vw,28px)}
+.artyk-about .philo2-head{font-size:clamp(1.5rem,2.9vw,2.5rem);line-height:1.16;letter-spacing:-0.005em;color:var(--ivory)}
+.artyk-about .philo2-head .accent{font-style:italic;color:var(--corten)}
+.artyk-about .philo2-copy{margin-top:clamp(22px,2.6vw,36px);display:flex;flex-direction:column;gap:1.25em;max-width:42ch}
+.artyk-about .philo2-copy p{font-size:15.5px;line-height:1.85;color:rgba(244,241,233,.74)}
+.artyk-about .philo2-copy p:first-child{font-family:var(--font-display),serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.1rem,1.7vw,1.4rem);line-height:1.6;color:rgba(244,241,233,.94)}
+
+@media(max-width:900px){
+  .artyk-about .philo2{grid-template-columns:1fr}
+  .artyk-about .philo2-media{min-height:clamp(360px,52vh,520px)}
+  .artyk-about .philo2-text{padding:clamp(40px,8vw,64px) clamp(22px,6vw,48px)}
+  .artyk-about .philo2-edge{inset:12px}
 }
-/* quiet depth: light falls from above, the floor recedes below */
-.artyk-about .philosophy::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(110% 80% at 50% 0%, rgba(244,241,233,.20), rgba(244,241,233,0) 55%),
-    radial-gradient(130% 100% at 50% 118%, rgba(31,36,32,.16), rgba(31,36,32,0) 58%);
+/* touch devices have no pointer — the plane leans on its own, very slowly */
+@media(hover:none){
+  .artyk-about .philo2-inner{animation:philoLean 15s ease-in-out infinite}
 }
-.artyk-about .philosophy .micro{color:rgba(31,36,32,.55)}
-.artyk-about .philosophy .kicker .l{background:rgba(31,36,32,.22)}
-.artyk-about .philosophy .kicker .r{color:rgba(31,36,32,.55)}
-
-/* the stage: true perspective; the plaque floats and leans toward the cursor */
-.artyk-about .philo-scene{position:relative;perspective:1500px;margin-top:clamp(8px,1.6vw,20px)}
-.artyk-about .philo-float{animation:philoFloat 12s ease-in-out infinite;will-change:transform}
-@keyframes philoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-
-.artyk-about .philo-card{
-  position:relative;max-width:980px;margin:0 auto;text-align:center;
-  padding:clamp(52px,7vw,100px) clamp(26px,6vw,92px);
-  transform-style:preserve-3d;
-  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  will-change:transform;
-}
-
-/* double hairline frame — a gallery plaque in relief, each line at its own depth */
-.artyk-about .philo-frame{position:absolute;inset:0;border:1px solid rgba(244,241,233,.55);pointer-events:none;transform:translateZ(10px)}
-.artyk-about .philo-frame--inner{inset:12px;border-color:rgba(31,36,32,.22);transform:translateZ(18px)}
-
-/* specular light that travels across the plaque with the pointer */
-.artyk-about .philo-sheen{
-  position:absolute;inset:0;pointer-events:none;transform:translateZ(4px);
-  background:radial-gradient(58% 46% at var(--mx,50%) var(--my,40%), rgba(255,252,244,.4), rgba(255,252,244,0) 68%);
-  mix-blend-mode:soft-light;
-}
-
-.artyk-about .philo-eyebrow{display:block;transform:translateZ(32px);letter-spacing:.34em}
-
-/* letterpress heading, floating highest above the plaque */
-.artyk-about .philo-head{
-  position:relative;margin-top:clamp(20px,2.6vw,30px);
-  font-size:clamp(2rem,4vw,3.125rem);
-  transform:translateZ(54px);
-  text-shadow:0 -1px 1px rgba(31,36,32,.15),0 1px 1px rgba(244,241,233,.3);
-}
-
-/* lozenge ornament — a slowly turning jewel between headline and copy */
-.artyk-about .philo-orn{display:flex;align-items:center;justify-content:center;gap:16px;margin:clamp(28px,3.6vw,44px) auto;transform:translateZ(40px)}
-.artyk-about .philo-orn .ln{width:64px;height:1px;background:linear-gradient(to right,rgba(31,36,32,0),rgba(31,36,32,.4))}
-.artyk-about .philo-orn .ln:last-child{background:linear-gradient(to right,rgba(31,36,32,.4),rgba(31,36,32,0))}
-.artyk-about .philo-orn .gem{position:relative;width:11px;height:11px;perspective:220px}
-.artyk-about .philo-orn .gem i{position:absolute;inset:0;border:1px solid rgba(244,241,233,.9);background:rgba(244,241,233,.14);animation:philoGem 9s linear infinite}
-@keyframes philoGem{from{transform:rotateY(0deg) rotate(45deg)}to{transform:rotateY(360deg) rotate(45deg)}}
-
-.artyk-about .philo-copy{position:relative;max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:1.35em;transform:translateZ(30px)}
-.artyk-about .philo-copy p{font-size:15.5px;line-height:1.9;color:rgba(31,36,32,.84)}
-.artyk-about .philo-copy p:first-child{
-  font-family:var(--font-display),serif;font-style:italic;font-weight:300;
-  font-size:clamp(1.08rem,1.8vw,1.35rem);line-height:1.65;color:rgba(31,36,32,.95);
-}
-
-/* touch devices have no cursor — let the plaque turn on its own, very slowly */
-@keyframes philoIdle{
+@keyframes philoLean{
   0%,100%{transform:rotateX(0deg) rotateY(0deg)}
-  25%{transform:rotateX(1.1deg) rotateY(-1.5deg)}
-  60%{transform:rotateX(-1deg) rotateY(1.4deg)}
-}
-@media(hover:none){.artyk-about .philo-card{animation:philoIdle 18s ease-in-out infinite}}
-
-@media(max-width:640px){
-  .artyk-about .philo-card{padding:56px 22px 60px}
-  .artyk-about .philo-frame--inner{inset:8px}
-  .artyk-about .philo-orn .ln{width:40px}
+  28%{transform:rotateX(1.3deg) rotateY(-1.8deg)}
+  62%{transform:rotateX(-1.1deg) rotateY(1.5deg)}
 }
 
 /* ================= SWEEP LINK + COLOPHON (shared with the chapters) ================= */
@@ -778,12 +804,11 @@ const CSS = `
   .artyk-about .feature figcaption{opacity:1;transform:none;transition:none}
   .artyk-about .names.split .wline>span{filter:none;opacity:1}
   .artyk-about .stats div::before{transform:scaleX(1);transition:none}
+  .artyk-about .standfirst .rule-draw{transform:scaleX(1);transition:none}
   .artyk-about .track{animation:none}
   .artyk-about .spreadimg .par{top:0;height:100%}
   .artyk-about .scrub .w{opacity:1}
-  .artyk-about .philo-float{animation:none}
-  .artyk-about .philo-card{animation:none;transform:none}
-  .artyk-about .philo-orn .gem i{animation:none;transform:rotate(45deg)}
-  .artyk-about .philo-sheen{display:none}
+  .artyk-about .philo2-clip{clip-path:inset(0 0 0 0);transition:none}
+  .artyk-about .philo2-clip img{transform:none;transition:none}
 }
 `;

@@ -282,7 +282,7 @@ function Hero() {
         >
           Our Services
         </motion.p>
-        <h1 className="mt-5 font-display text-[clamp(2.5rem,4.5vw,4rem)] font-light leading-[1.08] text-ivory">
+        <h1 className="mt-5 font-display text-[clamp(2.5rem,4.5vw,4rem)] font-light leading-[1.08] tracking-[-0.01em] text-ivory">
           {lines.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
               <motion.span
@@ -302,33 +302,71 @@ function Hero() {
 }
 
 function Standfirst() {
+  const reduce = useReducedMotion() ?? false;
+
   return (
     <section className="px-6 py-24 md:px-16 md:py-36">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 md:grid-cols-12">
-          <Reveal className="md:col-span-8">
-            <p className="font-display text-[clamp(1.5rem,2.9vw,2.5rem)] font-light leading-[1.35] text-onyx">
-              At Artyk, every project begins with understanding how a space should be{" "}
-              <span className="italic text-corten">experienced</span>. From private residences to
-              hospitality destinations and corporate environments, we curate exceptional products
-              and provide end-to-end support to bring each vision to life.
-            </p>
-          </Reveal>
-          <div className="md:col-span-4 md:self-end">
-            <ul>
-              {AUDIENCES.map((a, i) => (
-                <Reveal key={a.numeral} delay={0.1 + i * 0.09}>
-                  <li className="group flex items-baseline gap-4 border-t border-cognac/25 py-4 last:border-b">
-                    <span className="font-display text-sm font-light italic text-corten/70">
+        <Kicker label="The Approach" note="How every project begins" />
+
+        <Reveal>
+          <p className="max-w-[62rem] font-display text-[clamp(1.5rem,2.9vw,2.5rem)] font-light leading-[1.35] text-onyx">
+            At Artyk, every project begins with understanding how a space should be{" "}
+            <span className="italic text-corten">experienced</span>.
+          </p>
+        </Reveal>
+
+        {/* drawn divider */}
+        <motion.span
+          aria-hidden="true"
+          className="mt-[clamp(44px,6vw,96px)] block h-px w-full origin-left bg-cognac/25"
+          initial={reduce ? false : { scaleX: 0 }}
+          whileInView={reduce ? undefined : { scaleX: 1 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 1.4, ease: EASE }}
+        />
+
+        <div className="mt-[clamp(30px,3.4vw,50px)] grid gap-[clamp(30px,4vw,52px)] md:grid-cols-12">
+          {/* left — the approach, in body text */}
+          <div className="md:col-span-8">
+            <Reveal>
+              <span className="mb-6 flex items-center gap-3 font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-onyx/60 md:mb-7">
+                <span className="h-[9px] w-[9px] rounded-full bg-corten/85" />
+                Our Approach
+              </span>
+            </Reveal>
+            <Reveal delay={0.09}>
+              <p className="max-w-[46ch] text-[15.5px] leading-[1.78] text-onyx/75">
+                From private residences to hospitality destinations and corporate environments, we
+                curate exceptional products and provide end-to-end support to bring each vision to
+                life.
+              </p>
+            </Reveal>
+          </div>
+
+          {/* right — the disciplines list */}
+          <div className="md:col-span-3 md:col-start-10">
+            <Reveal delay={0.12}>
+              <span className="mb-6 flex items-center gap-3 font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-onyx/60 md:mb-7">
+                <span className="h-[9px] w-[9px] rounded-full bg-corten/85" />
+                The Disciplines
+              </span>
+              <ul>
+                {AUDIENCES.map((a) => (
+                  <li
+                    key={a.numeral}
+                    className="group flex items-baseline gap-4 overflow-hidden border-t border-cognac/25 last:border-b"
+                  >
+                    <span className="pl-[2px] font-display text-sm font-light italic text-corten/70">
                       {a.numeral}.
                     </span>
-                    <span className="font-sans text-[12px] font-medium uppercase tracking-[0.22em] text-onyx transition-colors duration-500 group-hover:text-forest">
+                    <span className="block flex-1 py-[13px] pr-[2px] font-sans text-[11px] font-medium uppercase tracking-[0.3em] text-onyx/60 transition-[transform,color] duration-500 ease-luxury group-hover:translate-x-[9px] group-hover:text-corten">
                       {a.label}
                     </span>
                   </li>
-                </Reveal>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </Reveal>
           </div>
         </div>
       </div>

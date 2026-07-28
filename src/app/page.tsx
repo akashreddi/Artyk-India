@@ -132,7 +132,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-onyx/60" />
         <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6 text-center">
           <p className="font-sans text-[11px] uppercase tracking-[0.32em] text-ivory/75">By appointment</p>
-          <h2 className="mt-6 font-display text-[clamp(2.2rem,5.5vw,4.5rem)] font-light leading-[1.05] text-ivory">
+          <h2 className="mt-6 font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-ivory md:text-[50px]">
             An invitation, beyond the threshold.
           </h2>
           <p className="mt-5 max-w-xl leading-relaxed text-ivory/80">

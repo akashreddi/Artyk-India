@@ -4,6 +4,7 @@ import { useRef } from "react";
 import {
   motion,
   useInView,
+  useMotionTemplate,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -164,6 +165,80 @@ function ParallaxFigure({
   );
 }
 
+type ValueItem = { no: string; title: string; body: string };
+
+/**
+ * A timeline entry that stays blurred and watermarked until the scroll reaches
+ * it, then resolves into focus — clarity is bought with scroll, not granted on
+ * first paint. The rail dot brightens on the same progress.
+ */
+function TimelineRow({ v }: { v: ValueItem }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const reduce = useReducedMotion() ?? false;
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 82%", "start 44%"] });
+  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [9, 0]), { stiffness: 92, damping: 26 });
+  const filter = useMotionTemplate`blur(${blurPx}px)`;
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.14, 1]), { stiffness: 92, damping: 26 });
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [22, 0]), { stiffness: 92, damping: 26 });
+  const dotScale = useSpring(useTransform(scrollYProgress, [0.12, 1], [0.4, 1]), { stiffness: 120, damping: 20 });
+  const dotOpacity = useTransform(scrollYProgress, [0.12, 0.6], [0.25, 1]);
+
+  return (
+    <div className="tl-row" ref={ref}>
+      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y, filter }}>
+        <span className="tl-no it">{v.no}</span>
+        <h3 className="display tl-title">{v.title}</h3>
+      </motion.div>
+      <motion.span
+        className="tl-dot"
+        aria-hidden="true"
+        style={reduce ? undefined : { scale: dotScale, opacity: dotOpacity }}
+      />
+      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y, filter }}>
+        {v.body}
+      </motion.p>
+    </div>
+  );
+}
+
+type ApartItem = { no: string; title: string; body: string };
+
+/**
+ * One conviction in the index: a large watermark numeral behind, a drawn rule
+ * above, and a hover state that warms the row — title to corten with a sweeping
+ * underline, the numeral surfacing, an arrow arriving from the right.
+ */
+function ApartRow({ a }: { a: ApartItem }) {
+  const reduce = useReducedMotion() ?? false;
+
+  return (
+    <motion.div
+      className="apart-row"
+      initial={reduce ? false : { opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.35 }}
+      transition={{ duration: 0.95, ease: EASE }}
+    >
+      <motion.span
+        className="apart-rule"
+        aria-hidden="true"
+        initial={reduce ? false : { scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, amount: 0.35 }}
+        transition={{ duration: 1.3, ease: EASE }}
+      />
+      <span className="apart-ghost display" aria-hidden="true">
+        {a.no}
+      </span>
+      <div className="apart-head">
+        <h3 className="display apart-t">{a.title}</h3>
+      </div>
+      <p className="apart-d">{a.body}</p>
+      <span className="apart-dot" aria-hidden="true" />
+    </motion.div>
+  );
+}
+
 /* ---------------- chapters ---------------- */
 
 export default function AboutChapters() {
@@ -178,85 +253,139 @@ export default function AboutChapters() {
   const finScale = useTransform(finP, [0, 0.55], [1.15, 1]);
   const finY = useTransform(finP, [0, 1], ["0%", "-3.5%"]);
 
+  /* values timeline: the rail draws down as the list scrolls through view */
+  const valRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress: valP } = useScroll({
+    target: valRef,
+    offset: ["start 82%", "end 62%"],
+  });
+  const railScaleY = useSpring(valP, { stiffness: 58, damping: 22, mass: 0.5 });
+
   return (
     <>
       <style>{CSS}</style>
 
-      {/* ================= OUR VISION ================= */}
-      <section className="ch-vision">
+      {/* ================= VISION & MISSION — two panels ================= */}
+      <section className="ch-vm">
         <div className="wrap">
           <div className="kicker kicker--draw rv">
-            <span className="micro k">Our Vision</span>
+            <span className="micro k">Vision &amp; Mission</span>
             <span className="l" />
-            <span className="r">The horizon</span>
+            <span className="r">What drives us</span>
           </div>
-          <div className="ch-vision-grid">
-            <div className="ch-vision-txt">
-              <p className="display ch-lead split">
-                To be India&rsquo;s leading destination for ultra-luxurious furniture, setting the
-                standard for excellence in design, quality, and customer service. We aspire to
-                create spaces that <span className="accent">inspire and captivate</span>, fostering
-                a culture of refined elegance and sophistication.
-              </p>
+          <div className="vm-stack">
+            {/* Vision — horizontal card. Its top is a blank label tab: when the
+                Mission card stacks over it, only this image-free strip peeks. */}
+            <div className="vm-stick vm-stick-1">
+              <motion.article
+                className="vm-card vm-card--vision"
+                initial={reduce ? false : { opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1, ease: EASE }}
+              >
+                <div className="vm-cap">
+                  <span className="vm-eyebrow micro">
+                    <span className="vm-dot" aria-hidden="true" />
+                    Our Vision
+                  </span>
+                </div>
+                <div className="vm-row">
+                  <div className="vm-media">
+                    <ParallaxFigure
+                      className="vm-fig"
+                      src="/images/featured/entrance-2.jpg"
+                      alt="The threshold of the Artyk gallery at dusk"
+                      ratio="5 / 4"
+                      frame={false}
+                      strength={0.6}
+                      reduce={reduce}
+                    />
+                  </div>
+                  <div className="vm-body">
+                    <p className="display vm-lead">
+                      To be India&rsquo;s leading destination for ultra-luxurious furniture — setting
+                      the standard for excellence in design, quality, and service.
+                    </p>
+                    <p className="vm-note">
+                      We create spaces that <span className="accent">inspire and captivate</span>,
+                      fostering a culture of refined elegance and sophistication.
+                    </p>
+                  </div>
+                </div>
+              </motion.article>
             </div>
-            <ParallaxFigure
-              className="ch-vision-fig"
-              src="/images/featured/entrance-2.jpg"
-              alt="The threshold of the Artyk gallery at dusk"
-              ratio="3 / 4"
-              caption="The address — where the aspiration begins."
-              note="Jubilee Hills, Hyderabad"
-              reduce={reduce}
-            />
+
+            {/* Mission — an editorial photo spread that stacks over Vision */}
+            <div className="vm-stick vm-stick-2">
+              <motion.article
+                className="vm-card vm-card--mission"
+                initial={reduce ? false : { opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 1, ease: EASE }}
+              >
+                <span className="vm-eyebrow micro mis-eyebrow">
+                  <span className="vm-dot" aria-hidden="true" />
+                  Our Mission
+                </span>
+                <motion.div
+                  className="mis-head"
+                  initial={reduce ? false : { opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 1, ease: EASE, delay: 0.1 }}
+                >
+                  <span className="mis-kicker">why we do it</span>
+                </motion.div>
+
+                <div className="mis-photos">
+                  {[
+                    { src: "/images/showroom/dining.jpg", alt: "A dining composition in the Artyk gallery", rot: -3.4 },
+                    { src: "/images/showroom/gallery.jpg", alt: "The Artyk gallery floor", rot: 1.6 },
+                    { src: "/images/services/service-consulting.jpg", alt: "A design consultation at Artyk", rot: -1.4 },
+                  ].map((p, i) => (
+                    <motion.div
+                      key={p.src}
+                      className="mis-photo"
+                      initial={reduce ? false : { opacity: 0, y: 46, rotate: 0 }}
+                      whileInView={{ opacity: 1, y: 0, rotate: p.rot }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 1.05, ease: EASE, delay: 0.18 + i * 0.12 }}
+                    >
+                      <ParallaxFigure
+                        className="mis-fig"
+                        src={p.src}
+                        alt={p.alt}
+                        ratio="4 / 5"
+                        frame={false}
+                        strength={0.5}
+                        reduce={reduce}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mis-foot">
+                  <p className="mis-body">
+                    To connect discerning clients with the world&rsquo;s finest design brands through
+                    thoughtful curation, expert guidance, and{" "}
+                    <span className="accent">end-to-end</span> solutions — delivering spaces that
+                    balance beauty, functionality, and longevity.
+                  </p>
+                  <span className="mis-mark micro">Artyk &middot; Hyderabad</span>
+                </div>
+              </motion.article>
+            </div>
+
+            {/* short trailing dwell — just enough for the stack to settle, then
+                the scroll releases freely into the next section */}
+            <div className="vm-spacer" aria-hidden="true" />
           </div>
         </div>
       </section>
 
-      {/* ================= OUR MISSION ================= */}
-      <section className="ch-mission">
-        <div className="wrap">
-          <div className="kicker kicker--draw rv">
-            <span className="micro k">Our Mission</span>
-            <span className="l" />
-            <span className="r">The practice</span>
-          </div>
-          <div className="ch-mis-grid">
-            <div className="ch-mis-media">
-              <ParallaxFigure
-                className="ch-mis-a"
-                src="/images/showroom/dining.jpg"
-                alt="A dining composition in the Artyk gallery"
-                ratio="4 / 3"
-                caption="Collections presented as rooms, not rows."
-                reduce={reduce}
-              />
-              <ParallaxFigure
-                className="ch-mis-b"
-                src="/images/services/service-consulting.jpg"
-                alt="A design consultation at Artyk — materials and drawings on the table"
-                ratio="3 / 4"
-                frame={false}
-                strength={-1.6}
-                reduce={reduce}
-              />
-            </div>
-            <div className="ch-mis-txt">
-              <p className="display ch-lead ch-lead--m split">
-                To connect discerning clients with the world&rsquo;s finest design brands through
-                thoughtful curation, expert guidance, and end-to-end project solutions.
-              </p>
-              <hr className="rule ch-rule rv d1" />
-              <p className="ch-body rv d2">
-                We are committed to delivering spaces that balance beauty, functionality, and
-                longevity while fostering a deeper appreciation for design, craftsmanship, and
-                material excellence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ================= WHAT SETS US APART — the deck ================= */}
+      {/* ================= WHAT SETS US APART — editorial index ================= */}
       <section className="ch-apart">
         <div className="wrap">
           <div className="kicker kicker--draw rv">
@@ -264,28 +393,15 @@ export default function AboutChapters() {
             <span className="l" />
             <span className="r">Four convictions</span>
           </div>
-          <div className="ch-apart-deck">
-            {APART.map((a, i) => (
-              <div key={a.no} className="ch-apart-stick" style={{ top: `calc(76px + ${i * 18}px)` }}>
-                <motion.article
-                  className={`ch-apart-card ${a.tone}`}
-                  style={{ transformOrigin: "top center" }}
-                  initial={reduce ? false : { opacity: 0, y: 70, rotateX: 9 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 1.05, ease: EASE }}
-                >
-                  <span className="ch-apart-no display">{a.no}</span>
-                  <h3 className="display ch-apart-t">{a.title}</h3>
-                  <p className="ch-apart-d">{a.body}</p>
-                </motion.article>
-              </div>
+          <div className="apart-list">
+            {APART.map((a) => (
+              <ApartRow key={a.no} a={a} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ================= OUR VALUES — the museum wall ================= */}
+      {/* ================= OUR VALUES — the straight timeline ================= */}
       <section className="ch-values">
         <div className="wrap">
           <div className="kicker kicker--draw rv">
@@ -293,16 +409,17 @@ export default function AboutChapters() {
             <span className="l" />
             <span className="r">Held quietly</span>
           </div>
-          <ol className="ch-val-list">
+          <div className="tl" ref={valRef}>
+            <span className="tl-track" aria-hidden="true" />
+            <motion.span
+              className="tl-rail"
+              aria-hidden="true"
+              style={{ scaleY: reduce ? 1 : railScaleY }}
+            />
             {VALUES.map((v) => (
-              <li key={v.no} className="ch-val rv">
-                <span className="ch-val-no it">{v.no}</span>
-                <h3 className="display ch-val-t">{v.title}</h3>
-                <p className="ch-val-d it">{v.body}</p>
-                <span className="ch-val-ln" aria-hidden="true" />
-              </li>
+              <TimelineRow key={v.no} v={v} />
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
@@ -383,83 +500,131 @@ const CSS = `
 .artyk-about .ch-frame{position:absolute;top:26px;left:26px;right:-26px;bottom:-26px;border:1px solid var(--line);pointer-events:none}
 .artyk-about .ch-fig-clip{position:relative;overflow:hidden;background:rgba(31,36,32,.06)}
 .artyk-about .ch-fig-clip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
-.artyk-about .ch-lead{font-size:clamp(1.9rem,3.7vw,3.125rem);line-height:1.16}
-.artyk-about .ch-lead .accent{font-style:italic;color:var(--corten)}
-.artyk-about .ch-lead--m{font-size:clamp(1.55rem,2.9vw,2.55rem)}
-.artyk-about .ch-body{font-size:15.5px;color:rgba(31,36,32,.78);max-width:44ch}
-.artyk-about .ch-rule{margin:clamp(24px,3vw,38px) 0}
 
-/* ================= VISION ================= */
-.artyk-about .ch-vision{background:var(--stone)}
-.artyk-about .ch-vision-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(28px,4.5vw,72px);align-items:center}
-.artyk-about .ch-vision-txt{grid-column:1/8}
-.artyk-about .ch-vision-fig{grid-column:9/13}
-@media(max-width:920px){
-  .artyk-about .ch-vision-txt{grid-column:1/13}
-  .artyk-about .ch-vision-fig{grid-column:2/13;max-width:420px;margin-top:34px}
+/* ================= VISION & MISSION — stacking cards ================= */
+/* Two cards pinned in sequence: Vision sticks first, then the Mission spread
+   rises and settles over it, leaving only Vision's blank label-tab (~2cm,
+   image-free) peeking above — the card-stack gesture. */
+.artyk-about .ch-vm{background:var(--stone)}
+.artyk-about .vm-stack{position:relative;margin-top:clamp(18px,2.6vw,40px)}
+.artyk-about .vm-stick{position:sticky}
+.artyk-about .vm-stick-1{top:clamp(88px,10vh,116px);z-index:1}
+.artyk-about .vm-stick-2{top:calc(clamp(88px,10vh,116px) + 78px);z-index:2;margin-top:clamp(40px,7vh,84px)}
+/* short dwell so the stack settles, then releases — no long stuck feeling */
+.artyk-about .vm-spacer{height:clamp(90px,16vh,220px)}
+.artyk-about .vm-card{background:var(--paper);border:1px solid var(--line);
+  box-shadow:0 -16px 46px rgba(31,36,32,.10),0 34px 80px rgba(31,36,32,.13);will-change:transform}
+
+/* ---- Vision card: blank tab + horizontal content ---- */
+.artyk-about .vm-card--vision{display:flex;flex-direction:column;padding:clamp(14px,1.2vw,20px)}
+/* the tab that peeks — deliberately image-free, just the label on paper */
+.artyk-about .vm-cap{min-height:clamp(84px,10vh,96px);display:flex;align-items:center;
+  padding:0 clamp(8px,1vw,16px)}
+.artyk-about .vm-row{display:grid;grid-template-columns:1.04fr 1fr;align-items:stretch;
+  min-height:clamp(300px,38vh,420px)}
+.artyk-about .vm-media{position:relative;overflow:hidden}
+.artyk-about .vm-fig{height:100%}
+.artyk-about .vm-fig .ch-fig-clip{height:100%}
+.artyk-about .vm-body{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(20px,2.4vw,44px) clamp(18px,2.4vw,48px)}
+.artyk-about .vm-eyebrow{display:flex;align-items:center;gap:10px;color:rgba(31,36,32,.6)}
+.artyk-about .vm-dot{width:8px;height:8px;border-radius:50%;background:var(--corten);opacity:.85;flex:none}
+.artyk-about .vm-lead{font-size:clamp(1.3rem,1.9vw,1.8rem);line-height:1.22}
+.artyk-about .vm-lead .accent{font-style:italic;color:var(--corten)}
+.artyk-about .vm-note{font-size:15px;line-height:1.72;color:rgba(31,36,32,.72);margin-top:clamp(16px,1.6vw,22px);max-width:42ch}
+.artyk-about .vm-note .accent{font-style:italic;color:var(--corten)}
+
+/* ---- Mission card: an editorial three-photo spread (kept compact so it
+   sits fully within the viewport while pinned) ---- */
+.artyk-about .vm-card--mission{position:relative;padding:clamp(20px,2.2vw,34px) clamp(22px,3vw,56px) clamp(16px,2vw,28px)}
+/* dot + label, top-left corner — matching the Vision card's tab */
+.artyk-about .mis-eyebrow{margin-bottom:clamp(6px,1vw,14px);color:rgba(31,36,32,.6)}
+.artyk-about .mis-head{position:relative;text-align:center;margin-bottom:clamp(16px,2.2vw,30px)}
+/* "why we do it" — kept in its slanted italic style, but in our default display font */
+.artyk-about .mis-kicker{display:inline-block;font-family:var(--font-display),serif;font-style:normal;
+  font-weight:300;font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1;color:var(--ink)}
+.artyk-about .mis-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,30px);
+  align-items:center;max-width:clamp(440px,54vw,600px);margin:0 auto}
+.artyk-about .mis-photo{will-change:transform}
+.artyk-about .mis-photo:nth-child(2){transform:translateY(-4%)}
+.artyk-about .mis-fig .ch-fig-clip{border:7px solid #FBFAF5;box-shadow:0 20px 44px rgba(31,36,32,.18)}
+.artyk-about .mis-foot{max-width:560px;margin:clamp(16px,2.2vw,30px) auto 0;text-align:center}
+.artyk-about .mis-body{font-size:clamp(14.5px,1.2vw,16px);line-height:1.7;color:rgba(31,36,32,.78)}
+.artyk-about .mis-body .accent{font-style:italic;color:var(--corten)}
+.artyk-about .mis-mark{display:block;margin-top:clamp(14px,1.8vw,22px);letter-spacing:.34em;color:rgba(31,36,32,.5)}
+
+@media(max-width:820px){
+  .artyk-about .vm-stick-1,.artyk-about .vm-stick-2{position:relative;top:auto;margin-top:0}
+  .artyk-about .vm-stick-2{margin-top:22px}
+  .artyk-about .vm-spacer{display:none}
+  .artyk-about .vm-cap{min-height:60px}
+  .artyk-about .vm-row{grid-template-columns:1fr;min-height:0}
+  .artyk-about .vm-fig .ch-fig-clip{height:auto}
+  .artyk-about .mis-photos{gap:10px;max-width:none}
+  .artyk-about .mis-fig .ch-fig-clip{border-width:5px}
+  .artyk-about .mis-kicker{font-size:1.7rem}
 }
 
-/* ================= MISSION ================= */
-.artyk-about .ch-mission{background:var(--ivory)}
-.artyk-about .ch-mis-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(28px,4.5vw,72px);align-items:center}
-.artyk-about .ch-mis-media{grid-column:1/8;position:relative;padding-bottom:clamp(56px,9vw,110px)}
-.artyk-about .ch-mis-txt{grid-column:8/13}
-.artyk-about .ch-mis-b{position:absolute;right:-4%;bottom:0;width:min(38%,240px);z-index:2}
-.artyk-about .ch-mis-b .ch-fig-clip{border:8px solid var(--ivory);box-shadow:0 24px 60px rgba(31,36,32,.18)}
-@media(max-width:920px){
-  .artyk-about .ch-mis-media{grid-column:1/13}
-  .artyk-about .ch-mis-txt{grid-column:1/13;margin-top:8px;max-width:560px}
-  .artyk-about .ch-mis-b{right:0}
-  .artyk-about .ch-mis-a figcaption{max-width:50%}
+/* ================= WHAT SETS US APART — the interactive index ================= */
+.artyk-about .ch-apart{background:var(--ivory)}
+.artyk-about .apart-list{margin-top:clamp(14px,2vw,30px)}
+.artyk-about .apart-row{position:relative;display:grid;grid-template-columns:repeat(12,1fr);
+  column-gap:clamp(28px,4vw,64px);row-gap:14px;align-items:center;
+  padding:clamp(34px,4.8vw,60px) clamp(10px,1.6vw,28px);
+  transition:background .7s var(--ease)}
+.artyk-about .apart-rule{position:absolute;top:0;left:0;width:100%;height:1px;background:var(--line);transform-origin:left}
+.artyk-about .apart-row:first-child .apart-rule{display:none}
+/* the single numeral — a large soft watermark that reads as the index */
+.artyk-about .apart-ghost{position:absolute;left:clamp(-2px,0vw,6px);top:50%;transform:translateY(-50%);
+  font-style:italic;font-weight:300;font-size:clamp(3.4rem,5.6vw,5.6rem);line-height:1;
+  color:rgba(168,88,56,.13);pointer-events:none;z-index:0;
+  transition:color .7s var(--ease),transform .7s var(--ease)}
+.artyk-about .apart-head{grid-column:1/6;padding-left:clamp(58px,6vw,108px);position:relative;z-index:1}
+.artyk-about .apart-t{position:relative;display:inline;font-size:clamp(1.4rem,2.2vw,2.05rem);line-height:1.1;
+  background-image:linear-gradient(var(--corten),var(--corten));
+  background-repeat:no-repeat;background-position:0 100%;background-size:0% 1px;
+  transition:color .5s var(--ease),background-size .55s var(--ease)}
+.artyk-about .apart-d{grid-column:7/12;font-size:15.5px;line-height:1.75;color:rgba(91,95,84,1);max-width:46ch;position:relative;z-index:1}
+.artyk-about .apart-dot{grid-column:12;justify-self:end;align-self:center;width:9px;height:9px;border-radius:50%;
+  background:var(--corten);opacity:0;transform:scale(.35);position:relative;z-index:1;
+  transition:opacity .5s var(--ease),transform .5s var(--ease)}
+@media(hover:hover){
+  .artyk-about .apart-row:hover{background:rgba(168,88,56,.035)}
+  .artyk-about .apart-row:hover .apart-ghost{color:rgba(168,88,56,.22);transform:translateY(-50%) translateX(7px)}
+  .artyk-about .apart-row:hover .apart-t{color:var(--corten);background-size:100% 1px}
+  .artyk-about .apart-row:hover .apart-dot{opacity:1;transform:scale(1)}
+}
+@media(max-width:820px){
+  .artyk-about .apart-row{padding-left:2px;padding-right:2px;align-items:start}
+  .artyk-about .apart-head{grid-column:1/13;padding-left:56px}
+  .artyk-about .apart-d{grid-column:1/13;padding-left:56px;margin-top:6px}
+  .artyk-about .apart-dot{display:none}
+  .artyk-about .apart-ghost{font-size:3rem;top:clamp(30px,5vw,46px);transform:none}
 }
 
-/* ================= WHAT SETS US APART — the deck ================= */
-/* the Services "Our Process" card language: tonal plaques that stack as
-   you scroll — linear, quiet, no imagery */
-.artyk-about .ch-apart{background:var(--stone)}
-.artyk-about .ch-apart-deck{position:relative;perspective:1400px}
-.artyk-about .ch-apart-stick{position:sticky}
-.artyk-about .ch-apart-card{
-  margin-bottom:32px;border:1px solid rgba(91,95,84,.2);
-  padding:48px 28px;box-shadow:0 -24px 70px rgba(31,36,32,.1);
-  display:grid;gap:14px;align-items:baseline;
-}
-.artyk-about .t-ivory{background:var(--ivory)}
-.artyk-about .t-oat{background:#ECE7DB}
-.artyk-about .t-mist{background:#E8E2DA}
-.artyk-about .t-camel{background:#B59B87}
-.artyk-about .ch-apart-no{font-style:italic;font-size:clamp(2.6rem,5vw,4.6rem);line-height:1;color:rgba(168,88,56,.45)}
-.artyk-about .t-camel .ch-apart-no{color:rgba(244,241,233,.85)}
-.artyk-about .ch-apart-t{font-size:clamp(1.625rem,3vw,2.5rem);line-height:1.1}
-.artyk-about .ch-apart-d{font-size:15px;line-height:1.75;color:rgba(91,95,84,1);max-width:46ch}
-.artyk-about .t-camel .ch-apart-d{color:rgba(31,36,32,.8)}
-@media(min-width:768px){
-  .artyk-about .ch-apart-card{grid-template-columns:repeat(12,1fr);gap:32px;padding:64px 56px}
-  .artyk-about .ch-apart-no{grid-column:span 2}
-  .artyk-about .ch-apart-t{grid-column:span 4}
-  .artyk-about .ch-apart-d{grid-column:span 6}
-}
-
-/* ================= VALUES ================= */
-.artyk-about .ch-values{background:var(--ivory)}
-.artyk-about .ch-val-list{list-style:none;margin-top:clamp(10px,2vw,24px)}
-.artyk-about .ch-val{position:relative;max-width:760px;padding:clamp(44px,8vh,84px) 0;margin-right:auto}
-.artyk-about .ch-val:nth-child(even){margin-left:auto;margin-right:0;text-align:right}
-.artyk-about .ch-val-no{display:block;font-size:clamp(.95rem,1.3vw,1.1rem);color:rgba(31,36,32,.42);transition:color .5s var(--ease)}
-.artyk-about .ch-val-t{font-size:clamp(2rem,4vw,3.125rem);line-height:1.06;margin-top:12px;
-  opacity:0;transform:translateY(26px);filter:blur(9px);
-  transition:opacity 1.1s var(--ease) .05s,transform 1.1s var(--ease) .05s,filter 1.1s var(--ease) .05s}
-.artyk-about .ch-val.in .ch-val-t{opacity:1;transform:none;filter:none}
-.artyk-about .ch-val-d{font-size:clamp(1.02rem,1.5vw,1.28rem);color:rgba(31,36,32,.66);margin-top:16px}
-.artyk-about .ch-val-ln{position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--line);
-  transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease) .3s}
-.artyk-about .ch-val:nth-child(even) .ch-val-ln{transform-origin:right}
-.artyk-about .ch-val.in .ch-val-ln{transform:scaleX(1)}
-@media(hover:hover){.artyk-about .ch-val:hover .ch-val-no{color:var(--corten)}}
-@media(max-width:920px){
-  .artyk-about .ch-val{max-width:none;padding:clamp(38px,7vh,60px) 0}
-  .artyk-about .ch-val:nth-child(even){text-align:left}
-  .artyk-about .ch-val:nth-child(even) .ch-val-ln{transform-origin:left}
+/* ================= VALUES — the straight timeline ================= */
+.artyk-about .ch-values{background:var(--stone)}
+.artyk-about .tl{position:relative;margin-top:clamp(18px,3vw,42px);padding:clamp(8px,1.6vw,20px) 0}
+.artyk-about .tl-track{position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:var(--line)}
+.artyk-about .tl-rail{position:absolute;left:50%;top:0;bottom:0;width:1px;margin-left:-.5px;
+  background:linear-gradient(var(--corten),rgba(168,88,56,.35));transform-origin:top}
+.artyk-about .tl-row{position:relative;display:grid;grid-template-columns:1fr 0 1fr;align-items:center;
+  column-gap:clamp(30px,4.5vw,70px);padding:clamp(30px,5.2vh,60px) 0}
+.artyk-about .tl-titlewrap{grid-column:1;text-align:right}
+.artyk-about .tl-no{display:block;font-family:var(--font-display),serif;font-style:italic;font-weight:300;
+  font-size:clamp(.9rem,1.2vw,1.05rem);color:rgba(31,36,32,.42);margin-bottom:8px}
+.artyk-about .tl-title{font-size:clamp(1.4rem,2.4vw,2.1rem);line-height:1.08}
+.artyk-about .tl-dot{position:absolute;left:50%;top:50%;width:11px;height:11px;border-radius:50%;
+  transform:translate(-50%,-50%);background:var(--corten);
+  box-shadow:0 0 0 5px var(--stone),0 0 0 6px rgba(168,88,56,.2)}
+.artyk-about .tl-body{grid-column:3;text-align:left;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.6;
+  color:rgba(31,36,32,.66);max-width:34ch}
+@media(max-width:820px){
+  .artyk-about .tl-track,.artyk-about .tl-rail{left:6px}
+  .artyk-about .tl-row{grid-template-columns:1fr;column-gap:0;row-gap:10px;padding-left:34px}
+  .artyk-about .tl-titlewrap{grid-column:1;text-align:left}
+  .artyk-about .tl-body{grid-column:1;text-align:left;max-width:none}
+  .artyk-about .tl-dot{left:6px;top:clamp(34px,5.6vh,52px)}
 }
 
 /* ================= FINALE ================= */
@@ -473,7 +638,7 @@ const CSS = `
 .artyk-about .ch-fin-flow{position:relative;margin-top:-100svh}
 .artyk-about .ch-fin-block{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 clamp(20px,6vw,72px)}
 .artyk-about .ch-fin .micro{color:rgba(244,241,233,.62)}
-.artyk-about .ch-fin-title{margin-top:18px;color:var(--ivory);font-size:clamp(2rem,4vw,3.125rem);line-height:1.1}
+.artyk-about .ch-fin-title{margin-top:18px;color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
 .artyk-about .ch-fin-quote{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;
   font-size:clamp(1.2rem,1.8vw,1.625rem);line-height:1.7;color:rgba(244,241,233,.94);max-width:30em}
 .artyk-about .ch-fin-quote + .ch-fin-quote{margin-top:clamp(22px,3.5vh,40px)}
@@ -487,7 +652,5 @@ const CSS = `
 
 @media(prefers-reduced-motion:reduce){
   .artyk-about .kicker--draw .l{transform:scaleX(1);transition:none}
-  .artyk-about .ch-val-t,.artyk-about .ch-val .ch-val-t{opacity:1;transform:none;filter:none;transition:none}
-  .artyk-about .ch-val-ln{transform:scaleX(1);transition:none}
 }
 `;

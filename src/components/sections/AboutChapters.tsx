@@ -4,7 +4,6 @@ import { useRef } from "react";
 import {
   motion,
   useInView,
-  useMotionTemplate,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -176,16 +175,16 @@ function TimelineRow({ v }: { v: ValueItem }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 90%", "start 60%"] });
-  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [4, 0]), { stiffness: 92, damping: 26 });
-  const filter = useMotionTemplate`blur(${blurPx}px)`;
-  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.45, 1]), { stiffness: 92, damping: 26 });
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [16, 0]), { stiffness: 92, damping: 26 });
+  /* fade + rise into focus as the row is scrolled to — no filter:blur, which
+     leaves a dark fringe below serif descenders */
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.35, 1]), { stiffness: 92, damping: 26 });
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [18, 0]), { stiffness: 92, damping: 26 });
   const dotScale = useSpring(useTransform(scrollYProgress, [0.12, 1], [0.4, 1]), { stiffness: 120, damping: 20 });
   const dotOpacity = useTransform(scrollYProgress, [0.12, 0.6], [0.25, 1]);
 
   return (
     <div className="tl-row" ref={ref}>
-      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y, filter }}>
+      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y }}>
         <span className="tl-no it">{v.no}</span>
         <h3 className="display tl-title">{v.title}</h3>
       </motion.div>
@@ -194,7 +193,7 @@ function TimelineRow({ v }: { v: ValueItem }) {
         aria-hidden="true"
         style={reduce ? undefined : { scale: dotScale, opacity: dotOpacity }}
       />
-      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y, filter }}>
+      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y }}>
         {v.body}
       </motion.p>
     </div>

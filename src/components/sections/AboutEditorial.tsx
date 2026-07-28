@@ -261,9 +261,9 @@ export default function AboutEditorial() {
         </div>
         <div className="hero-inner">
           <h1 className="display split">
-            An address
+            An Address
             <br />
-            for design.
+            for Design.
           </h1>
           <p className="hero-sub rv d3">
             A curated gallery of international design — furniture, kitchens, lighting, rugs and art,
@@ -619,7 +619,7 @@ const CSS = `
 .artyk-about .hero-top .micro{color:rgba(244,241,233,.8)}
 .artyk-about .hero-top .wm{font-size:13px;letter-spacing:.42em}
 .artyk-about .hero-inner{position:absolute;left:0;right:0;bottom:0;padding:clamp(28px,5vw,72px) clamp(20px,5vw,72px)}
-.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
+.artyk-about .hero-inner h1{color:var(--ivory);font-size:clamp(3rem,6vw,5.5rem);line-height:1.05;letter-spacing:-0.015em}
 .artyk-about .hero-sub{color:rgba(244,241,233,.78);font-style:italic;font-size:clamp(.98rem,1.4vw,1.15rem);max-width:34em;margin-top:20px}
 
 /* ================= STANDFIRST ================= */

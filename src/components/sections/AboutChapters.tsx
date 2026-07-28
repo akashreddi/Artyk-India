@@ -175,11 +175,11 @@ type ValueItem = { no: string; title: string; body: string };
 function TimelineRow({ v }: { v: ValueItem }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion() ?? false;
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 82%", "start 44%"] });
-  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [9, 0]), { stiffness: 92, damping: 26 });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 90%", "start 60%"] });
+  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [4, 0]), { stiffness: 92, damping: 26 });
   const filter = useMotionTemplate`blur(${blurPx}px)`;
-  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.14, 1]), { stiffness: 92, damping: 26 });
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [22, 0]), { stiffness: 92, damping: 26 });
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.45, 1]), { stiffness: 92, damping: 26 });
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [16, 0]), { stiffness: 92, damping: 26 });
   const dotScale = useSpring(useTransform(scrollYProgress, [0.12, 1], [0.4, 1]), { stiffness: 120, damping: 20 });
   const dotOpacity = useTransform(scrollYProgress, [0.12, 0.6], [0.25, 1]);
 
@@ -329,15 +329,6 @@ export default function AboutChapters() {
                   <span className="vm-dot" aria-hidden="true" />
                   Our Mission
                 </span>
-                <motion.div
-                  className="mis-head"
-                  initial={reduce ? false : { opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 1, ease: EASE, delay: 0.1 }}
-                >
-                  <span className="mis-kicker">why we do it</span>
-                </motion.div>
 
                 <div className="mis-photos">
                   {[
@@ -538,11 +529,7 @@ const CSS = `
    sits fully within the viewport while pinned) ---- */
 .artyk-about .vm-card--mission{position:relative;padding:clamp(20px,2.2vw,34px) clamp(22px,3vw,56px) clamp(16px,2vw,28px)}
 /* dot + label, top-left corner — matching the Vision card's tab */
-.artyk-about .mis-eyebrow{margin-bottom:clamp(6px,1vw,14px);color:rgba(31,36,32,.6)}
-.artyk-about .mis-head{position:relative;text-align:center;margin-bottom:clamp(16px,2.2vw,30px)}
-/* "why we do it" — kept in its slanted italic style, but in our default display font */
-.artyk-about .mis-kicker{display:inline-block;font-family:var(--font-display),serif;font-style:normal;
-  font-weight:300;font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1;color:var(--ink)}
+.artyk-about .mis-eyebrow{margin-bottom:clamp(24px,3.2vw,44px);color:rgba(31,36,32,.6)}
 .artyk-about .mis-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,30px);
   align-items:center;max-width:clamp(440px,54vw,600px);margin:0 auto}
 .artyk-about .mis-photo{will-change:transform}
@@ -562,7 +549,6 @@ const CSS = `
   .artyk-about .vm-fig .ch-fig-clip{height:auto}
   .artyk-about .mis-photos{gap:10px;max-width:none}
   .artyk-about .mis-fig .ch-fig-clip{border-width:5px}
-  .artyk-about .mis-kicker{font-size:1.7rem}
 }
 
 /* ================= WHAT SETS US APART — the interactive index ================= */
@@ -636,7 +622,7 @@ const CSS = `
   linear-gradient(to bottom,rgba(31,36,32,.52),rgba(31,36,32,.38) 34%,rgba(31,36,32,.38) 66%,rgba(31,36,32,.66));
 }
 .artyk-about .ch-fin-flow{position:relative;margin-top:-100svh}
-.artyk-about .ch-fin-block{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 clamp(20px,6vw,72px)}
+.artyk-about .ch-fin-block{min-height:62svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(40px,7vh,90px) clamp(20px,6vw,72px)}
 .artyk-about .ch-fin .micro{color:rgba(244,241,233,.62)}
 .artyk-about .ch-fin-title{margin-top:18px;color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
 .artyk-about .ch-fin-quote{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;

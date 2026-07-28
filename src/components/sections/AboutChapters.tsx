@@ -540,14 +540,34 @@ const CSS = `
 .artyk-about .mis-mark{display:block;margin-top:clamp(14px,1.8vw,22px);letter-spacing:.34em;color:rgba(31,36,32,.5)}
 
 @media(max-width:820px){
-  .artyk-about .vm-stick-1,.artyk-about .vm-stick-2{position:relative;top:auto;margin-top:0}
-  .artyk-about .vm-stick-2{margin-top:22px}
-  .artyk-about .vm-spacer{display:none}
-  .artyk-about .vm-cap{min-height:60px}
-  .artyk-about .vm-row{grid-template-columns:1fr;min-height:0}
-  .artyk-about .vm-fig .ch-fig-clip{height:auto}
-  .artyk-about .mis-photos{gap:10px;max-width:none}
+  /* the card-stack, on mobile too: both cards fixed to one viewport-fitting
+     height so the Mission spread fully rises over and replaces the Vision
+     card, leaving only Vision's image-free label tab peeking above */
+  .artyk-about .vm-stick{position:sticky}
+  .artyk-about .vm-stick-1{top:18px;margin-top:0;z-index:1}
+  .artyk-about .vm-stick-2{top:70px;margin-top:clamp(30px,6vh,60px);z-index:2}
+  .artyk-about .vm-spacer{display:block;height:34vh}
+
+  .artyk-about .vm-card{height:min(66vh,600px)}
+
+  /* Vision: the cap is the peek; the image fills the space above the text */
+  .artyk-about .vm-cap{min-height:52px}
+  .artyk-about .vm-row{display:flex;flex-direction:column;min-height:0;flex:1;overflow:hidden}
+  .artyk-about .vm-media{flex:1;min-height:150px}
+  .artyk-about .vm-fig,.artyk-about .vm-fig .ch-fig-clip{height:100%}
+  .artyk-about .vm-body{flex:none;padding:clamp(16px,3.4vw,24px) clamp(14px,3vw,20px) clamp(4px,1.6vw,10px)}
+  .artyk-about .vm-lead{font-size:clamp(1.18rem,4.6vw,1.5rem);line-height:1.2}
+  .artyk-about .vm-note{font-size:13.5px;line-height:1.6;margin-top:9px}
+
+  /* Mission: centre the editorial content within the same fixed height.
+     NB: auto side-margins on a flex item cancel the stretch, so photos/foot
+     must take full width explicitly or the grid collapses to ~0. */
+  .artyk-about .vm-card--mission{display:flex;flex-direction:column;justify-content:center}
+  .artyk-about .mis-eyebrow{margin-bottom:clamp(14px,3vw,24px)}
+  .artyk-about .mis-photos{gap:9px;max-width:none;width:100%;margin:0}
   .artyk-about .mis-fig .ch-fig-clip{border-width:5px}
+  .artyk-about .mis-foot{max-width:none;width:100%;margin:clamp(12px,3vw,20px) 0 0}
+  .artyk-about .mis-body{font-size:14px;line-height:1.62}
 }
 
 /* ================= WHAT SETS US APART — the interactive index ================= */

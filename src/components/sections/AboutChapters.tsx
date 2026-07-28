@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   motion,
   useInView,
@@ -260,6 +260,48 @@ export default function AboutChapters() {
   });
   const railScaleY = useSpring(valP, { stiffness: 58, damping: 22, mass: 0.5 });
 
+  /* "What Sets Us Apart": on desktop each row highlights on hover. Touch has
+     no hover, so on mobile we drive the same active state from scroll — the
+     row nearest the focus line lights up (corten title + underline, brighter
+     numeral, dot), one at a time, progressing through all four. */
+  const apartRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = apartRef.current;
+    if (!el || typeof window === "undefined") return;
+    if (!window.matchMedia("(max-width: 820px)").matches) return;
+    const rows = Array.from(el.querySelectorAll<HTMLElement>(".apart-row"));
+    if (!rows.length) return;
+    let raf = 0;
+    let current = -1;
+    const update = () => {
+      raf = 0;
+      const line = window.innerHeight * 0.42;
+      let best = 0;
+      let bestDist = Infinity;
+      rows.forEach((r, i) => {
+        const b = r.getBoundingClientRect();
+        const d = Math.abs(b.top + b.height / 2 - line);
+        if (d < bestDist) {
+          bestDist = d;
+          best = i;
+        }
+      });
+      if (best !== current) {
+        current = best;
+        rows.forEach((r, i) => r.classList.toggle("is-active", i === best));
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <>
       <style>{CSS}</style>
@@ -383,7 +425,7 @@ export default function AboutChapters() {
             <span className="l" />
             <span className="r">Four convictions</span>
           </div>
-          <div className="apart-list">
+          <div className="apart-list" ref={apartRef}>
             {APART.map((a) => (
               <ApartRow key={a.no} a={a} />
             ))}
@@ -599,11 +641,19 @@ const CSS = `
   .artyk-about .apart-row:hover .apart-t{color:var(--corten);background-size:100% 1px}
   .artyk-about .apart-row:hover .apart-dot{opacity:1;transform:scale(1)}
 }
+/* scroll-driven active state — applied on touch (JS) where :hover can't fire.
+   Only added on mobile, so these mirror the mobile numeral position. */
+.artyk-about .apart-row.is-active{background:rgba(168,88,56,.05)}
+.artyk-about .apart-row.is-active .apart-ghost{color:rgba(168,88,56,.26);transform:translateX(5px)}
+.artyk-about .apart-row.is-active .apart-t{color:var(--corten);background-size:100% 1px}
+.artyk-about .apart-row.is-active .apart-dot{opacity:1;transform:scale(1)}
 @media(max-width:820px){
   .artyk-about .apart-row{padding-left:2px;padding-right:2px;align-items:start}
   .artyk-about .apart-head{grid-column:1/13;padding-left:56px}
   .artyk-about .apart-d{grid-column:1/13;padding-left:56px;margin-top:6px}
-  .artyk-about .apart-dot{display:none}
+  /* the dot sits at the top-right and fades in for the active row */
+  .artyk-about .apart-dot{display:block;position:absolute;right:6px;top:clamp(40px,6.5vw,58px);
+    justify-self:auto;align-self:auto}
   .artyk-about .apart-ghost{font-size:3rem;top:clamp(30px,5vw,46px);transform:none}
 }
 

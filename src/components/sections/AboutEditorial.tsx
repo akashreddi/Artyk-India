@@ -417,13 +417,13 @@ export default function AboutEditorial() {
               <div className="f">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/about/image-3.jpg"
-                  alt="Avinash Agarwal standing behind Prachi Agarwal, seated at a table in the Artyk gallery"
+                  src="/images/founder/founders-portrait.jpg"
+                  alt="Prachi and Avinash Agarwal, founders of Artyk, at the gallery entrance in Hyderabad"
                   loading="lazy"
                 />
               </div>
               <figcaption>
-                <span className="cap">In the gallery — where every collection begins with a conversation.</span>
+                <span className="cap">At the threshold — where the Artyk story begins.</span>
               </figcaption>
             </figure>
           </div>

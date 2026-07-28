@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   }
 
   const key = process.env.RESEND_API_KEY;
-  const to = process.env.ENQUIRY_TO || "hello@artykindia.com";
+  const to = process.env.ENQUIRY_TO || "contact@artyk.in";
   const from = process.env.ENQUIRY_FROM || "ARTYK <onboarding@resend.dev>";
 
   const text = [

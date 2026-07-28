@@ -92,7 +92,7 @@ export default function EnquiryForm() {
         {status === "error" && (
           <p className="text-sm text-corten">
             Something went wrong — please email{" "}
-            <a href="mailto:hello@artykindia.com" className="underline">hello@artykindia.com</a>.
+            <a href="mailto:contact@artyk.in" className="underline">contact@artyk.in</a>.
           </p>
         )}
       </div>

@@ -47,8 +47,8 @@ export function Footer() {
             Plot No. 839/A, Road No. 44,<br />
             Jubilee Hills, Hyderabad 500033
           </p>
-          <p className="mt-3"><a href="mailto:hello@artykindia.com" className="underline-sweep">hello@artykindia.com</a></p>
-          <p className="mt-1"><a href="tel:+919866022070" className="underline-sweep">+91 98660 22070</a></p>
+          <p className="mt-3"><a href="mailto:contact@artyk.in" className="underline-sweep">contact@artyk.in</a></p>
+          <p className="mt-1"><a href="tel:+919032989555" className="underline-sweep">+91 90329 89555</a></p>
         </div>
       </div>
 

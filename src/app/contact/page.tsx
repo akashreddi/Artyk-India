@@ -22,10 +22,10 @@ export default function ContactPage() {
               Jubilee Hills, Hyderabad 500033
             </p>
             <p>
-              <a href="mailto:hello@artykindia.com" className="underline-sweep">hello@artykindia.com</a>
+              <a href="mailto:contact@artyk.in" className="underline-sweep">contact@artyk.in</a>
             </p>
             <p>
-              <a href="tel:+919866022070" className="underline-sweep">+91 98660 22070</a>
+              <a href="tel:+919032989555" className="underline-sweep">+91 90329 89555</a>
             </p>
             <p>
               <a href="https://instagram.com/artykindia" target="_blank" rel="noopener noreferrer" className="underline-sweep">

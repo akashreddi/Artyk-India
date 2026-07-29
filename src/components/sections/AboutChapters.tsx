@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import {
   motion,
   useInView,
+  useMotionTemplate,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -174,17 +175,20 @@ type ValueItem = { no: string; title: string; body: string };
 function TimelineRow({ v }: { v: ValueItem }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion() ?? false;
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 90%", "start 60%"] });
-  /* fade + rise into focus as the row is scrolled to — no filter:blur, which
-     leaves a dark fringe below serif descenders */
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 92%", "start 55%"] });
+  /* each row rises out of focus and resolves into clarity as it is scrolled to:
+     a real blur that melts to sharp, paired with a fade. Clarity is bought with
+     scroll, so every text block reads soft first, then settles. */
   const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.35, 1]), { stiffness: 92, damping: 26 });
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [18, 0]), { stiffness: 92, damping: 26 });
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [22, 0]), { stiffness: 92, damping: 26 });
+  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [9, 0]), { stiffness: 90, damping: 28 });
+  const filter = useMotionTemplate`blur(${blurPx}px)`;
   const dotScale = useSpring(useTransform(scrollYProgress, [0.12, 1], [0.4, 1]), { stiffness: 120, damping: 20 });
   const dotOpacity = useTransform(scrollYProgress, [0.12, 0.6], [0.25, 1]);
 
   return (
     <div className="tl-row" ref={ref}>
-      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y }}>
+      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y, filter }}>
         <span className="tl-no it">{v.no}</span>
         <h3 className="display tl-title">{v.title}</h3>
       </motion.div>
@@ -193,7 +197,7 @@ function TimelineRow({ v }: { v: ValueItem }) {
         aria-hidden="true"
         style={reduce ? undefined : { scale: dotScale, opacity: dotOpacity }}
       />
-      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y }}>
+      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y, filter }}>
         {v.body}
       </motion.p>
     </div>
@@ -682,23 +686,28 @@ const CSS = `
   .artyk-about .tl-dot{left:6px;top:clamp(34px,5.6vh,52px)}
 }
 
-/* ================= FINALE ================= */
-.artyk-about .ch-fin{position:relative;background:var(--onyx);padding:0}
-.artyk-about .ch-fin-sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+/* ================= FINALE — full-width band, bounded height ================= */
+/* The backdrop runs full-bleed left to right, but its height is bounded so the
+   page shows above and below it: a full-width section block, not a full-screen
+   takeover and not a boxed card. It stays pinned while the flow scrolls, so
+   each block arrives one info at a time over the settling image. */
+.artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px)}
+.artyk-about .ch-fin-sticky{position:sticky;top:clamp(40px,9vh,96px);height:var(--fin-h);overflow:hidden}
 .artyk-about .ch-fin-bg{position:absolute;inset:0;will-change:transform}
 .artyk-about .ch-fin-bg img{width:100%;height:100%;object-fit:cover}
 .artyk-about .ch-fin-shade{position:absolute;inset:0;background:
   linear-gradient(to bottom,rgba(31,36,32,.52),rgba(31,36,32,.38) 34%,rgba(31,36,32,.38) 66%,rgba(31,36,32,.66));
 }
-.artyk-about .ch-fin-flow{position:relative;margin-top:-100svh}
-.artyk-about .ch-fin-block{min-height:62svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(40px,7vh,90px) clamp(20px,6vw,72px)}
+.artyk-about .ch-fin-flow{position:relative;margin-top:calc(-1 * var(--fin-h))}
+/* each block fills the pinned frame, so exactly one info is centred at a time */
+.artyk-about .ch-fin-block{min-height:var(--fin-h);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(32px,5vh,64px) clamp(16px,3vw,44px)}
 .artyk-about .ch-fin .micro{color:rgba(244,241,233,.62)}
 .artyk-about .ch-fin-title{margin-top:18px;color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
 .artyk-about .ch-fin-quote{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;
-  font-size:clamp(1.2rem,1.8vw,1.625rem);line-height:1.7;color:rgba(244,241,233,.94);max-width:30em}
-.artyk-about .ch-fin-quote + .ch-fin-quote{margin-top:clamp(22px,3.5vh,40px)}
-.artyk-about .ch-fin-body{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;font-size:clamp(1.2rem,1.8vw,1.625rem);line-height:1.7;color:rgba(244,241,233,.9);max-width:30em}
-.artyk-about .ch-fin-cta{margin-top:38px;color:var(--ivory)}
+  font-size:clamp(1.05rem,1.5vw,1.375rem);line-height:1.7;color:rgba(244,241,233,.94);max-width:28em}
+.artyk-about .ch-fin-quote + .ch-fin-quote{margin-top:clamp(20px,3vh,34px)}
+.artyk-about .ch-fin-body{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;font-size:clamp(1.05rem,1.5vw,1.375rem);line-height:1.7;color:rgba(244,241,233,.9);max-width:28em}
+.artyk-about .ch-fin-cta{margin-top:34px;color:var(--ivory)}
 .artyk-about .ch-fin-cta::after{background:var(--ivory)}
 
 /* colophon strip */

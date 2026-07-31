@@ -177,29 +177,34 @@ function TimelineRow({ v }: { v: ValueItem }) {
   const reduce = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 92%", "start 55%"] });
   /* each row rises out of focus and resolves into clarity as it is scrolled to:
-     a real blur that melts to sharp, paired with a fade. Clarity is bought with
-     scroll, so every text block reads soft first, then settles. */
-  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.35, 1]), { stiffness: 92, damping: 26 });
-  const y = useSpring(useTransform(scrollYProgress, [0, 1], [22, 0]), { stiffness: 92, damping: 26 });
-  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [9, 0]), { stiffness: 90, damping: 28 });
+     a real blur that melts to sharp, paired with a fade. The blur lives on an
+     inner element pinned to its own GPU layer (translateZ) so Safari repaints
+     it cleanly and never leaves a stale ghost below the settled text. */
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.3, 1]), { stiffness: 92, damping: 26 });
+  const y = useSpring(useTransform(scrollYProgress, [0, 1], [26, 0]), { stiffness: 92, damping: 26 });
+  const blurPx = useSpring(useTransform(scrollYProgress, [0, 1], [10, 0]), { stiffness: 90, damping: 28 });
   const filter = useMotionTemplate`blur(${blurPx}px)`;
   const dotScale = useSpring(useTransform(scrollYProgress, [0.12, 1], [0.4, 1]), { stiffness: 120, damping: 20 });
   const dotOpacity = useTransform(scrollYProgress, [0.12, 0.6], [0.25, 1]);
 
   return (
     <div className="tl-row" ref={ref}>
-      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y, filter }}>
-        <span className="tl-no it">{v.no}</span>
-        <h3 className="display tl-title">{v.title}</h3>
+      <motion.div className="tl-titlewrap" style={reduce ? undefined : { opacity, y }}>
+        <motion.div className="tl-blur" style={reduce ? undefined : { filter }}>
+          <span className="tl-no it">{v.no}</span>
+          <h3 className="display tl-title">{v.title}</h3>
+        </motion.div>
       </motion.div>
       <motion.span
         className="tl-dot"
         aria-hidden="true"
         style={reduce ? undefined : { scale: dotScale, opacity: dotOpacity }}
       />
-      <motion.p className="tl-body" style={reduce ? undefined : { opacity, y, filter }}>
-        {v.body}
-      </motion.p>
+      <motion.div className="tl-bodywrap" style={reduce ? undefined : { opacity, y }}>
+        <motion.p className="tl-body tl-blur" style={reduce ? undefined : { filter }}>
+          {v.body}
+        </motion.p>
+      </motion.div>
     </div>
   );
 }
@@ -461,6 +466,9 @@ export default function AboutChapters() {
 
       {/* ================= AN ADDRESS FOR DESIGN — the finale ================= */}
       <section className="ch-fin" ref={finRef}>
+        {/* solid bar pinned at the very top: the title slides behind it instead
+            of bleeding through the light gap above the image */}
+        <span className="ch-fin-topbar" aria-hidden="true" />
         <div className="ch-fin-sticky" aria-hidden="true">
           <motion.div
             className="ch-fin-bg"
@@ -500,7 +508,7 @@ export default function AboutChapters() {
               life.
             </p>
             <a className="sweep ch-fin-cta rv d2" href="/contact">
-              Visit the Gallery — By Appointment
+              Visit the Gallery
             </a>
           </div>
         </div>
@@ -669,7 +677,11 @@ const CSS = `
   background:linear-gradient(var(--corten),rgba(168,88,56,.35));transform-origin:top}
 .artyk-about .tl-row{position:relative;display:grid;grid-template-columns:1fr 0 1fr;align-items:center;
   column-gap:clamp(30px,4.5vw,70px);padding:clamp(30px,5.2vh,60px) 0}
-.artyk-about .tl-titlewrap{grid-column:1;text-align:right}
+.artyk-about .tl-titlewrap{grid-column:1;text-align:right;cursor:default;user-select:none;-webkit-user-select:none}
+.artyk-about .tl-bodywrap{grid-column:3}
+/* the blurred layer is pinned to its own GPU layer so Safari repaints the
+   filter cleanly and never leaves a stale ghost when blur settles to 0 */
+.artyk-about .tl-blur{-webkit-transform:translateZ(0);transform:translateZ(0);will-change:filter}
 .artyk-about .tl-no{display:block;font-family:var(--font-display),serif;font-style:italic;font-weight:300;
   font-size:clamp(.9rem,1.2vw,1.05rem);color:rgba(31,36,32,.42);margin-bottom:8px}
 .artyk-about .tl-title{font-size:clamp(1.4rem,2.4vw,2.1rem);line-height:1.08}
@@ -677,11 +689,12 @@ const CSS = `
   transform:translate(-50%,-50%);background:var(--corten);
   box-shadow:0 0 0 5px var(--stone),0 0 0 6px rgba(168,88,56,.2)}
 .artyk-about .tl-body{grid-column:3;text-align:left;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.6;
-  color:rgba(31,36,32,.66);max-width:34ch}
+  color:rgba(31,36,32,.66);max-width:34ch;cursor:default;user-select:none;-webkit-user-select:none}
 @media(max-width:820px){
   .artyk-about .tl-track,.artyk-about .tl-rail{left:6px}
   .artyk-about .tl-row{grid-template-columns:1fr;column-gap:0;row-gap:10px;padding-left:34px}
   .artyk-about .tl-titlewrap{grid-column:1;text-align:left}
+  .artyk-about .tl-bodywrap{grid-column:1}
   .artyk-about .tl-body{grid-column:1;text-align:left;max-width:none}
   .artyk-about .tl-dot{left:6px;top:clamp(34px,5.6vh,52px)}
 }
@@ -691,8 +704,11 @@ const CSS = `
    page shows above and below it: a full-width section block, not a full-screen
    takeover and not a boxed card. It stays pinned while the flow scrolls, so
    each block arrives one info at a time over the settling image. */
-.artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px)}
-.artyk-about .ch-fin-sticky{position:sticky;top:clamp(40px,9vh,96px);height:var(--fin-h);overflow:hidden}
+.artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px);--fin-top:clamp(40px,9vh,96px)}
+/* solid stone bar pinned above the image; sits over the flow so the title
+   disappears behind it cleanly (negative margin cancels its layout height) */
+.artyk-about .ch-fin-topbar{position:sticky;top:0;z-index:5;display:block;height:var(--fin-top);margin-bottom:calc(-1 * var(--fin-top));background:var(--stone)}
+.artyk-about .ch-fin-sticky{position:sticky;top:var(--fin-top);height:var(--fin-h);overflow:hidden}
 .artyk-about .ch-fin-bg{position:absolute;inset:0;will-change:transform}
 .artyk-about .ch-fin-bg img{width:100%;height:100%;object-fit:cover}
 .artyk-about .ch-fin-shade{position:absolute;inset:0;background:

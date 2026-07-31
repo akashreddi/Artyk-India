@@ -14,10 +14,6 @@ export default function BrandsPage() {
           <h1 className="mt-4 max-w-3xl font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-onyx md:text-[50px]">
             Brands we curate
           </h1>
-          <p className="mt-6 max-w-xl leading-relaxed text-cognac">
-            The houses we curate — Italian, Spanish, Swiss and Indian — shown not as catalogues, but
-            as the company ARTYK keeps.
-          </p>
         </div>
       </section>
 

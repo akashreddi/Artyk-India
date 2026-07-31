@@ -266,8 +266,8 @@ export default function AboutEditorial() {
             for Design.
           </h1>
           <p className="hero-sub rv d3">
-            A curated gallery of international design — furniture, kitchens, lighting, rugs and art,
-            under one roof.
+            A curated gallery of international design — furniture, kitchens, wardrobes, lighting, rugs
+            and art, under one roof.
           </p>
         </div>
       </header>
@@ -276,7 +276,6 @@ export default function AboutEditorial() {
       <section className="standfirst">
         <div className="wrap">
           <div className="kicker rv">
-            <span className="micro k">The House</span>
             <span className="l" />
             <span className="r">Design, curated thoughtfully</span>
           </div>
@@ -287,10 +286,8 @@ export default function AboutEditorial() {
             </p>
 
             <div className="support">
-              <span className="rule-draw draw" aria-hidden="true" />
               <div className="support-grid">
                 <div className="belief">
-                  <span className="micro col-label rv">Our belief</span>
                   <div className="belief-cols">
                     <p className="rv d1">
                       We believe that exceptional interiors are not defined by individual pieces, but
@@ -305,16 +302,6 @@ export default function AboutEditorial() {
                     </p>
                   </div>
                 </div>
-
-                <aside className="serve rv d2">
-                  <span className="micro col-label">Who we serve</span>
-                  <ul className="clients">
-                    <li><span>Homeowners</span></li>
-                    <li><span>Architects &amp; Designers</span></li>
-                    <li><span>Developers</span></li>
-                    <li><span>Hospitality Partners</span></li>
-                  </ul>
-                </aside>
               </div>
             </div>
           </div>
@@ -342,10 +329,6 @@ export default function AboutEditorial() {
                   />
                 </div>
               </div>
-              <figcaption>
-                <span className="cap">Prachi &amp; Avinash Agarwal at the Artyk gallery, Hyderabad.</span>
-                <span className="micro">Photograph — Artyk Archive</span>
-              </figcaption>
             </figure>
             <div className="txt">
               <span className="micro rv">Two decades in luxury interiors</span>
@@ -360,27 +343,21 @@ export default function AboutEditorial() {
               <blockquote className="scrub js-scrub">
                 &ldquo;Every remarkable interior begins with a conversation, not a catalogue.&rdquo;
               </blockquote>
-              <div className="stats rv d2">
+              <div className="stats insights rv d2">
                 <div className="rv d1">
-                  <b>
-                    <em className="js-count" data-count="20">
-                      20
-                    </em>
-                    + years
-                  </b>
-                  <span>Luxury interior project management</span>
+                  <span className="num">01</span>
+                  <b><span className="lbl">Experience</span></b>
+                  <span className="desc">Over two decades in luxury interiors.</span>
                 </div>
                 <div className="rv d2">
-                  <b>
-                    <em>One</em> roof
-                  </b>
-                  <span>Furniture · kitchens · lighting · rugs · art</span>
+                  <span className="num">02</span>
+                  <b><span className="lbl">Perspective</span></b>
+                  <span className="desc">A shared eye for timeless design and craftsmanship.</span>
                 </div>
                 <div className="rv d3">
-                  <b>
-                    <em>Three</em> worlds
-                  </b>
-                  <span>Residential · commercial · hospitality</span>
+                  <span className="num">03</span>
+                  <b><span className="lbl">Vision</span></b>
+                  <span className="desc">Creating a destination where exceptional design feels personal.</span>
                 </div>
               </div>
             </div>
@@ -413,19 +390,6 @@ export default function AboutEditorial() {
                 </p>
               </div>
             </div>
-            <figure className="insetfig rv d2">
-              <div className="f">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/founder/founders-portrait.jpg"
-                  alt="Prachi and Avinash Agarwal, founders of Artyk, at the gallery entrance in Hyderabad"
-                  loading="lazy"
-                />
-              </div>
-              <figcaption>
-                <span className="cap">At the threshold — where the Artyk story begins.</span>
-              </figcaption>
-            </figure>
           </div>
         </div>
       </section>
@@ -467,41 +431,6 @@ export default function AboutEditorial() {
           <span className="dot">·</span>
         </div>
       </div>
-
-      {/* ================= GALLERY SPREAD + PHILOSOPHY ================= */}
-      <section className="gallery">
-        <div className="spreadimg rv">
-          <div className="par js-par">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/about/image-4.jpg"
-              alt="Inside the Artyk gallery — a curated living arrangement framed by floor-to-ceiling windows and dense greenery"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <div className="wrap">
-          <div className="below">
-            <figcaption className="capL rv">
-              <span className="cap">
-                Inside the gallery — collections experienced, not displayed. Floor-to-ceiling glass
-                frames the greenery beyond.
-              </span>
-              <span className="micro">The Gallery, Hyderabad</span>
-            </figcaption>
-            <div className="philoGroup">
-              <h2 className="display philoT split">Exceptional design begins with discernment.</h2>
-              <p className="philoB rv d1">
-                Our approach is guided by a deep appreciation for detail, proportion, material, and
-                craftsmanship. Rather than offering endless choices, we focus on a carefully selected
-                portfolio of brands and collections representing the highest standards of contemporary
-                design — a balance of style, comfort, and quality. The result is a design experience
-                that is personal, purposeful, and enduring.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ================= PHILOSOPHY ================= */}
       <section className="philosophy">
@@ -636,7 +565,7 @@ const CSS = `
 .artyk-about .standfirst .col-label{display:block;margin-bottom:clamp(18px,2vw,26px);position:relative;padding-left:20px}
 .artyk-about .standfirst .col-label::before{content:"";position:absolute;left:0;top:.34em;width:9px;height:9px;border-radius:50%;background:var(--corten);opacity:.85}
 
-.artyk-about .standfirst .belief{grid-column:1/9}
+.artyk-about .standfirst .belief{grid-column:1/13}
 .artyk-about .standfirst .belief-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,2.6vw,46px)}
 .artyk-about .standfirst .belief p{font-size:15.5px;line-height:1.78;color:rgba(31,36,32,.78)}
 
@@ -691,9 +620,32 @@ const CSS = `
 .artyk-about .stats b{font-family:var(--font-display),serif;font-weight:300;font-size:clamp(1.9rem,2.6vw,2.5rem);display:block;line-height:1;margin-bottom:10px}
 .artyk-about .stats b em{font-style:italic;color:var(--corten);font-weight:300}
 .artyk-about .stats span{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;color:rgba(31,36,32,.55);line-height:1.75}
+/* Insights variant: numbered pillars — index, serif label, italic line. */
+.artyk-about .stats.insights div{padding-top:22px;cursor:default;transition:transform .55s var(--ease)}
+.artyk-about .stats.insights div:hover{transform:translateY(-6px)}
+/* a short corten accent that draws over the base rule, then widens on hover */
+.artyk-about .stats.insights div::after{content:"";position:absolute;top:0;left:0;height:2px;width:38px;background:var(--corten);transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease),width .5s var(--ease)}
+.artyk-about .stats.insights.in div::after{transform:scaleX(1)}
+.artyk-about .stats.insights.in div:nth-child(2)::after{transition-delay:.15s}
+.artyk-about .stats.insights.in div:nth-child(3)::after{transition-delay:.3s}
+.artyk-about .stats.insights div:hover::after{width:64px}
+.artyk-about .stats.insights .num{display:block;font-family:var(--font-display),serif;font-style:italic;font-weight:300;font-size:14px;letter-spacing:0;text-transform:none;color:var(--corten);opacity:.9;margin-bottom:16px;line-height:1;transition:transform .55s var(--ease)}
+.artyk-about .stats.insights div:hover .num{transform:translateX(4px)}
+.artyk-about .stats.insights b{font-family:var(--font-display),serif;font-weight:400;font-size:clamp(1.2rem,1.6vw,1.5rem);letter-spacing:0;line-height:1.12;margin-bottom:13px;color:var(--onyx);display:block}
+/* underline sweep beneath the label on hover */
+.artyk-about .stats.insights .lbl{position:relative;display:inline-block;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;text-transform:none;color:inherit;transition:color .45s var(--ease)}
+.artyk-about .stats.insights .lbl::after{content:"";position:absolute;left:0;bottom:-3px;height:1px;width:100%;background:var(--corten);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.artyk-about .stats.insights div:hover .lbl{color:var(--corten)}
+.artyk-about .stats.insights div:hover .lbl::after{transform:scaleX(1)}
+.artyk-about .stats.insights .desc{font-family:var(--font-display),serif;font-style:italic;font-weight:300;font-size:clamp(.98rem,1.15vw,1.08rem);letter-spacing:0;text-transform:none;line-height:1.55;color:rgba(31,36,32,.6);transition:color .45s var(--ease)}
+.artyk-about .stats.insights div:hover .desc{color:rgba(31,36,32,.82)}
 @media(max-width:640px){.artyk-about .stats{grid-template-columns:1fr;gap:24px}}
+@media(prefers-reduced-motion:reduce){
+  .artyk-about .stats.insights div,.artyk-about .stats.insights div:hover{transform:none}
+  .artyk-about .stats.insights div::after{transform:scaleX(1);transition:none}
+}
 .artyk-about .well{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,4vw,64px)}
-.artyk-about .well .story{grid-column:1/9}
+.artyk-about .well .story{grid-column:1/13}
 .artyk-about .well .insetfig{grid-column:9/13;margin-top:8px}
 @media(min-width:1024px){.artyk-about .well .cols{columns:2;column-gap:52px}}
 .artyk-about .well p{margin-bottom:1.2em;color:rgba(31,36,32,.85);text-align:justify;hyphens:auto}

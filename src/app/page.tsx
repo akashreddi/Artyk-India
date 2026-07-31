@@ -33,7 +33,7 @@ export default function HomePage() {
           <Reveal className="md:col-span-9">
             <h2 className="font-display text-[32px] font-light leading-[1.12] tracking-[-0.01em] text-onyx md:text-[50px]">
               Artyk — Experience{" "}
-              <span className="not-italic text-corten">Curated Luxury</span>.
+              <span className="not-italic text-onyx">Curated Luxury</span>.
             </h2>
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-cognac md:text-lg">
               Artyk brings you sprawling galleries of designer furniture by top-tier international
@@ -131,14 +131,9 @@ export default function HomePage() {
         <Image src="/images/featured/entrance-2.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-onyx/60" />
         <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6 text-center">
-          <p className="font-sans text-[11px] uppercase tracking-[0.32em] text-ivory/75">By appointment</p>
-          <h2 className="mt-6 font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-ivory md:text-[50px]">
+          <h2 className="font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-ivory md:text-[50px]">
             An invitation, beyond the threshold.
           </h2>
-          <p className="mt-5 max-w-xl leading-relaxed text-ivory/80">
-            We receive a small number of guests each week. Tell us about your space, and we will
-            prepare the gallery for your visit.
-          </p>
           <Link
             href="/contact"
             className="mt-9 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-[#212121] hover:text-ivory"

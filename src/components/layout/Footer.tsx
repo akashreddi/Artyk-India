@@ -14,10 +14,6 @@ export function Footer() {
             height={193}
             className="h-12 w-auto md:h-14"
           />
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-cognac">
-            A private gallery of collectible European furniture and lighting in Jubilee Hills —
-            where sourcing, consulting, and craftsmanship meet. By appointment.
-          </p>
         </div>
 
         <div className="text-sm md:col-span-2">

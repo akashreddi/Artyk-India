@@ -1,29 +1,94 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { brands } from "@/data/brands";
 
-const featuredBrands = brands.slice(0, 8);
+const featuredBrands = brands;
 
 const flagMap: Record<string, string> = {
   Italy: "/flags/italy-latest.png",
   India: "/flags/india.png",
   Switzerland: "/flags/switzerland.png",
+  Spain: "/flags/spain.svg",
 };
 
 export default function BrandsTeaser() {
   const reduce = useReducedMotion();
   const marqueeRef = useRef<HTMLDivElement>(null);
+  // Shared pause flag: the auto-scroll loop, hover, and the manual arrow
+  // buttons all read/write this so they don't fight over scrollLeft.
+  const pausedRef = useRef(false);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Rendered twice so the strip can loop back seamlessly once the first set
+  // has scrolled fully out of view.
   const marqueeItems = [...featuredBrands, ...featuredBrands];
 
-  const scrollByAmount = (direction: "left" | "right") => {
-    if (!marqueeRef.current) return;
-    const amount = 320;
-    marqueeRef.current.scrollBy({ left: direction === "right" ? amount : -amount, behavior: "smooth" });
+  // Exact width of one full set (cards + gaps, including the trailing gap):
+  // the left offset of the first card of the SECOND set. Using scrollWidth/2
+  // is wrong because the gap count is odd, leaving it half a gap short and
+  // causing a visible snap on each loop.
+  const getLoopWidth = () => {
+    const track = marqueeRef.current?.firstElementChild;
+    const cards = track?.children;
+    const first = cards?.[0] as HTMLElement | undefined;
+    const secondSetStart = cards?.[featuredBrands.length] as HTMLElement | undefined;
+    if (!first || !secondSetStart) return 0;
+    return secondSetStart.offsetLeft - first.offsetLeft;
   };
+
+  const scrollByAmount = (direction: "left" | "right") => {
+    const el = marqueeRef.current;
+    if (!el) return;
+    // Pause the auto-scroll so its per-frame writes don't cancel the smooth
+    // scroll, then resume shortly after the animation settles.
+    pausedRef.current = true;
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    const amount = 320;
+    const loop = getLoopWidth();
+    // Near an edge, hop by one full set (visually identical thanks to the
+    // duplicated content) so the arrow always has room to move.
+    if (loop > 0 && direction === "left" && el.scrollLeft < amount) el.scrollLeft += loop;
+    if (loop > 0 && direction === "right" && el.scrollLeft > loop) el.scrollLeft -= loop;
+    el.scrollBy({ left: direction === "right" ? amount : -amount, behavior: "smooth" });
+    resumeTimer.current = setTimeout(() => {
+      pausedRef.current = false;
+    }, 700);
+  };
+
+  // Continuous, seamless auto-scroll. Once the first set has fully scrolled
+  // past, subtract one set's width so the strip loops forever with no snap.
+  useEffect(() => {
+    if (reduce) return;
+    const el = marqueeRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const speed = 0.5; // px per frame (~30px/s at 60fps)
+
+    const step = () => {
+      if (!pausedRef.current) {
+        el.scrollLeft += speed;
+        const loop = getLoopWidth();
+        if (loop > 0 && el.scrollLeft >= loop) el.scrollLeft -= loop;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+
+    const pause = () => (pausedRef.current = true);
+    const resume = () => (pausedRef.current = false);
+    el.addEventListener("pointerenter", pause);
+    el.addEventListener("pointerleave", resume);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointerenter", pause);
+      el.removeEventListener("pointerleave", resume);
+    };
+  }, [reduce]);
 
   return (
     <div className="relative border-t border-cognac/20 pt-4 md:pt-6">
@@ -56,8 +121,8 @@ export default function BrandsTeaser() {
         <div ref={marqueeRef} className="overflow-x-auto overflow-y-hidden pb-2 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <motion.div className="flex w-max gap-3 md:gap-4" initial={false}>
             {marqueeItems.map((b, i) => {
-              // No flag asset for this origin (e.g. Spain) → show none rather
-              // than falling back to another country's flag.
+              // Map the origin country to its flag; show none rather than
+              // falling back to another country's flag if unmapped.
               const flagSrc = flagMap[b.origin.split(" · ")[0]];
 
               return (
@@ -80,8 +145,7 @@ export default function BrandsTeaser() {
 
                       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4 sm:p-5">
                         <div>
-                          <p className="text-[10px] uppercase tracking-[0.24em] text-[#efe7da]">Featured house</p>
-                          <p className="mt-1 font-display text-[clamp(1.1rem,2.2vw,1.45rem)] leading-none text-white">
+                          <p className="font-display text-[clamp(1.1rem,2.2vw,1.45rem)] leading-none text-white">
                             {b.name}
                           </p>
                         </div>

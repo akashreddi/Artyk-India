@@ -22,7 +22,7 @@ export function Header() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-x-0 bottom-0 z-50 px-4 pb-4 md:px-8"
     >
-      <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 text-onyx md:px-8">
+      <div className="glass-panel relative mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 text-onyx md:px-8">
         <Link href="/" aria-label="ARTYK home" className="shrink-0">
           <Image
             src="/images/about/artyk-logo-2.png"
@@ -34,7 +34,7 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
           {links.map((item) => (
             <Link
               key={item.href}
@@ -45,13 +45,6 @@ export function Header() {
             </Link>
           ))}
         </nav>
-
-        <Link
-          href="/contact"
-          className="hidden border border-[#212121]/40 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#212121] transition hover:bg-[#212121] hover:text-ivory md:inline-block"
-        >
-          By Appointment
-        </Link>
 
         <button
           onClick={() => setOpen(true)}

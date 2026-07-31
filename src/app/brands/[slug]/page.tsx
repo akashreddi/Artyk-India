@@ -94,26 +94,13 @@ export default async function BrandPage({
       </section>
 
       {/* body */}
-      <section className="mx-auto max-w-4xl px-6 py-24 md:py-36">
+      <section className="mx-auto max-w-4xl px-6 pt-12 pb-24 md:pt-16 md:pb-36">
         <Reveal>
-          <p className="text-lg leading-relaxed text-onyx">
-            {b.name} is curated at Artyk — the European furniture experience centre in Jubilee
-            Hills, Hyderabad.
-          </p>
           {b.body.map((para, i) => (
-            <p key={i} className="mt-6 text-lg leading-relaxed text-cognac">
+            <p key={i} className={`${i === 0 ? "" : "mt-6 "}text-lg leading-relaxed text-cognac`}>
               {para}
             </p>
           ))}
-
-          {/* categories — text-only inline list (no pill/badge style exists in the live system) */}
-          <div className="mt-10 flex flex-wrap gap-x-6 gap-y-2">
-            {b.category.map((c) => (
-              <span key={c} className="font-sans text-[11px] uppercase tracking-[0.2em] text-forest">
-                {c}
-              </span>
-            ))}
-          </div>
 
           {/* CTA */}
           <div className="mt-12 flex flex-wrap gap-5">

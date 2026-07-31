@@ -647,11 +647,11 @@ const CSS = `
 .artyk-about .well{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(24px,4vw,64px)}
 .artyk-about .well .story{grid-column:1/13}
 .artyk-about .well .insetfig{grid-column:9/13;margin-top:8px}
-@media(min-width:1024px){.artyk-about .well .cols{columns:2;column-gap:52px}}
+.artyk-about .well .cols{max-width:none}
 .artyk-about .well p{margin-bottom:1.2em;color:rgba(31,36,32,.85);text-align:justify;hyphens:auto}
 .artyk-about .well .cols>p:first-child::first-letter{
   font-family:var(--font-display),serif;font-weight:300;color:var(--corten);
-  float:left;font-size:4.6em;line-height:.78;padding:6px 12px 0 0;
+  float:left;font-size:3em;line-height:.82;padding:2px 10px 0 0;
 }
 .artyk-about .insetfig .f{aspect-ratio:3/4;overflow:hidden}
 @media(max-width:920px){.artyk-about .well .story{grid-column:1/13}.artyk-about .well .insetfig{grid-column:1/13;max-width:380px}}

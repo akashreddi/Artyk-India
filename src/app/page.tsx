@@ -4,6 +4,7 @@ import Reveal from "@/components/ui/Reveal";
 import SignatureLine from "@/components/ui/SignatureLine";
 import BrandsTeaser from "@/components/sections/BrandsTeaser";
 import ArtykDifference from "@/components/sections/ArtykDifference";
+import HeroIntroImage from "@/components/sections/HeroIntroImage";
 import MobileHomeScrollReset from "@/components/ui/MobileHomeScrollReset";
 
 export default function HomePage() {
@@ -28,9 +29,9 @@ export default function HomePage() {
       </section>
 
       {/* ───────────────── Editorial intro ───────────────── */}
-      <section className="px-6 py-28 md:px-16 md:py-44">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
-          <Reveal className="md:col-span-9">
+      <section className="px-6 pt-20 pb-10 md:px-16 md:pt-32 md:pb-14">
+        <div className="mx-auto grid max-w-7xl items-start gap-10 md:grid-cols-12 md:gap-16">
+          <Reveal className="md:col-span-8">
             <h2 className="font-display text-[32px] font-light leading-[1.12] tracking-[-0.01em] text-onyx md:text-[50px]">
               Artyk — Experience{" "}
               <span className="not-italic text-onyx">Curated Luxury</span>.
@@ -48,6 +49,8 @@ export default function HomePage() {
               <SignatureLine />
             </Reveal>
           </Reveal>
+
+          <HeroIntroImage />
         </div>
       </section>
 

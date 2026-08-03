@@ -5,18 +5,18 @@ import { brands } from "@/data/brands";
 export function Footer() {
   return (
     <footer className="border-t border-cognac/20 bg-oat text-onyx">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-12 md:py-20">
-        <div className="md:col-span-5">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 md:grid-cols-24 md:py-20">
+        <div className="md:col-span-9">
           <Image
             src="/images/about/artyk-logo-cropped.png"
             alt="ARTYK — Curated Living"
             width={599}
             height={193}
-            className="h-12 w-auto md:h-14"
+            className="h-14 w-auto md:h-16"
           />
         </div>
 
-        <div className="text-sm md:col-span-2">
+        <div className="text-sm md:col-span-4">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-forest">Explore</p>
           <ul className="space-y-2.5">
             <li><Link href="/about" className="underline-sweep">About</Link></li>
@@ -26,7 +26,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="text-sm md:col-span-2">
+        <div className="text-sm md:col-span-4">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-forest">Partner Houses</p>
           <ul className="space-y-2.5 text-cognac">
             {brands.map((b) => (
@@ -37,7 +37,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="text-sm md:col-span-3">
+        <div className="text-sm md:col-span-7">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-forest">Visit</p>
           <p className="leading-relaxed text-cognac">
             Plot No. 839/A, Road No. 44,<br />

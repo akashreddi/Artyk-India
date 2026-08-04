@@ -5,17 +5,15 @@ import { usePreloaderDone } from "@/components/ui/InitialLoadGate";
 
 type Props = {
   src: string;
-  poster: string;
 };
 
 /**
- * No `autoPlay` — the video sits paused on its poster frame while the
- * preloader covers the screen (still buffering via preload="auto", so it's
- * ready to go), then starts from frame 0 the instant the preloader lifts.
- * Without this, autoplay would start the clip the moment it mounts (hidden
- * behind the preloader), so by reveal it'd already be several seconds in.
+ * No `autoPlay` and no `poster` — a poster attribute would show a
+ * different static image over the video's own already-buffered first
+ * frame. The video sits on frame 0 while the preloader covers the screen
+ * (buffering via preload="auto"), then starts the instant it lifts.
  */
-export default function HeroVideo({ src, poster }: Props) {
+export default function HeroVideo({ src }: Props) {
   const preloaderDone = usePreloaderDone();
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -33,7 +31,6 @@ export default function HeroVideo({ src, poster }: Props) {
       loop
       playsInline
       preload="auto"
-      poster={poster}
       className="absolute inset-0 h-full w-full object-cover"
     >
       <source src={src} type="video/mp4" />

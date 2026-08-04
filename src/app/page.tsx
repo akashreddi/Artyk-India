@@ -16,7 +16,7 @@ export default function HomePage() {
 
       {/* ───────────────────────── HERO (kept) ───────────────────────── */}
       <section className="relative h-[100svh] min-h-[600px] w-full overflow-hidden">
-        <HeroVideo src="/videos/Website Landing_1080.mp4" poster="/images/featured/entrance.jpg" />
+        <HeroVideo src="/videos/Website Landing_1080.mp4" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-onyx/40" />
       </section>
 

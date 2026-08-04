@@ -1,12 +1,22 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useCallback, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArtykPreloader } from "@/components/ui/ArtykPreloader";
 
 const STORAGE_KEY = "artyk-initial-preloader-complete";
 const IS_DEV = process.env.NODE_ENV !== "production";
+
+// Lets content held behind the preloader (e.g. the hero video, which
+// should start from its first frame exactly as the logo finishes, not
+// silently mid-playback by the time it's revealed) know the moment the
+// preloader has actually lifted.
+const PreloaderDoneContext = createContext(true);
+
+export function usePreloaderDone() {
+  return useContext(PreloaderDoneContext);
+}
 
 type InitialLoadGateProps = {
   children: ReactNode;
@@ -28,7 +38,7 @@ export function InitialLoadGate({ children }: InitialLoadGateProps) {
   }, []);
 
   return (
-    <>
+    <PreloaderDoneContext.Provider value={!showPreloader}>
       <motion.div
         initial={false}
         animate={{ opacity: 1 }}
@@ -40,6 +50,6 @@ export function InitialLoadGate({ children }: InitialLoadGateProps) {
       <AnimatePresence>
         {showPreloader ? <ArtykPreloader onComplete={handleComplete} /> : null}
       </AnimatePresence>
-    </>
+    </PreloaderDoneContext.Provider>
   );
 }

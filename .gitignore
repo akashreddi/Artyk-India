@@ -29,6 +29,7 @@ public/videos/*.mp4
 !public/videos/artyk-intro.mp4
 !public/videos/artyk-intro-desktop.mp4
 !public/videos/artyk-intro-mobile.mp4
+!public/videos/Website Landing_1080.mp4
 
 # debug
 npm-debug.log*

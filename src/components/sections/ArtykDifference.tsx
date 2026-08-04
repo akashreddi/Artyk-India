@@ -22,25 +22,25 @@ const ITEMS: DifferenceItem[] = [
     id: "01",
     title: "Curated Brands",
     body: "A carefully selected portfolio of globally renowned design brands.",
-    image: "/images/showroom/gallery.jpg",
+    image: "/images/about/_MG_9422-3.jpg",
   },
   {
     id: "02",
     title: "Design Expertise",
     body: "Thoughtful guidance backed by decades of experience in luxury interiors.",
-    image: "/images/services/service-consulting.jpg",
+    image: "/images/about/DSCF7013-2.jpg",
   },
   {
     id: "03",
     title: "Bespoke Solutions",
     body: "Tailored furniture, kitchens, wardrobes, and design solutions for every project.",
-    image: "/images/showroom/kitchen.jpg",
+    image: "/images/about/_ART5310-Edit.jpg",
   },
   {
     id: "04",
     title: "End-to-End Execution",
     body: "From concept to installation, ensuring a seamless design journey.",
-    image: "/images/showroom/living-2.jpg",
+    image: "/images/about/WhatsApp Image 2025-08-26 at 14.55.55.jpeg",
   },
 ];
 

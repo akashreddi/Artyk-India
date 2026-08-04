@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function InviteCTA() {
   return (
     <section className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
-      <Image src="/images/featured/entrance-2.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
+      <Image src="/images/about/_1HK2392.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-onyx/60" />
       <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6 text-center">
         <h2 className="font-display text-[32px] font-light leading-[1.1] text-ivory md:text-[50px]">

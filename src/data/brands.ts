@@ -8,7 +8,8 @@ export type Brand = {
   body: string[]; // multi-paragraph editorial (brand detail pages)
   category: string[]; // categories / disciplines
   instagram: string; // handle (no @)
-  image: string; // placeholder — replace with brand product shots
+  image: string; // outer cover shot — homepage + brands page slider cards
+  heroImage: string; // inner brand detail page hero banner
   seo: {
     title: string;
     description: string; // ~150–160 chars
@@ -36,7 +37,8 @@ export const brands: Brand[] = [
     ],
     category: ["Furniture", "Leather Seating"],
     instagram: "poltronafrauofficial",
-    image: "/images/showroom/living-2.jpg",
+    image: "/images/featured/Asia 1080x1350px 0030 MARCHIO copia 10.jpg",
+    heroImage: "/images/featured/PF 9.jpg",
     seo: {
       title: "Poltrona Frau in Hyderabad | Luxury Italian Leather Furniture — Artyk",
       description:
@@ -64,7 +66,8 @@ export const brands: Brand[] = [
     ],
     category: ["Furniture", "Modular Systems", "Wardrobes"],
     instagram: "lemamobili",
-    image: "/images/showroom/gallery.jpg",
+    image: "/images/featured/AUGUST_02.jpg",
+    heroImage: "/images/featured/LEMA-Antwerp (2).jpg",
     seo: {
       title: "Lema in Hyderabad | Luxury Italian Modular Furniture — Artyk",
       description:
@@ -91,8 +94,9 @@ export const brands: Brand[] = [
       "Designed and manufactured in Italy, every Meridiani collection reflects a philosophy of understated luxury, where meticulous detail, material richness and effortless sophistication define the experience of home.",
     ],
     category: ["Furniture", "Living", "Outdoor"],
-    instagram: "meridiani_official",
-    image: "/images/hero/hero-living.jpg",
+    instagram: "meridiani.livinginteriors",
+    image: "/images/featured/Meridiani_Salone del Mobile_Place Of Authenticity-03.jpg",
+    heroImage: "/images/featured/Meridiani_Store-Manzoni-05.jpg",
     seo: {
       title: "Meridiani in Hyderabad | Modern Italian Furniture — Artyk",
       description:
@@ -119,8 +123,9 @@ export const brands: Brand[] = [
       "Renowned for its iconic designs and technical innovation, de Sede's collections reflect a commitment to authentic materials, exceptional comfort, and timeless design. From sculptural seating to statement-making living spaces, de Sede represents the pinnacle of luxury furniture, creating pieces designed to be cherished for generations.",
     ],
     category: ["Leather Furniture", "Seating"],
-    instagram: "desede",
-    image: "/images/showroom/dining.jpg",
+    instagram: "de_sede_official",
+    image: "/images/featured/IMG_1496.jpg",
+    heroImage: "/images/featured/DS-531_111-01_Mood.jpg",
     seo: {
       title: "de Sede in Hyderabad | Swiss Leather Furniture — Artyk",
       description:
@@ -148,7 +153,8 @@ export const brands: Brand[] = [
     ],
     category: ["Kitchens"],
     instagram: "scic.italia",
-    image: "/images/showroom/kitchen.jpg",
+    image: "/images/featured/_01_SCIC_CANOSSA 05.jpg",
+    heroImage: "/images/featured/vista orizzontale 00.jpg",
     seo: {
       title: "SCIC Kitchens in Hyderabad | Bespoke Italian Kitchens — Artyk",
       description:
@@ -176,7 +182,8 @@ export const brands: Brand[] = [
     ],
     category: ["Furniture", "Lighting", "Accessories"],
     instagram: "locodesignindia",
-    image: "/images/services/service-furniture.jpg",
+    image: "/images/featured/220A1730.jpg",
+    heroImage: "/images/featured/_ART5608.jpg",
     seo: {
       title: "Madheke by Loco Design in Hyderabad | Handcrafted Furniture & Lighting — Artyk",
       description:
@@ -204,7 +211,8 @@ export const brands: Brand[] = [
     ],
     category: ["Surfaces", "Materials"],
     instagram: "locodesignindia",
-    image: "/images/collections/partners.jpg",
+    image: "/images/about/DSCF4028-2.jpg",
+    heroImage: "/images/about/DSCF4043.jpg",
     seo: {
       title: "Pintark by Loco Design in Hyderabad | Architectural Surfaces — Artyk",
       description:
@@ -231,8 +239,9 @@ export const brands: Brand[] = [
       "Each piece from Gandia Blasco harmonises form and function with effortless elegance, transforming outdoor spaces into veritable oases of style and comfort. Every collection resonates with a timeless allure, offering discerning clientele a blend of sophistication and practicality that transcends mere furniture to embody an elevated lifestyle.",
     ],
     category: ["Outdoor Furniture"],
-    instagram: "gandiablasco_official",
-    image: "/images/featured/entrance.jpg",
+    instagram: "gandiablasco_group",
+    image: "/images/featured/hos-set-deckchair-stool-shito-shito-moya-moya-02.jpg",
+    heroImage: "/images/featured/bosc-extendable-dining-table-dining-armchair-sand.jpg",
     seo: {
       title: "Gandia Blasco in Hyderabad | Luxury Outdoor Furniture — Artyk",
       description:
@@ -260,7 +269,8 @@ export const brands: Brand[] = [
     ],
     category: ["Rugs", "Carpets", "Flooring"],
     instagram: "neytt.extraweave",
-    image: "/images/services/service-sourcing.jpg",
+    image: "/images/featured/ottaclose.jpg",
+    heroImage: "/images/featured/Banner 3.jpg",
     seo: {
       title: "Neytt in Hyderabad | Handwoven Luxury Rugs & Carpets — Artyk",
       description:
@@ -287,8 +297,9 @@ export const brands: Brand[] = [
       "By combining traditional craftsmanship with modern techniques, Paarkhi reimagines stone beyond its conventional applications, creating sculptural pieces that are both functional and artistic. Every creation reflects a thoughtful balance of material integrity, contemporary design, and meticulous execution.",
     ],
     category: ["Stone", "Furniture", "Lighting", "Accessories"],
-    instagram: "paarkhistoneware",
-    image: "/images/featured/entrance-2.jpg",
+    instagram: "paarkhi_stoneboutique",
+    image: "/images/featured/hollow boulder lamp .jpg",
+    heroImage: "/images/featured/IMG_1738.PNG",
     seo: {
       title: "Paarkhi Stoneware in Hyderabad | Natural Stone Design — Artyk",
       description:

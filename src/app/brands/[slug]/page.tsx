@@ -31,7 +31,7 @@ export async function generateMetadata({
       description: b.seo.description,
       url: path,
       type: "website",
-      images: [{ url: b.image, alt: b.name }],
+      images: [{ url: b.heroImage, alt: b.name }],
     },
   };
 }
@@ -52,7 +52,7 @@ export default async function BrandPage({
     "@id": `${org.url}/#store`,
     name: org.name,
     url: org.url,
-    image: `${org.url}${b.image}`,
+    image: `${org.url}${b.heroImage}`,
     address: {
       "@type": "PostalAddress",
       streetAddress: org.address.streetAddress,
@@ -67,7 +67,7 @@ export default async function BrandPage({
       name: b.name,
       description: b.seo.description,
       slogan: b.tagline,
-      image: `${org.url}${b.image}`,
+      image: `${org.url}${b.heroImage}`,
     },
   };
 
@@ -80,7 +80,7 @@ export default async function BrandPage({
 
       {/* hero */}
       <section className="relative h-[74vh] min-h-[460px] w-full overflow-hidden">
-        <Image src={b.image} alt={b.name} fill priority sizes="100vw" className="object-cover" />
+        <Image src={b.heroImage} alt={b.name} fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-onyx/50" />
         <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-16 md:px-16 md:pb-24">
           <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-ivory/80">{b.origin}</p>

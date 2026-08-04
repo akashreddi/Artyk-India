@@ -5,6 +5,7 @@ import SignatureLine from "@/components/ui/SignatureLine";
 import BrandsTeaser from "@/components/sections/BrandsTeaser";
 import ArtykDifference from "@/components/sections/ArtykDifference";
 import HeroIntroImage from "@/components/sections/HeroIntroImage";
+import ImmersiveShowroom from "@/components/sections/ImmersiveShowroom";
 import MobileHomeScrollReset from "@/components/ui/MobileHomeScrollReset";
 
 export default function HomePage() {
@@ -107,31 +108,13 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="mt-14 grid gap-4 md:grid-cols-12 md:gap-6">
-            <Reveal className="md:col-span-7">
-              <div className="group relative aspect-[4/5] overflow-hidden">
-                <Image src="/images/showroom/gallery.jpg" alt="ARTYK gallery floor" fill sizes="(max-width:768px) 100vw, 58vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
-              </div>
-            </Reveal>
-            <div className="grid gap-4 md:col-span-5 md:gap-6">
-              <Reveal delay={0.1}>
-                <div className="group relative aspect-[4/3] overflow-hidden">
-                  <Image src="/images/showroom/living-2.jpg" alt="ARTYK living composition" fill sizes="(max-width:768px) 100vw, 42vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
-                </div>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <div className="group relative aspect-[4/3] overflow-hidden">
-                  <Image src="/images/showroom/dining.jpg" alt="ARTYK dining composition" fill sizes="(max-width:768px) 100vw, 42vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
-                </div>
-              </Reveal>
-            </div>
-          </div>
+          <ImmersiveShowroom />
         </div>
       </section>
 
       {/* ───────────────── CTA (invitation) ───────────────── */}
       <section className="relative h-[72vh] min-h-[480px] w-full overflow-hidden">
-        <Image src="/images/featured/entrance-2.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
+        <Image src="/images/about/_1HK2392.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-onyx/60" />
         <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6 text-center">
           <h2 className="font-display text-[32px] font-light leading-[1.1] tracking-[-0.01em] text-ivory md:text-[50px]">

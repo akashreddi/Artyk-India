@@ -49,8 +49,8 @@ const PILLARS = [
     title: "Bespoke Solutions",
     lead: null,
     body: null,
-    image: "/images/services/showcase-4.jpg",
-    alt: "Hands adjusting a timber furniture frame — craftsmanship in detail",
+    image: "/images/about/About_3.jpg",
+    alt: "A hand-cut leather pattern template — bespoke craftsmanship in detail",
   },
   {
     no: "03",
@@ -67,7 +67,7 @@ const OFFERINGS = [
     numeral: "i",
     title: "Furniture",
     body: "Curated collections from globally renowned brands.",
-    image: "/images/services/showcase-1.jpg",
+    image: "/images/about/Area 1 (5).jpg",
     alt: "A curated living composition at Artyk",
   },
   {
@@ -88,14 +88,14 @@ const OFFERINGS = [
     numeral: "iv",
     title: "Lighting",
     body: "Decorative and architectural lighting that enhances atmosphere.",
-    image: "/images/showroom/gallery.jpg",
-    alt: "A pendant cluster over a kitchen island",
+    image: "/images/about/_ART5422-HDR-Edit.jpg",
+    alt: "A sculptural sphere pendant suspended over a marble dining table",
   },
   {
     numeral: "v",
     title: "Rugs & Textiles",
     body: "Handcrafted pieces that add warmth, texture, and depth.",
-    image: "/images/showroom/living-2.jpg",
+    image: "/images/about/PHOTO-2024-11-19-13-17-58.jpg",
     alt: "A living arrangement grounded by a handcrafted rug",
   },
   {
@@ -255,8 +255,8 @@ function Hero() {
           transition={{ duration: 2.4, ease: EASE }}
         >
           <Image
-            src="/images/services/consulting.jpg"
-            alt="The Artyk gallery hall — living compositions before floor-to-ceiling greenery"
+            src="/images/about/_ART5112-Edit.jpg"
+            alt="The Artyk gallery — a dining composition framed by glass partitions"
             fill
             priority
             sizes="100vw"

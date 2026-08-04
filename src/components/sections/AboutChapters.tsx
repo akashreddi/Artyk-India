@@ -344,7 +344,7 @@ export default function AboutChapters() {
                   <div className="vm-media">
                     <ParallaxFigure
                       className="vm-fig"
-                      src="/images/featured/entrance-2.jpg"
+                      src="/images/about/Artzy Por ED-49.jpg"
                       alt="The threshold of the Artyk gallery at dusk"
                       ratio="5 / 4"
                       frame={false}
@@ -382,9 +382,9 @@ export default function AboutChapters() {
 
                 <div className="mis-photos">
                   {[
-                    { src: "/images/showroom/dining.jpg", alt: "A dining composition in the Artyk gallery", rot: -3.4 },
-                    { src: "/images/showroom/gallery.jpg", alt: "The Artyk gallery floor", rot: 1.6 },
-                    { src: "/images/services/service-consulting.jpg", alt: "A design consultation at Artyk", rot: -1.4 },
+                    { src: "/images/about/_1HK2374.jpg", alt: "A dining composition in the Artyk gallery", rot: -3.4 },
+                    { src: "/images/about/L1032013.jpg", alt: "The Artyk gallery floor", rot: 1.6 },
+                    { src: "/images/about/DSCF4064.jpg", alt: "A design consultation at Artyk", rot: -1.4 },
                   ].map((p, i) => (
                     <motion.div
                       key={p.src}
@@ -476,7 +476,7 @@ export default function AboutChapters() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/featured/entrance.jpg"
+              src="/images/about/Area 8 (9).jpg"
               alt=""
               loading="lazy"
             />
@@ -710,7 +710,7 @@ const CSS = `
 .artyk-about .ch-fin-topbar{position:sticky;top:0;z-index:5;display:block;height:var(--fin-top);margin-bottom:calc(-1 * var(--fin-top));background:var(--stone)}
 .artyk-about .ch-fin-sticky{position:sticky;top:var(--fin-top);height:var(--fin-h);overflow:hidden}
 .artyk-about .ch-fin-bg{position:absolute;inset:0;will-change:transform}
-.artyk-about .ch-fin-bg img{width:100%;height:100%;object-fit:cover}
+.artyk-about .ch-fin-bg img{width:100%;height:100%;object-fit:cover;filter:blur(2.4px);transform:scale(1.02)}
 .artyk-about .ch-fin-shade{position:absolute;inset:0;background:
   linear-gradient(to bottom,rgba(31,36,32,.52),rgba(31,36,32,.38) 34%,rgba(31,36,32,.38) 66%,rgba(31,36,32,.66));
 }

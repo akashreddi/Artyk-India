@@ -249,7 +249,7 @@ export default function AboutEditorial() {
         <div className="im">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/about/image-1.jpg"
+            src="/images/about/_ART5586 3.jpg"
             alt="The Artyk gallery entrance in Hyderabad — timber slat facade amid dense greenery"
             fetchPriority="high"
           />

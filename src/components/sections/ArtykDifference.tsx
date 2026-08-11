@@ -62,13 +62,13 @@ function DifferenceCard({ item }: { item: DifferenceItem }) {
   return (
     <div className="flex gap-6 md:flex-col md:gap-0">
       {/* image */}
-      <div className="relative w-24 shrink-0 overflow-hidden shadow-lg shadow-onyx/10 md:w-full">
+      <div className="relative w-32 shrink-0 self-start overflow-hidden shadow-lg shadow-onyx/10 md:w-full md:self-auto">
         <div className="relative aspect-square w-full md:aspect-[4/5]">
           <Image
             src={item.image}
             alt={item.title}
             fill
-            sizes="(min-width: 768px) 25vw, 96px"
+            sizes="(min-width: 768px) 25vw, 128px"
             className={`object-cover object-top ${item.imageClassName ?? ""}`}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-onyx/25 via-transparent to-transparent" />

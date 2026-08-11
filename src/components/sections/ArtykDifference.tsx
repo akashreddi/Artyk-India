@@ -15,6 +15,7 @@ type DifferenceItem = {
   title: string;
   body: string;
   image: string;
+  imageClassName?: string;
 };
 
 const ITEMS: DifferenceItem[] = [
@@ -23,6 +24,7 @@ const ITEMS: DifferenceItem[] = [
     title: "Curated Brands",
     body: "A carefully selected portfolio of globally renowned design brands.",
     image: "/images/about/_MG_9422-3.jpg",
+    imageClassName: "origin-top scale-[1.12]",
   },
   {
     id: "02",
@@ -67,7 +69,7 @@ function DifferenceCard({ item }: { item: DifferenceItem }) {
             alt={item.title}
             fill
             sizes="(min-width: 768px) 25vw, 96px"
-            className="object-cover"
+            className={`object-cover object-top ${item.imageClassName ?? ""}`}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-onyx/25 via-transparent to-transparent" />
         </div>

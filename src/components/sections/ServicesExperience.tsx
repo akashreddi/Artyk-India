@@ -454,8 +454,8 @@ function Offerings() {
                       {o.body}
                     </p>
                     <div
-                      className="mt-5 block overflow-hidden border border-ivory/15 lg:hidden"
-                      style={{ aspectRatio: "16 / 10" }}
+                      className="mt-5 block w-56 overflow-hidden border border-ivory/15 sm:w-64 lg:hidden"
+                      style={{ aspectRatio: "4 / 3" }}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={o.image} alt={o.alt} loading="lazy" className="h-full w-full object-cover" />

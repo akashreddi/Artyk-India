@@ -42,6 +42,7 @@ const PILLARS = [
     lead: "Every successful project begins with thoughtful planning.",
     body: "Our team works closely with clients and design professionals to understand project objectives, recommend suitable brands and collections, and curate solutions that align with both vision and functionality.",
     image: "/images/about/moodboard_centro01 copia.jpg",
+    imagePosition: "center 78%",
     alt: "The Artyk signage plinth — furniture, sourcing, consulting",
   },
   {
@@ -140,11 +141,13 @@ function PlateImage({
   alt,
   ratio,
   className = "",
+  objectPosition,
 }: {
   src: string;
   alt: string;
   ratio: string;
   className?: string;
+  objectPosition?: string;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion() ?? false;
@@ -164,6 +167,7 @@ function PlateImage({
           alt={alt}
           loading="lazy"
           className="h-full w-full object-cover"
+          style={objectPosition ? { objectPosition } : undefined}
           initial={reduce ? false : { scale: 1.15 }}
           animate={play ? { scale: 1.04 } : undefined}
           transition={{ duration: 1.9, ease: EASE }}
@@ -384,7 +388,7 @@ function Practice() {
             <TiltCard key={p.no} delay={i * 0.12}>
               <div className="flex h-full flex-col p-7 pb-9 md:p-6 md:pb-8 lg:p-8 lg:pb-10">
                 <div style={{ transform: "translateZ(26px)" }}>
-                  <PlateImage src={p.image} alt={p.alt} ratio="4 / 3" />
+                  <PlateImage src={p.image} alt={p.alt} ratio="4 / 3" objectPosition={p.imagePosition} />
                 </div>
                 <div className="mt-8 flex items-baseline gap-4" style={{ transform: "translateZ(40px)" }}>
                   <span className="font-display text-2xl font-light italic text-corten/70">{p.no}</span>

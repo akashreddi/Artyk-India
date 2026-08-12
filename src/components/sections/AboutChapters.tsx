@@ -94,9 +94,11 @@ function ParallaxFigure({
   frame = true,
   strength = 1,
   reduce,
+  objectPosition,
 }: {
   src: string;
   alt: string;
+  objectPosition?: string;
   ratio: string;
   caption?: string;
   note?: string;
@@ -148,6 +150,7 @@ function ParallaxFigure({
             src={src}
             alt={alt}
             loading="lazy"
+            style={objectPosition ? { objectPosition } : undefined}
             initial={reduce ? false : { scale: 1.16 }}
             animate={play ? { scale: 1.03 } : undefined}
             whileHover={reduce ? undefined : { scale: 1.055 }}
@@ -350,6 +353,7 @@ export default function AboutChapters() {
                       frame={false}
                       strength={0.6}
                       reduce={reduce}
+                      objectPosition="center 80%"
                     />
                   </div>
                   <div className="vm-body">

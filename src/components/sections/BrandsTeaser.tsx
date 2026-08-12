@@ -138,7 +138,10 @@ export default function BrandsTeaser() {
                         alt={b.name}
                         fill
                         sizes="(max-width: 768px) 250px, 300px"
-                        className="object-cover transition duration-700 ease-out group-hover:scale-105"
+                        className={`transition duration-700 ease-out group-hover:scale-105 ${
+                          b.imageFit === "contain" ? "object-contain" : "object-cover"
+                        }`}
+                        style={b.imagePosition ? { objectPosition: b.imagePosition } : undefined}
                       />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

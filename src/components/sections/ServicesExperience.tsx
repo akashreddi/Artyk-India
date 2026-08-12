@@ -41,7 +41,7 @@ const PILLARS = [
     title: "Design Consultation",
     lead: "Every successful project begins with thoughtful planning.",
     body: "Our team works closely with clients and design professionals to understand project objectives, recommend suitable brands and collections, and curate solutions that align with both vision and functionality.",
-    image: "/images/services/service-consulting.jpg",
+    image: "/images/about/moodboard_centro01 copia.jpg",
     alt: "The Artyk signage plinth — furniture, sourcing, consulting",
   },
   {
@@ -57,7 +57,7 @@ const PILLARS = [
     title: "Procurement & Project Coordination",
     lead: "Managing multiple international brands requires precision.",
     body: "From product specifications and quotations to logistics, delivery, and installation, we coordinate every stage to ensure a seamless experience from concept to completion.",
-    image: "/images/services/service-sourcing.jpg",
+    image: "/images/about/1-152.jpeg",
     alt: "The corten brand wall at Artyk — international design houses side by side",
   },
 ];
@@ -81,7 +81,7 @@ const OFFERINGS = [
     numeral: "iii",
     title: "Wardrobes",
     body: "Custom storage systems balancing elegance and functionality.",
-    image: "/images/showroom/dining.jpg",
+    image: "/images/about/LEMA_Lena_01.jpg",
     alt: "Timber cabinetry with glass vitrines",
   },
   {
@@ -102,7 +102,7 @@ const OFFERINGS = [
     numeral: "vi",
     title: "Art & Accessories",
     body: "Thoughtfully selected objects that complete a space.",
-    image: "/images/services/showcase-2.jpg",
+    image: "/images/about/art.jpg",
     alt: "Objects and books styled on a lacquered table",
   },
 ];

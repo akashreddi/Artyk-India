@@ -9,7 +9,10 @@ export type Brand = {
   category: string[]; // categories / disciplines
   instagram: string; // handle (no @)
   image: string; // outer cover shot — homepage + brands page slider cards
+  imageFit?: "cover" | "contain"; // optional override so the full cover shot stays visible instead of cropping
+  imagePosition?: string; // optional CSS object-position override for the cover shot
   heroImage: string; // inner brand detail page hero banner
+  heroImagePosition?: string; // optional CSS object-position override for the hero banner
   seo: {
     title: string;
     description: string; // ~150–160 chars
@@ -125,7 +128,8 @@ export const brands: Brand[] = [
     category: ["Leather Furniture", "Seating"],
     instagram: "de_sede_official",
     image: "/images/featured/IMG_1496.jpg",
-    heroImage: "/images/featured/DS-531_111-01_Mood.jpg",
+    heroImage: "/images/showroom/ds-1025_zinc_textile_london_naturale_sabbia_05.jpg",
+    heroImagePosition: "center 75%",
     seo: {
       title: "de Sede in Hyderabad | Swiss Leather Furniture — Artyk",
       description:
@@ -182,7 +186,7 @@ export const brands: Brand[] = [
     ],
     category: ["Furniture", "Lighting", "Accessories"],
     instagram: "locodesignindia",
-    image: "/images/featured/220A1730.jpg",
+    image: "/images/about/DSCF4028-2.jpg",
     heroImage: "/images/featured/_ART5608.jpg",
     seo: {
       title: "Madheke by Loco Design in Hyderabad | Handcrafted Furniture & Lighting — Artyk",
@@ -211,7 +215,8 @@ export const brands: Brand[] = [
     ],
     category: ["Surfaces", "Materials"],
     instagram: "locodesignindia",
-    image: "/images/about/DSCF4028-2.jpg",
+    image: "/images/about/Kaeisol ,EL, Crunch OX Blood, Mirror_ Acrylic Mirror Board, Silver 010S white,04.jpg",
+    imagePosition: "20% center",
     heroImage: "/images/about/DSCF4043.jpg",
     seo: {
       title: "Pintark by Loco Design in Hyderabad | Architectural Surfaces — Artyk",

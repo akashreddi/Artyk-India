@@ -10,10 +10,6 @@ export default function ContactPage() {
           <h1 className="font-display text-[32px] font-light leading-[1.1] text-onyx md:text-[50px]">
             Visit ARTYK.
           </h1>
-          <p className="mt-6 max-w-sm leading-relaxed text-cognac">
-            We receive a small number of guests each week. Tell us about your space, and we will
-            prepare the gallery for your visit.
-          </p>
           <div className="mt-10 space-y-4 text-sm text-cognac">
             <p>
               Plot No. 839/A, Road No. 44,

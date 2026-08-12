@@ -518,16 +518,6 @@ export default function AboutChapters() {
         </div>
       </section>
 
-      {/* colophon — the imprint on the last page */}
-      <div className="ch-colo">
-        <div className="wrap">
-          <div className="colophon rv">
-            <span className="micro">Artyk</span>
-            <span className="it">Hyderabad</span>
-            <span className="micro">© Artyk</span>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
@@ -709,6 +699,7 @@ const CSS = `
    takeover and not a boxed card. It stays pinned while the flow scrolls, so
    each block arrives one info at a time over the settling image. */
 .artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px);--fin-top:clamp(40px,9vh,96px)}
+@media(max-width:640px){.artyk-about .ch-fin{--fin-h:min(65svh,600px)}}
 /* solid stone bar pinned above the image; sits over the flow so the title
    disappears behind it cleanly (negative margin cancels its layout height) */
 .artyk-about .ch-fin-topbar{position:sticky;top:0;z-index:5;display:block;height:var(--fin-top);margin-bottom:calc(-1 * var(--fin-top));background:var(--stone)}

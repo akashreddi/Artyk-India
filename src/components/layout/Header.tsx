@@ -48,9 +48,19 @@ export function Header() {
 
         <button
           onClick={() => setOpen(true)}
-          className="border border-cognac/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-onyx md:hidden"
+          aria-label="Open menu"
+          aria-expanded={open}
+          className="flex h-9 w-9 items-center justify-center border border-cognac/30 text-onyx md:hidden"
         >
-          Menu
+          {/* staggered rules, left-aligned with rounded caps: short / long / medium */}
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none" aria-hidden="true">
+            <path
+              d="M.75 1.5H8.5M.75 6H17.25M.75 10.5H12"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
         </button>
       </div>
 
@@ -62,7 +72,7 @@ export function Header() {
         >
           <button
             onClick={() => setOpen(false)}
-            className="mb-12 rounded-full border border-cognac/30 px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]"
+            className="mb-12 rounded-full border border-cognac/30 px-4 py-1 font-sans text-[11px] font-bold uppercase tracking-[0.2em]"
           >
             Close
           </button>

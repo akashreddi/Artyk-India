@@ -16,6 +16,8 @@ type DifferenceItem = {
   body: string;
   image: string;
   imageClassName?: string;
+  /** overrides the default `object-top` focal point */
+  imagePosition?: string;
 };
 
 const ITEMS: DifferenceItem[] = [
@@ -36,7 +38,12 @@ const ITEMS: DifferenceItem[] = [
     id: "03",
     title: "Bespoke Solutions",
     body: "Tailored furniture, kitchens, wardrobes, and design solutions for every project.",
-    image: "/images/about/_ART5310-Edit.jpg",
+    /* pre-cropped to the chair (the full-frame original sits hard against its
+       own right edge, so no centred crop can hold the chair in both the
+       square mobile thumb and the 4/5 desktop plate). Anchored bottom-right
+       so cover() only ever trims the empty floor at left/top. */
+    image: "/images/about/1-2-chair.jpg",
+    imagePosition: "object-right-bottom",
   },
   {
     id: "04",
@@ -69,7 +76,7 @@ function DifferenceCard({ item }: { item: DifferenceItem }) {
             alt={item.title}
             fill
             sizes="(min-width: 768px) 25vw, 128px"
-            className={`object-cover object-top ${item.imageClassName ?? ""}`}
+            className={`object-cover ${item.imagePosition ?? "object-top"} ${item.imageClassName ?? ""}`}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-onyx/25 via-transparent to-transparent" />
         </div>

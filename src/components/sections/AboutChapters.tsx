@@ -257,12 +257,28 @@ export default function AboutChapters() {
 
   /* finale backdrop: settles from overscale as the chapter scrolls through */
   const finRef = useRef<HTMLElement | null>(null);
-  const { scrollYProgress: finP } = useScroll({
+  const { scrollYProgress: finBgP } = useScroll({
     target: finRef,
     offset: ["start end", "end start"],
   });
-  const finScale = useTransform(finP, [0, 0.55], [1.15, 1]);
-  const finY = useTransform(finP, [0, 1], ["0%", "-3.5%"]);
+  const finScale = useTransform(finBgP, [0, 0.55], [1.15, 1]);
+  const finY = useTransform(finBgP, [0, 1], ["0%", "-3.5%"]);
+
+  /* finale copy: the frame pins and the three stages cross-fade in place —
+     each one materialises at the exact same centre, so nothing ever travels
+     up the screen. finP runs 0→1 across the pinned span only. */
+  const { scrollYProgress: finP } = useScroll({
+    target: finRef,
+    offset: ["start start", "end end"],
+  });
+  const finS = useSpring(finP, { stiffness: 120, damping: 30, mass: 0.35 });
+
+  const st0o = useTransform(finS, [0.0, 0.26, 0.34], [1, 1, 0]);
+  const st0s = useTransform(finS, [0.0, 0.34], [1, 1.03]);
+  const st1o = useTransform(finS, [0.3, 0.38, 0.62, 0.7], [0, 1, 1, 0]);
+  const st1s = useTransform(finS, [0.3, 0.38, 0.7], [0.97, 1, 1.03]);
+  const st2o = useTransform(finS, [0.66, 0.74, 1], [0, 1, 1]);
+  const st2s = useTransform(finS, [0.66, 0.74], [0.97, 1]);
 
   /* values timeline: the rail draws down as the list scrolls through view */
   const valRef = useRef<HTMLDivElement | null>(null);
@@ -388,7 +404,7 @@ export default function AboutChapters() {
                   {[
                     { src: "/images/about/_1HK2374.jpg", alt: "A dining composition in the Artyk gallery", rot: -3.4 },
                     { src: "/images/about/L1032013.jpg", alt: "The Artyk gallery floor", rot: 1.6 },
-                    { src: "/images/about/DSCF4064.jpg", alt: "A design consultation at Artyk", rot: -1.4 },
+                    { src: "/images/featured/_ART5240-Edit.jpg", alt: "A design consultation at Artyk", rot: -1.4 },
                   ].map((p, i) => (
                     <motion.div
                       key={p.src}
@@ -469,13 +485,14 @@ export default function AboutChapters() {
       </section>
 
       {/* ================= AN ADDRESS FOR DESIGN — the finale ================= */}
+      {/* The frame pins for the whole section and the copy cross-fades in
+          place: one stage dissolves as the next materialises on the very
+          same centre line. Nothing scrolls past — only the words change. */}
       <section className="ch-fin" ref={finRef}>
-        {/* solid bar pinned at the very top: the title slides behind it instead
-            of bleeding through the light gap above the image */}
-        <span className="ch-fin-topbar" aria-hidden="true" />
-        <div className="ch-fin-sticky" aria-hidden="true">
+        <div className="ch-fin-sticky">
           <motion.div
             className="ch-fin-bg"
+            aria-hidden="true"
             style={reduce ? undefined : { scale: finScale, y: finY }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -485,35 +502,47 @@ export default function AboutChapters() {
               loading="lazy"
             />
           </motion.div>
-          <span className="ch-fin-shade" />
-        </div>
-        <div className="ch-fin-flow">
-          <div className="ch-fin-block">
-            <span className="micro rv">Artyk · Hyderabad</span>
-            <h2 className="display ch-fin-title split">
-              An Address
-              <br />
-              for Design.
-            </h2>
-          </div>
-          <div className="ch-fin-block">
-            <p className="ch-fin-quote split">
-              Artyk is where global design meets local understanding.
-            </p>
-            <p className="ch-fin-quote split">
-              A place where craftsmanship is celebrated, ideas are explored, and exceptional
-              spaces begin.
-            </p>
-          </div>
-          <div className="ch-fin-block">
-            <p className="ch-fin-body rv">
-              Whether furnishing a private residence, designing a workplace, or creating a
-              hospitality destination, we partner with our clients to bring thoughtful design to
-              life.
-            </p>
-            <a className="sweep ch-fin-cta rv d2" href="/contact">
-              Visit the Gallery
-            </a>
+          <span className="ch-fin-shade" aria-hidden="true" />
+
+          <div className="ch-fin-stages">
+            <motion.div
+              className="ch-fin-stage"
+              style={reduce ? undefined : { opacity: st0o, scale: st0s }}
+            >
+              <span className="micro rv">Artyk · Hyderabad</span>
+              <h2 className="display ch-fin-title split">
+                An Address
+                <br />
+                for Design.
+              </h2>
+            </motion.div>
+
+            <motion.div
+              className="ch-fin-stage"
+              style={reduce ? undefined : { opacity: st1o, scale: st1s }}
+            >
+              <p className="ch-fin-quote">
+                Artyk is where global design meets local understanding.
+              </p>
+              <p className="ch-fin-quote">
+                A place where craftsmanship is celebrated, ideas are explored, and exceptional
+                spaces begin.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="ch-fin-stage"
+              style={reduce ? undefined : { opacity: st2o, scale: st2s }}
+            >
+              <p className="ch-fin-body">
+                Whether furnishing a private residence, designing a workplace, or creating a
+                hospitality destination, we partner with our clients to bring thoughtful design to
+                life.
+              </p>
+              <a className="sweep ch-fin-cta" href="/contact">
+                Visit the Gallery
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -696,22 +725,24 @@ const CSS = `
 /* ================= FINALE — full-width band, bounded height ================= */
 /* The backdrop runs full-bleed left to right, but its height is bounded so the
    page shows above and below it: a full-width section block, not a full-screen
-   takeover and not a boxed card. It stays pinned while the flow scrolls, so
-   each block arrives one info at a time over the settling image. */
-.artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px);--fin-top:clamp(40px,9vh,96px)}
+   takeover and not a boxed card. The section is a runway of 3 frame-heights
+   (the same page height the old stacked blocks occupied) and the frame stays
+   pinned across all of it while the copy cross-fades in place. */
+.artyk-about .ch-fin{position:relative;background:var(--stone);padding:0;--fin-h:min(80svh,760px);--fin-top:clamp(40px,9vh,96px);height:calc(3 * var(--fin-h))}
 @media(max-width:640px){.artyk-about .ch-fin{--fin-h:min(65svh,600px)}}
-/* solid stone bar pinned above the image; sits over the flow so the title
-   disappears behind it cleanly (negative margin cancels its layout height) */
-.artyk-about .ch-fin-topbar{position:sticky;top:0;z-index:5;display:block;height:var(--fin-top);margin-bottom:calc(-1 * var(--fin-top));background:var(--stone)}
 .artyk-about .ch-fin-sticky{position:sticky;top:var(--fin-top);height:var(--fin-h);overflow:hidden}
 .artyk-about .ch-fin-bg{position:absolute;inset:0;will-change:transform}
 .artyk-about .ch-fin-bg img{width:100%;height:100%;object-fit:cover;filter:blur(2.4px);transform:scale(1.02)}
 .artyk-about .ch-fin-shade{position:absolute;inset:0;background:
   linear-gradient(to bottom,rgba(31,36,32,.52),rgba(31,36,32,.38) 34%,rgba(31,36,32,.38) 66%,rgba(31,36,32,.66));
 }
-.artyk-about .ch-fin-flow{position:relative;margin-top:calc(-1 * var(--fin-h))}
-/* each block fills the pinned frame, so exactly one info is centred at a time */
-.artyk-about .ch-fin-block{min-height:var(--fin-h);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(32px,5vh,64px) clamp(16px,3vw,44px)}
+/* every stage is stacked on the same centre; only opacity separates them, so
+   each line of copy arrives exactly where the last one left */
+.artyk-about .ch-fin-stages{position:absolute;inset:0}
+/* pointer-events:none keeps the faded-out stages from swallowing clicks; the
+   last stage carries the only link, so it alone stays interactive */
+.artyk-about .ch-fin-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(32px,5vh,64px) clamp(16px,3vw,44px);will-change:opacity,transform;pointer-events:none}
+.artyk-about .ch-fin-stage:last-child{pointer-events:auto}
 .artyk-about .ch-fin .micro{color:rgba(244,241,233,.62)}
 .artyk-about .ch-fin-title{margin-top:18px;color:var(--ivory);font-size:clamp(2.5rem,4.5vw,4rem);line-height:1.08;letter-spacing:-0.01em}
 .artyk-about .ch-fin-quote{font-family:var(--font-sans),sans-serif;font-style:normal;font-weight:400;
@@ -727,5 +758,10 @@ const CSS = `
 
 @media(prefers-reduced-motion:reduce){
   .artyk-about .kicker--draw .l{transform:scaleX(1);transition:none}
+  /* no pin, no cross-fade: the three stages simply stack down the page */
+  .artyk-about .ch-fin{height:auto}
+  .artyk-about .ch-fin-sticky{position:relative;height:auto}
+  .artyk-about .ch-fin-stages{position:relative;inset:auto}
+  .artyk-about .ch-fin-stage{position:relative;inset:auto;min-height:var(--fin-h);opacity:1;transform:none;pointer-events:auto}
 }
 `;
